@@ -15,7 +15,6 @@ export function PetNavigation({
         ["Vaccinations", `${base}#vaccinations`],
         ["Share Passport", `${base}#sharing`],
         ["Edit profile", `${base}/edit`],
-        ["Local Services", "/services"],
       ].map(([label, href]) => (
         <Link
           key={label}

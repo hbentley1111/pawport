@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Brand } from "@/components/dashboard";
+import { AppFrame } from "@/components/app-frame";
 import { PetForm } from "@/components/forms";
 import { ownerSession } from "@/lib/pet-data";
 import { MAX_PETS } from "@/lib/pets";
@@ -20,24 +20,27 @@ export default async function NewPet() {
     .eq("household_id", h.id);
   if (countError) throw new Error("Unable to load pets.");
   return (
-    <main className="setup-page">
-      <Brand />
-      <div className="setup-card">
-        <Link className="account-back" href="/">
-          ← Your household
-        </Link>
-        <p className="eyebrow">A LITTLE MORE LOVE</p>
-        <h1>Meet your new companion.</h1>
-        <p className="muted">
-          Their own passport, right here with the family. Add a photo after
-          saving their details.
-        </p>
-        {(count || 0) >= MAX_PETS ? (
-          <p role="status">Your household has reached its limit of 20 pets.</p>
-        ) : (
-          <PetForm />
-        )}
-      </div>
-    </main>
+    <AppFrame>
+      <main className="setup-page">
+        <div className="setup-card">
+          <Link className="account-back" href="/">
+            ← Your household
+          </Link>
+          <p className="eyebrow">A LITTLE MORE LOVE</p>
+          <h1>Meet your new companion.</h1>
+          <p className="muted">
+            Their own passport, right here with the family. Add a photo after
+            saving their details.
+          </p>
+          {(count || 0) >= MAX_PETS ? (
+            <p role="status">
+              Your household has reached its limit of 20 pets.
+            </p>
+          ) : (
+            <PetForm />
+          )}
+        </div>
+      </main>
+    </AppFrame>
   );
 }
