@@ -4,9 +4,9 @@ import { PawPrint, ShieldCheck } from "lucide-react";
 export default async function Login({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; mode?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, mode } = await searchParams;
   return (
     <main className="auth-page">
       <div className="auth-story">
@@ -39,7 +39,7 @@ export default async function Login({
               create your account again for a new email.
             </p>
           )}
-          <AuthForm />
+          <AuthForm signInFirst={mode === "signin"} />
         </div>
       </div>
     </main>
