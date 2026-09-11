@@ -18,11 +18,12 @@ import {
   signIn,
   createHousehold,
   addPet,
+  editPet,
   addVaccination,
   createShare,
   revokeShare,
 } from "@/app/actions";
-import type { ActionState, SharePass } from "@/lib/types";
+import type { ActionState, SharePass, Pet } from "@/lib/types";
 import { today, formatDate } from "@/lib/validation";
 export function Submit({ children }: { children: React.ReactNode }) {
   const { pending } = useFormStatus();
@@ -131,13 +132,15 @@ export function HouseholdForm() {
     </form>
   );
 }
-export function PetForm() {
-  const [state, action] = useActionState(addPet, {});
+export function PetForm({ pet }: { pet?: Pet }) {
+  const [state, action] = useActionState(pet ? editPet : addPet, {});
   return (
     <form action={action} className="form-stack">
+      {pet && <input type="hidden" name="pet_id" value={pet.id} />}
       <Field
         label="Pet’s name"
         name="name"
+        defaultValue={pet?.name || ""}
         placeholder="e.g. Milo"
         required
         maxLength={60}
@@ -145,7 +148,7 @@ export function PetForm() {
       <div className="form-grid">
         <label className="field">
           <span>Species</span>
-          <select name="species">
+          <select name="species" defaultValue={pet?.species || "Dog"}>
             <option>Dog</option>
             <option>Cat</option>
             <option>Other</option>
@@ -153,7 +156,7 @@ export function PetForm() {
         </label>
         <label className="field">
           <span>Sex</span>
-          <select name="sex">
+          <select name="sex" defaultValue={pet?.sex || "Unknown"}>
             <option>Unknown</option>
             <option>Female</option>
             <option>Male</option>
@@ -163,6 +166,7 @@ export function PetForm() {
       <Field
         label="Breed"
         name="breed"
+        defaultValue={pet?.breed || ""}
         required
         maxLength={80}
         placeholder="e.g. Golden Retriever or mixed breed"
@@ -171,16 +175,18 @@ export function PetForm() {
         label="Date of birth (optional)"
         type="date"
         name="birth_date"
+        defaultValue={pet?.birth_date || ""}
         max={today()}
       />
       <Field
         label="Microchip number (optional, kept private)"
         name="microchip"
+        defaultValue={pet?.microchip || ""}
         maxLength={30}
       />
       <Feedback state={state} />
       <Submit>
-        Create passport <ArrowUpRight size={17} />
+        {pet ? "Save profile" : "Create passport"} <ArrowUpRight size={17} />
       </Submit>
     </form>
   );
@@ -436,11 +442,18 @@ function ShareForm({ petId }: { petId: string }) {
     </>
   );
 }
-export function RevokeButton({ pass }: { pass: SharePass }) {
+export function RevokeButton({
+  pass,
+  petId,
+}: {
+  pass: SharePass;
+  petId: string;
+}) {
   const [state, action] = useActionState(revokeShare, {});
   return (
     <form action={action}>
       <input type="hidden" name="id" value={pass.id} />
+      <input type="hidden" name="pet_id" value={petId} />
       <div className="pass-row">
         <span>
           Expires {formatDate(pass.expires_at)}

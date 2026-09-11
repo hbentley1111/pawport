@@ -2,12 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import {
-  documentSchema,
-  matchesDocumentSignature,
-  DOCUMENT_BUCKET,
-  MAX_DOCUMENT_BYTES,
-} from "@/lib/records";
+import { photoSchema, PHOTO_BUCKET, MAX_PHOTO_BYTES } from "@/lib/pets";
+import { matchesDocumentSignature } from "@/lib/records";
 export const runtime = "nodejs";
 function fail(error: string, status = 400) {
   return NextResponse.json(
@@ -24,22 +20,22 @@ export async function POST(request: NextRequest) {
     data: { user },
     error,
   } = await db.auth.getUser();
-  if (error || !user) return fail("Sign in to upload a document.", 401);
+  if (error || !user) return fail("Sign in to upload a photo.", 401);
   const length = Number(request.headers.get("content-length"));
-  if (length > MAX_DOCUMENT_BYTES + 65536)
-    return fail("Choose a document no larger than 3 MB.", 413);
+  if (length > MAX_PHOTO_BYTES + 65536)
+    return fail("Choose a photo no larger than 3 MB.", 413);
   // Bound streamed bodies too, including requests without Content-Length.
   const reader = request.body?.getReader();
-  if (!reader) return fail("Choose a document.");
+  if (!reader) return fail("Choose a photo.");
   const chunks: Uint8Array[] = [];
   let total = 0;
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
     total += value.length;
-    if (total > MAX_DOCUMENT_BYTES + 65536) {
+    if (total > MAX_PHOTO_BYTES + 65536) {
       await reader.cancel();
-      return fail("Choose a document no larger than 3 MB.", 413);
+      return fail("Choose a photo no larger than 3 MB.", 413);
     }
     chunks.push(value);
   }
@@ -54,8 +50,8 @@ export async function POST(request: NextRequest) {
   const file = form.get("file");
   const pet = z.uuid().safeParse(form.get("pet_id"));
   if (!(file instanceof File) || !pet.success)
-    return fail("Choose a pet and document.");
-  const parsed = documentSchema.safeParse({
+    return fail("Choose a pet and photo.");
+  const parsed = photoSchema.safeParse({
     name: file.name,
     type: file.type,
     size: file.size,
@@ -64,8 +60,8 @@ export async function POST(request: NextRequest) {
   const bytes = new Uint8Array(await file.arrayBuffer());
   if (!matchesDocumentSignature(bytes, file.type))
     return fail("The file contents do not match its type.");
-  const { data: document, error: prepareError } = await db.rpc(
-    "prepare_health_document",
+  const { data: photo, error: prepareError } = await db.rpc(
+    "prepare_pet_photo",
     {
       p_pet: pet.data,
       p_name: file.name,
@@ -75,34 +71,47 @@ export async function POST(request: NextRequest) {
   );
   if (prepareError)
     return fail(
-      "Unable to prepare this upload. Check pet ownership and the 100-document limit.",
+      "Unable to prepare this upload. Check pet ownership or try again later.",
       403,
     );
   const { error: uploadError } = await db.storage
-    .from(DOCUMENT_BUCKET)
-    .upload(document.path, bytes, {
+    .from(PHOTO_BUCKET)
+    .upload(photo.path, bytes, {
       contentType: file.type,
       upsert: false,
       cacheControl: "0",
     });
   if (uploadError)
     return fail(
-      "Upload failed. Please try again. No completed document was added.",
+      "Upload failed. Please try again. No completed photo was added.",
       502,
     );
-  const { error: finalizeError } = await db.rpc("finalize_health_document", {
-    p_document: document.id,
-  });
+  const { data: finalized, error: finalizeError } = await db.rpc(
+    "finalize_pet_photo",
+    {
+      p_photo: photo.id,
+    },
+  );
   if (finalizeError)
     return fail(
-      "The file uploaded but could not be finalized. Use “Finish upload” in your document library to retry.",
+      "We couldn’t confirm the photo was saved. Refresh to check before retrying.",
       502,
     );
-  revalidatePath("/records");
-  revalidatePath(`/pets/${pet.data}/records`);
+  // Retired objects cannot become current again. Cleanup cannot delete a concurrent replacement.
+  let cleanupFailed = false;
+  if (finalized?.previous_path) {
+    const { error: cleanupError } = await db.storage
+      .from(PHOTO_BUCKET)
+      .remove([finalized.previous_path]);
+    cleanupFailed = Boolean(cleanupError);
+  }
+  revalidatePath("/");
+  revalidatePath(`/pets/${pet.data}`, "layout");
   return NextResponse.json(
     {
-      success: "Document uploaded privately. Attach it to a vaccination below.",
+      success: cleanupFailed
+        ? "Profile photo saved. The previous file is no longer displayed; its storage cleanup will need a retry by an administrator."
+        : "Profile photo saved.",
     },
     { headers: { "Cache-Control": "private, no-store" } },
   );

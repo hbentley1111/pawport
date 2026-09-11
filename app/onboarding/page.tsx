@@ -17,13 +17,12 @@ export default async function Onboarding() {
     .maybeSingle();
   if (error) throw new Error("Unable to load household.");
   if (h) {
-    const { data: p, error } = await db
+    const { count, error } = await db
       .from("pets")
-      .select("id")
-      .eq("household_id", h.id)
-      .maybeSingle();
+      .select("id", { count: "exact", head: true })
+      .eq("household_id", h.id);
     if (error) throw new Error("Unable to load pet.");
-    if (p) redirect("/");
+    if (count) redirect("/");
   }
   return (
     <main className="setup-page">

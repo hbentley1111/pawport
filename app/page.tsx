@@ -1,5 +1,5 @@
-import type { Trust } from "@/lib/records";
-import { accountProfile } from "@/lib/account";
+import { PetDashboard } from "@/components/pet-dashboard";
+import { HouseholdDashboard } from "@/components/household-dashboard";
 import { redirect } from "next/navigation";
 import { createClient, configured } from "@/lib/supabase/server";
 import { Dashboard } from "@/components/dashboard";
@@ -37,54 +37,28 @@ export default async function Home() {
     if (memberships?.length) redirect("/provider");
     redirect("/onboarding");
   }
-  const { data: pet, error: pError } = await db
+  const { data: pets, error: pError } = await db
     .from("pets")
     .select("*")
     .eq("household_id", household.id)
-    .maybeSingle();
-  if (pError) throw new Error("Unable to load passport.");
-  if (!pet) redirect("/onboarding");
-  const [
-    { data: vaccinations, error: vError },
-    { data: passes, error: sError },
-  ] = await Promise.all([
-    db
-      .from("vaccinations")
-      .select("*")
-      .eq("pet_id", pet.id)
-      .order("administered_on", { ascending: false }),
-    db
-      .from("share_passes")
-      .select("id,expires_at,revoked_at,created_at")
-      .eq("pet_id", pet.id)
-      .is("revoked_at", null)
-      .gt("expires_at", new Date().toISOString())
-      .order("created_at", { ascending: false }),
-  ]);
-  if (vError || sError) throw new Error("Unable to load health records.");
-  const { data: trust, error: trustError } = await db.rpc(
-    "owner_vaccination_trust",
-    { p_pet: pet.id },
-  );
-  if (trustError)
-    throw new Error(
-      "Unable to load record trust. Apply the verified-records migration.",
+    .order("created_at")
+    .order("id");
+  if (pError) throw new Error("Unable to load pets.");
+  if (!pets?.length) redirect("/onboarding");
+  if (pets.length === 1) return <PetDashboard petId={pets[0].id} />;
+  const { data: vaccinations, error: vError } = await db
+    .from("vaccinations")
+    .select("*")
+    .in(
+      "pet_id",
+      pets.map((p) => p.id),
     );
-  const enriched = (vaccinations || []).map((v) => ({
-    ...v,
-    ...(((trust as Trust[]) || []).find((t) => t.vaccination_id === v.id) ||
-      {}),
-  }));
+  if (vError) throw new Error("Unable to load vaccination summaries.");
   return (
-    <Dashboard
-      pet={pet}
-      vaccinations={enriched}
-      passes={passes ?? []}
+    <HouseholdDashboard
       household={household.name}
-      accountName={
-        accountProfile(user.user_metadata).full_name || "Your account"
-      }
-      demo={false}
+      pets={pets}
+      vaccinations={vaccinations || []}
     />
   );
 }
