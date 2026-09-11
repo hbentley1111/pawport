@@ -1,3 +1,4 @@
+import { accountProfile } from "@/lib/account";
 import { redirect } from "next/navigation";
 import { createClient, configured } from "@/lib/supabase/server";
 import { Dashboard } from "@/components/dashboard";
@@ -57,6 +58,9 @@ export default async function Home() {
       vaccinations={vaccinations ?? []}
       passes={passes ?? []}
       household={household.name}
+      accountName={
+        accountProfile(user.user_metadata).full_name || "Your account"
+      }
       demo={false}
     />
   );

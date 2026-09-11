@@ -5,7 +5,7 @@ import {
   ShieldCheck,
   Heart,
   ArrowUpRight,
-  LogOut,
+  Settings,
   ChevronDown,
   Plus,
   FileHeart,
@@ -17,7 +17,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { ShareButton, VaccinationButton, RevokeButton } from "./forms";
-import { signOut } from "@/app/actions";
+
 import { formatDate, vaccinationStatus } from "@/lib/validation";
 import type { Pet, Vaccination, SharePass } from "@/lib/types";
 export function Brand() {
@@ -36,12 +36,14 @@ export function Dashboard({
   passes,
   household,
   demo,
+  accountName = "Your account",
 }: {
   pet: Pet;
   vaccinations: Vaccination[];
   passes: SharePass[];
   household: string;
   demo: boolean;
+  accountName?: string;
 }) {
   const due = vaccinations.filter((v) =>
     ["Due soon", "Overdue"].includes(vaccinationStatus(v.due_on)),
@@ -111,16 +113,14 @@ export function Dashboard({
               <ArrowUpRight size={17} />
             </Link>
           ) : (
-            <form action={signOut}>
-              <button className="profile">
-                <span className="profile-avatar">{household.slice(0, 1)}</span>
-                <span>
-                  <strong>Your account</strong>
-                  <small>Sign out securely</small>
-                </span>
-                <LogOut size={17} />
-              </button>
-            </form>
+            <Link href="/account" className="profile">
+              <span className="profile-avatar">{accountName.slice(0, 1)}</span>
+              <span>
+                <strong>{accountName}</strong>
+                <small>Account settings</small>
+              </span>
+              <Settings size={17} />
+            </Link>
           )}
         </div>
       </aside>
@@ -132,9 +132,17 @@ export function Dashboard({
           <span className="breadcrumb">
             Your workspace <span>/</span> <strong>Overview</strong>
           </span>
-          <span className="private-label">
-            <LockKeyhole size={13} /> Private by default
-          </span>
+          <div className="topbar-actions">
+            <span className="private-label">
+              <LockKeyhole size={13} /> Private by default
+            </span>
+            <Link
+              className="account-top-link"
+              href={demo ? "/login" : "/account"}
+            >
+              <Settings size={16} /> Account
+            </Link>
+          </div>
         </header>
         <main className="dashboard">
           {demo && (

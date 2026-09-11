@@ -73,3 +73,13 @@ Implementation references: [Supabase SSR](https://supabase.com/docs/guides/auth/
 ## Checks performed in this workspace
 
 Production Webpack build, ESLint, TypeScript, and six offline tests passed. HTTP smoke checks passed for the dashboard, login, and unavailable-share routes, including share security headers. The database integration suite was skipped because test Supabase credentials were not supplied. No live signup, database migration, browser visual inspection, or Vercel deployment has been performed.
+
+## Account settings
+
+Open **Account** in the top bar (including on mobile), or the account area at the bottom of the desktop sidebar. `/account` lets a signed-in user save their full name and optional contact phone, view their sign-in email, change their password, and sign out. The saved name also appears in the desktop account area.
+
+No new SQL migration or environment variables are required. Profile details use the current user's Supabase Auth `user_metadata`; they are display information only and never used for authorization. The share RPC's field allowlist excludes account metadata. Contact phone is not a verified login phone number. Email changes and forgotten-password recovery are outside this change.
+
+Password changes validate the current password by signing in with the server-verified user's email, check that the resulting user ID matches, then call `updateUser` with the new and current passwords. This creates a recent session for Supabase's secure-password-change setting. The form requires a different password of at least 12 characters and matching confirmation. Password values are never returned in action state or logged. See [Supabase password security](https://supabase.com/docs/guides/auth/password-security).
+
+Verification for this addition: profile allowlisting, malformed metadata, phone validation, and password confirmation/length checks are covered by offline tests. Live profile persistence and password changes should be checked with a test account after deployment; no real user's password was changed during implementation.
