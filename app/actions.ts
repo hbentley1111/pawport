@@ -11,6 +11,7 @@ import {
 } from "@/lib/validation";
 import type { ActionState } from "@/lib/types";
 import { z } from "zod";
+import { editPetSchema } from "@/lib/pets";
 const fields = (form: FormData) => Object.fromEntries(form.entries());
 function origin() {
   const url = new URL(
@@ -113,18 +114,24 @@ export async function addPet(
     .eq("owner_id", user.id)
     .single();
   if (!household) return { error: "Create a household first." };
-  const { error } = await db.from("pets").insert({
-    ...parsed.data,
-    birth_date: parsed.data.birth_date || null,
-    microchip: parsed.data.microchip || null,
-    household_id: household.id,
-  });
+  const { data: pet, error } = await db
+    .from("pets")
+    .insert({
+      ...parsed.data,
+      birth_date: parsed.data.birth_date || null,
+      microchip: parsed.data.microchip || null,
+      household_id: household.id,
+    })
+    .select("id")
+    .single();
   if (error)
     return {
-      error: "Could not add your pet. This MVP supports one pet per household.",
+      error:
+        "Could not add your pet. Households can have up to 20 pets. Please try again.",
     };
   revalidatePath("/");
-  redirect("/");
+  revalidatePath("/pets/[petId]", "layout");
+  redirect(`/pets/${pet.id}`);
 }
 export async function addVaccination(
   _: ActionState,
@@ -139,6 +146,7 @@ export async function addVaccination(
   if (error)
     return { error: "Could not save this vaccination. Please try again." };
   revalidatePath("/");
+  revalidatePath("/pets/[petId]", "layout");
   revalidatePath("/records");
   return { success: "Vaccination added to the passport." };
 }
@@ -160,6 +168,7 @@ export async function createShare(
         "Could not create a pass. You can have up to five active passes; revoke an existing one and try again.",
     };
   revalidatePath("/");
+  revalidatePath("/pets/[petId]", "layout");
   return {
     success: "Your private share pass is ready.",
     url: `${base}/share/${data.token}`,
@@ -171,10 +180,44 @@ export async function revokeShare(
   form: FormData,
 ): Promise<ActionState> {
   const { db } = await authenticated();
+  const pet = z.uuid().safeParse(form.get("pet_id"));
   const id = z.uuid().safeParse(form.get("id"));
-  if (!id.success) return { error: "Invalid pass." };
+  if (!id.success || !pet.success) return { error: "Invalid pass." };
+  const { data: pass } = await db
+    .from("share_passes")
+    .select("id")
+    .eq("id", id.data)
+    .eq("pet_id", pet.data)
+    .maybeSingle();
+  if (!pass) return { error: "This pass does not belong to the selected pet." };
   const { error } = await db.rpc("revoke_share_pass", { p_pass_id: id.data });
   if (error) return { error: "Could not revoke this pass." };
   revalidatePath("/");
+  revalidatePath("/pets/[petId]", "layout");
   return { success: "Pass revoked. Its link no longer works." };
+}
+
+export async function editPet(
+  _: ActionState,
+  form: FormData,
+): Promise<ActionState> {
+  const { db } = await authenticated();
+  const parsed = editPetSchema.safeParse(fields(form));
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
+  const { pet_id, ...profile } = parsed.data;
+  const { data, error } = await db
+    .from("pets")
+    .update({
+      ...profile,
+      birth_date: profile.birth_date || null,
+      microchip: profile.microchip || null,
+    })
+    .eq("id", pet_id)
+    .select("id")
+    .maybeSingle();
+  if (error || !data)
+    return { error: "Unable to update this pet. Refresh and try again." };
+  revalidatePath("/");
+  revalidatePath("/pets/[petId]", "layout");
+  return { success: "Pet profile saved." };
 }

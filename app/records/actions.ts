@@ -15,6 +15,7 @@ async function session() {
 }
 function refresh() {
   revalidatePath("/records");
+  revalidatePath("/pets/[petId]", "layout");
   revalidatePath("/provider");
   revalidatePath("/");
 }

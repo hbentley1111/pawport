@@ -8,6 +8,7 @@ export type Pet = {
   birth_date: string | null;
   sex: string;
   microchip: string | null;
+  photo_id?: string | null;
 };
 export type Vaccination = Trust & {
   id: string;

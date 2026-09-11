@@ -1,3 +1,5 @@
+import { PetAvatar } from "./pet-avatar";
+import { PetNavigation } from "./pet-navigation";
 import { TrustBadge } from "./trust-badge";
 import Link from "next/link";
 import {
@@ -68,14 +70,17 @@ export function Dashboard({
         <nav>
           <Link href="/" className="nav-item active">
             <LayoutDashboard size={19} />
-            Overview
+            Your household
             <span className="nav-active-dot" />
           </Link>
           <a href="#passport" className="nav-item">
             <PawPrint size={19} />
-            Pet passport<span className="nav-count">1</span>
+            Pet passport
           </a>
-          <Link href={demo ? "/login" : "/records"} className="nav-item">
+          <Link
+            href={demo ? "/login" : `/pets/${pet.id}/records`}
+            className="nav-item"
+          >
             <FileHeart size={19} />
             Health records
           </Link>
@@ -171,6 +176,17 @@ export function Dashboard({
               {formatDate(new Date().toISOString())}
             </span>
           </div>
+          {!demo && (
+            <>
+              <div className="pet-context">
+                <Link href="/">← Your household</Link>
+                <Link href="/pets/new" className="button secondary small">
+                  <Plus size={15} /> Add pet
+                </Link>
+              </div>
+              <PetNavigation petId={pet.id} />
+            </>
+          )}
           <div className="overview-grid">
             <section className="passport-card" id="passport">
               <div className="passport-top">
@@ -182,12 +198,7 @@ export function Dashboard({
                 </span>
               </div>
               <div className="pet-identity">
-                <div className="pet-portrait">
-                  <PawPrint size={62} strokeWidth={1.2} />
-                  <span className="pet-portrait-heart">
-                    <Heart size={14} fill="currentColor" />
-                  </span>
-                </div>
+                <PetAvatar pet={pet} />
                 <div>
                   <span className="pet-label">
                     YOUR VERY GOOD{" "}
@@ -231,7 +242,11 @@ export function Dashboard({
                 <span>
                   <span className="live-dot" /> One pet. One living record.
                 </span>
-                <span>PAWPORT / 001</span>
+                {!demo && (
+                  <Link href={`/pets/${pet.id}/edit`}>
+                    Edit profile <ArrowUpRight size={12} />
+                  </Link>
+                )}
               </div>
             </section>
             <section className="share-card" id="sharing">
@@ -313,7 +328,7 @@ export function Dashboard({
               <div className="record-header-actions">
                 <Link
                   className="document-link"
-                  href={demo ? "/login" : "/records"}
+                  href={demo ? "/login" : `/pets/${pet.id}/records`}
                 >
                   Health records
                 </Link>
@@ -375,8 +390,8 @@ export function Dashboard({
                 </div>
               )}
               <div className="records-footer">
-                <ShieldCheck size={14} /> Owner-entered records · Not
-                independently verified
+                <ShieldCheck size={14} /> Each record shows its source and
+                verification status.
               </div>
             </div>
           </section>
@@ -413,7 +428,7 @@ export function Dashboard({
               <h2>Active share passes</h2>
               <p className="muted">Revoke a pass to end access immediately.</p>
               {passes.map((pass) => (
-                <RevokeButton key={pass.id} pass={pass} />
+                <RevokeButton key={pass.id} pass={pass} petId={pet.id} />
               ))}
             </section>
           )}
