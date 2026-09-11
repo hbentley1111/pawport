@@ -20,6 +20,22 @@ const config: NextConfig = {
         ],
       },
       {
+        source: "/services/:path*",
+        headers: [
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(self)",
+          },
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+        ],
+      },
+      {
+        source: "/api/services/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+        ],
+      },
+      {
         source: "/share/:path*",
         headers: [
           { key: "Cache-Control", value: "private, no-store, max-age=0" },

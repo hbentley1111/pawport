@@ -20,6 +20,9 @@ export function HouseholdDashboard({
     <main className="household-page">
       <header className="household-top">
         <Brand />
+        <Link className="account-top-link" href="/services">
+          Local Services <ArrowUpRight size={15} />
+        </Link>
         <Link className="account-top-link" href="/account">
           Your account <ArrowUpRight size={15} />
         </Link>

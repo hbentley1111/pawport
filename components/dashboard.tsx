@@ -4,6 +4,7 @@ import { TrustBadge } from "./trust-badge";
 import Link from "next/link";
 import {
   PawPrint,
+  MapPin,
   LayoutDashboard,
   ShieldCheck,
   Heart,
@@ -88,6 +89,9 @@ export function Dashboard({
             <ShieldCheck size={19} />
             Share passes
           </a>
+          <Link href="/services" className="nav-item">
+            <MapPin size={19} /> Local Services
+          </Link>
         </nav>
         <div className="sidebar-bottom">
           <div className="care-note">
@@ -139,6 +143,9 @@ export function Dashboard({
             Your workspace <span>/</span> <strong>Overview</strong>
           </span>
           <div className="topbar-actions">
+            <Link className="account-top-link" href="/services">
+              <MapPin size={16} /> Services
+            </Link>
             <span className="private-label">
               <LockKeyhole size={13} /> Private by default
             </span>
