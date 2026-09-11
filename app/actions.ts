@@ -113,14 +113,12 @@ export async function addPet(
     .eq("owner_id", user.id)
     .single();
   if (!household) return { error: "Create a household first." };
-  const { error } = await db
-    .from("pets")
-    .insert({
-      ...parsed.data,
-      birth_date: parsed.data.birth_date || null,
-      microchip: parsed.data.microchip || null,
-      household_id: household.id,
-    });
+  const { error } = await db.from("pets").insert({
+    ...parsed.data,
+    birth_date: parsed.data.birth_date || null,
+    microchip: parsed.data.microchip || null,
+    household_id: household.id,
+  });
   if (error)
     return {
       error: "Could not add your pet. This MVP supports one pet per household.",
@@ -141,6 +139,7 @@ export async function addVaccination(
   if (error)
     return { error: "Could not save this vaccination. Please try again." };
   revalidatePath("/");
+  revalidatePath("/records");
   return { success: "Vaccination added to the passport." };
 }
 export async function createShare(

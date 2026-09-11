@@ -83,3 +83,7 @@ No new SQL migration or environment variables are required. Profile details use 
 Password changes validate the current password by signing in with the server-verified user's email, check that the resulting user ID matches, then call `updateUser` with the new and current passwords. This creates a recent session for Supabase's secure-password-change setting. The form requires a different password of at least 12 characters and matching confirmation. Password values are never returned in action state or logged. See [Supabase password security](https://supabase.com/docs/guides/auth/password-security).
 
 Verification for this addition: profile allowlisting, malformed metadata, phone validation, and password confirmation/length checks are covered by offline tests. Live profile persistence and password changes should be checked with a test account after deployment; no real user's password was changed during implementation.
+
+## Trusted veterinary records
+
+The additive verified-records capability is documented in [the operator handoff](docs/VERIFIED_RECORDS.md), including the new migration, private Storage bucket, provider provisioning SQL, exact manual acceptance flow, security boundaries, tests, and rollout risks. Existing installations must apply `202609110002_verified_records.sql` before deploying this feature. No new application environment variables are needed.

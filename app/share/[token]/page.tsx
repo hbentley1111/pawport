@@ -1,3 +1,4 @@
+import { TrustBadge } from "@/components/trust-badge";
 import { createClient } from "@supabase/supabase-js";
 import { Brand } from "@/components/dashboard";
 import { formatDate } from "@/lib/validation";
@@ -65,6 +66,7 @@ export default async function SharedPassport({
           passport.vaccinations.map((v: Vaccination, i: number) => (
             <div className="shared-record" key={i}>
               <h3>{v.name}</h3>
+              <TrustBadge trust={v} />
               <p>{v.clinic}</p>
               <div>
                 <span>
@@ -78,8 +80,9 @@ export default async function SharedPassport({
           ))
         )}
         <p className="privacy-note">
-          Owner-entered records. Not independently verified or an official
-          travel certificate.
+          Trust labels distinguish owner entries, document support, and provider
+          verification. Uploaded documents stay private. This passport is not an
+          official travel certificate.
         </p>
         <p className="fine-print">
           Access expires{" "}

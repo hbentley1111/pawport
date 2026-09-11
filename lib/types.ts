@@ -1,3 +1,4 @@
+import type { Trust } from "./records";
 export type Pet = {
   id: string;
   household_id: string;
@@ -8,7 +9,7 @@ export type Pet = {
   sex: string;
   microchip: string | null;
 };
-export type Vaccination = {
+export type Vaccination = Trust & {
   id: string;
   pet_id: string;
   name: string;

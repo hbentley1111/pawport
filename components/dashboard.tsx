@@ -1,3 +1,4 @@
+import { TrustBadge } from "./trust-badge";
 import Link from "next/link";
 import {
   PawPrint,
@@ -74,10 +75,10 @@ export function Dashboard({
             <PawPrint size={19} />
             Pet passport<span className="nav-count">1</span>
           </a>
-          <a href="#vaccinations" className="nav-item">
+          <Link href={demo ? "/login" : "/records"} className="nav-item">
             <FileHeart size={19} />
             Health records
-          </a>
+          </Link>
           <a href="#sharing" className="nav-item">
             <ShieldCheck size={19} />
             Share passes
@@ -309,7 +310,15 @@ export function Dashboard({
                 </h2>
                 <p>The little records that make a big difference.</p>
               </div>
-              <VaccinationButton petId={pet.id} demo={demo} />
+              <div className="record-header-actions">
+                <Link
+                  className="document-link"
+                  href={demo ? "/login" : "/records"}
+                >
+                  Health records
+                </Link>
+                <VaccinationButton petId={pet.id} demo={demo} />
+              </div>
             </div>
             <div className="records-table-wrap">
               <table className="records-table">
@@ -318,7 +327,8 @@ export function Dashboard({
                     <th>VACCINATION</th>
                     <th>ADMINISTERED</th>
                     <th>NEXT DUE</th>
-                    <th>STATUS</th>
+                    <th>NEXT DUE STATUS</th>
+                    <th>TRUST</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -346,6 +356,9 @@ export function Dashboard({
                             <span />
                             {status}
                           </span>
+                        </td>
+                        <td>
+                          <TrustBadge trust={v} />
                         </td>
                       </tr>
                     );

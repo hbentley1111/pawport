@@ -1,3 +1,4 @@
+import type { Trust } from "@/lib/records";
 import { accountProfile } from "@/lib/account";
 import { redirect } from "next/navigation";
 import { createClient, configured } from "@/lib/supabase/server";
@@ -26,7 +27,16 @@ export default async function Home() {
     .eq("owner_id", user.id)
     .maybeSingle();
   if (hError) throw new Error("Unable to load household.");
-  if (!household) redirect("/onboarding");
+  if (!household) {
+    const { data: memberships } = await db
+      .from("provider_memberships")
+      .select("provider_id")
+      .eq("user_id", user.id)
+      .eq("active", true)
+      .limit(1);
+    if (memberships?.length) redirect("/provider");
+    redirect("/onboarding");
+  }
   const { data: pet, error: pError } = await db
     .from("pets")
     .select("*")
@@ -52,10 +62,23 @@ export default async function Home() {
       .order("created_at", { ascending: false }),
   ]);
   if (vError || sError) throw new Error("Unable to load health records.");
+  const { data: trust, error: trustError } = await db.rpc(
+    "owner_vaccination_trust",
+    { p_pet: pet.id },
+  );
+  if (trustError)
+    throw new Error(
+      "Unable to load record trust. Apply the verified-records migration.",
+    );
+  const enriched = (vaccinations || []).map((v) => ({
+    ...v,
+    ...(((trust as Trust[]) || []).find((t) => t.vaccination_id === v.id) ||
+      {}),
+  }));
   return (
     <Dashboard
       pet={pet}
-      vaccinations={vaccinations ?? []}
+      vaccinations={enriched}
       passes={passes ?? []}
       household={household.name}
       accountName={
