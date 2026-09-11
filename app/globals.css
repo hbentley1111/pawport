@@ -3299,3 +3299,343 @@ html:has(.owner-app) {
     padding-bottom: 0;
   }
 }
+
+/* Care is a household timeline, with each pet kept visually distinct. */
+.care-page {
+  max-width: 1144px;
+  padding: 40px 28px 56px;
+  margin: auto;
+}
+.care-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin: 12px 0 24px;
+}
+.care-heading h1 {
+  font-size: clamp(32px, 4vw, 48px);
+  margin: 12px 0;
+}
+.care-page-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+.care-view-tabs {
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 0 14px;
+  margin-top: 30px;
+}
+.care-view-tabs a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+.care-view-tabs a[aria-current] {
+  background: #e9f0e2;
+  color: #235746;
+  font-weight: 600;
+}
+.care-filters {
+  display: flex;
+  gap: 16px;
+  align-items: end;
+  margin: 24px 0;
+}
+.care-filters .field {
+  flex: 1;
+}
+.care-date-group {
+  margin: 28px 0;
+}
+.care-date-group > h2 {
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.7px;
+  color: #5c7364;
+  margin-bottom: 14px;
+}
+.care-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+.care-card-link {
+  padding: 20px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+.care-card-link:hover {
+  background: #f5f8f0;
+}
+.care-card-link:focus-visible {
+  outline: 3px solid #3c735b;
+  outline-offset: -4px;
+}
+.care-card .companion-avatar {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 16px;
+}
+.care-card .companion-avatar svg {
+  width: 34px;
+  height: 34px;
+}
+.care-card-copy {
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.care-card-copy h3 {
+  font-size: 21px;
+  margin: 7px 0;
+}
+.care-card-copy time,
+.care-card-copy small {
+  display: block;
+  color: #536d5e;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.care-card-copy p {
+  font-size: 12px;
+  margin: 6px 0;
+}
+.care-pet-name {
+  font-size: 11px;
+  color: #52705d;
+  font-weight: 600;
+}
+.care-status {
+  display: inline-block;
+  border-radius: 6px;
+  background: #edf2e7;
+  color: #365b46;
+  padding: 4px 8px;
+  font-size: 10px;
+  margin-top: 8px;
+}
+.care-status.cancelled {
+  color: #80534e;
+  background: #f6eeeb;
+}
+.care-status.requested,
+.care-status.waitlisted {
+  color: #735c28;
+  background: #fbf3df;
+}
+.care-reminder {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 18px;
+  background: #f2f5e9;
+  font-size: 12px;
+}
+.care-reminder .text-button {
+  margin-left: auto;
+}
+.upcoming-care {
+  margin: 28px 0 38px;
+}
+.upcoming-care .section-heading h2 {
+  margin-top: 6px;
+  font-size: 28px;
+}
+.care-empty {
+  border: 1px dashed #cbd8c1;
+  background: #f4f7ef;
+  border-radius: 16px;
+  padding: 26px;
+  margin: 18px 0;
+  color: #486650;
+}
+.care-empty h2 {
+  font-size: 28px;
+}
+.care-empty p {
+  line-height: 1.7;
+}
+.care-empty .button {
+  margin-top: 12px;
+}
+.care-editor {
+  max-width: 800px;
+}
+.care-editor > h1 {
+  font-size: 36px;
+  overflow-wrap: anywhere;
+}
+.care-form {
+  padding: 28px;
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  background: white;
+  border-radius: 18px;
+}
+.care-recording-note {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #466450;
+  background: #f1f5e9;
+  padding: 16px;
+  border-radius: 10px;
+}
+.care-reminder-options {
+  border: 1px solid var(--line);
+  padding: 18px;
+  border-radius: 12px;
+}
+.care-reminder-options legend {
+  font-size: 13px;
+  padding: 0 6px;
+  font-weight: 600;
+}
+.care-reminder-options label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 44px;
+  font-size: 13px;
+}
+.care-reminder-options input {
+  width: 18px;
+  height: 18px;
+  accent-color: #2d614a;
+}
+.care-hidden {
+  display: none;
+}
+.care-form .service-notice p {
+  margin-top: 0;
+}
+.care-form .service-notice .text-button {
+  display: block;
+  margin-top: 14px;
+}
+.care-cancel {
+  margin: 28px 0;
+  padding: 20px;
+  background: #f6f0e9;
+  border-radius: 14px;
+}
+.care-cancel p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.care-service-action {
+  margin: 24px 0;
+}
+@media (min-width: 768px) and (max-width: 1000px) {
+  .app-desktop-nav a {
+    gap: 4px;
+    padding-inline: 7px;
+    font-size: 11px;
+  }
+  .app-desktop-nav a svg {
+    width: 17px;
+  }
+  .app-global-header {
+    gap: 10px;
+    padding-inline: 18px;
+  }
+}
+@media (max-width: 767px) {
+  .care-page {
+    padding: 24px 20px 40px;
+  }
+  .care-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .care-filters {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .care-filters .field {
+    min-width: 130px;
+  }
+  .care-card-link {
+    padding: 16px 12px;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .care-card .companion-avatar {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+  }
+  .care-card-copy h3 {
+    font-size: 20px;
+  }
+  .care-form {
+    padding: 18px;
+  }
+  .care-form .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .care-form input[type="datetime-local"] {
+    min-width: 0;
+    width: 100%;
+  }
+  .upcoming-care .section-heading {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .upcoming-care .section-heading .document-link {
+    font-size: 11px;
+  }
+}
+.care-reminder-plan {
+  padding: 0 18px 14px;
+  font-size: 11px;
+  color: #536d5e;
+}
+.care-reminder-plan summary {
+  cursor: pointer;
+  padding: 10px 0;
+  min-height: 44px;
+}
+.care-reminder-plan li {
+  margin: 8px 0;
+}
+.care-reminder-plan time {
+  display: inline;
+}
+.care-summary-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.care-summary-list .care-card {
+  margin: 0;
+}
+.care-summary-list .care-card-link {
+  padding: 16px;
+  gap: 12px;
+  align-items: flex-start;
+}
+.care-summary-list .care-card-copy h3 {
+  font-size: 18px;
+}
+@media (max-width: 767px) {
+  .care-summary-list {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,3 +1,5 @@
+import { UpcomingCare } from "./care/cards";
+import type { Appointment } from "@/lib/care/schema";
 import { Brand } from "./brand";
 import { AppFrame } from "./app-frame";
 import { PetAvatar } from "./pet-avatar";
@@ -34,6 +36,7 @@ export function Dashboard({
   household,
   demo,
   accountName = "Your account",
+  appointments = null,
 }: {
   pet: Pet;
   vaccinations: Vaccination[];
@@ -41,6 +44,7 @@ export function Dashboard({
   household: string;
   demo: boolean;
   accountName?: string;
+  appointments?: Appointment[] | null;
 }) {
   const due = vaccinations.filter((v) =>
     ["Due soon", "Overdue"].includes(vaccinationStatus(v.due_on)),
@@ -193,6 +197,12 @@ export function Dashboard({
                   </Link>
                 </div>
                 <PetNavigation petId={pet.id} />
+                <UpcomingCare
+                  appointments={appointments}
+                  pets={[pet]}
+                  petId={pet.id}
+                  now={new Date().getTime()}
+                />
               </>
             )}
             <div className="overview-grid">

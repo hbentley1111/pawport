@@ -20,7 +20,7 @@ export default async function ServiceDetail({
   if (!parsed.success) notFound();
   const id = parsed.data;
   const { db, member } = await serviceMember();
-  const [reviews, own, fav] = db
+  const [reviews, own, fav, owner] = db
     ? await Promise.all([
         db.rpc("read_service_reviews", { p_place: id, p_offset: 0 }),
         member ? db.rpc("my_service_review", { p_place: id }) : null,
@@ -31,8 +31,9 @@ export default async function ServiceDetail({
               .eq("google_place_id", id)
               .maybeSingle()
           : null,
+        member ? db.from("households").select("id").maybeSingle() : null,
       ])
-    : [null, null, null];
+    : [null, null, null, null];
   return (
     <ServicesShell>
       <PlaceDetails
@@ -42,6 +43,20 @@ export default async function ServiceDetail({
         googleReady={placesConfigured()}
         saved={Boolean(fav?.data)}
       />
+      {owner?.data && (
+        <div className="care-service-action">
+          <Link
+            className="button secondary"
+            href={`/appointments/new?place=${encodeURIComponent(id)}`}
+          >
+            Add appointment
+          </Link>
+          <p className="fine-print">
+            Record care arranged with this business. Pawport does not make a
+            booking.
+          </p>
+        </div>
+      )}
       <div className="community-layout">
         <CommunityReviews
           key={`${id}:${own?.data?.updated_at || ""}:${own?.data?.deleted_at || ""}`}
