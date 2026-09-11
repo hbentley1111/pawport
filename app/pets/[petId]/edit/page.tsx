@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Brand } from "@/components/dashboard";
+import { AppFrame } from "@/components/app-frame";
 import { PetForm } from "@/components/forms";
 import { PetAvatar } from "@/components/pet-avatar";
 import { PhotoForm } from "@/components/photo-form";
@@ -13,28 +13,31 @@ export default async function EditPet({
 }) {
   const { pet } = await ownedPet((await params).petId);
   return (
-    <main className="setup-page">
-      <Brand />
-      <div className="records-container">
-        <Link className="account-back" href="/">
-          ← Your household
-        </Link>
-        <h1>A little more {pet.name}.</h1>
-        <p className="muted">Keep their details feeling like them.</p>
-        <PetNavigation petId={pet.id} active="Edit profile" />
-        <div className="profile-edit-grid">
-          <section className="account-card">
-            <h2>Pet details</h2>
-            <PetForm pet={pet} />
-          </section>
-          <section className="account-card profile-photo-card">
-            <PetAvatar pet={pet} />
-            <h2>Their best face.</h2>
-            <p className="muted">A familiar face for their private passport.</p>
-            <PhotoForm petId={pet.id} />
-          </section>
+    <AppFrame>
+      <main className="setup-page">
+        <div className="records-container">
+          <Link className="account-back" href="/">
+            ← Your household
+          </Link>
+          <h1>A little more {pet.name}.</h1>
+          <p className="muted">Keep their details feeling like them.</p>
+          <PetNavigation petId={pet.id} active="Edit profile" />
+          <div className="profile-edit-grid">
+            <section className="account-card">
+              <h2>Pet details</h2>
+              <PetForm pet={pet} />
+            </section>
+            <section className="account-card profile-photo-card">
+              <PetAvatar pet={pet} />
+              <h2>Their best face.</h2>
+              <p className="muted">
+                A familiar face for their private passport.
+              </p>
+              <PhotoForm petId={pet.id} />
+            </section>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </AppFrame>
   );
 }
