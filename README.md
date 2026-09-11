@@ -78,7 +78,7 @@ Production Webpack build, ESLint, TypeScript, and six offline tests passed. HTTP
 
 Open **Account** in the top bar (including on mobile), or the account area at the bottom of the desktop sidebar. `/account` lets a signed-in user save their full name and optional contact phone, view their sign-in email, change their password, and sign out. The saved name also appears in the desktop account area.
 
-No new SQL migration or environment variables are required. Profile details use the current user's Supabase Auth `user_metadata`; they are display information only and never used for authorization. The share RPC's field allowlist excludes account metadata. Contact phone is not a verified login phone number. Email changes and forgotten-password recovery are outside this change.
+No new SQL migration or environment variables are required. Profile details use the current user's Supabase Auth `user_metadata`; they are display information only and never used for authorization. The share RPC's field allowlist excludes account metadata. Contact phone is not a verified login phone number. Email changes are outside this change; forgotten-password recovery is documented below.
 
 Password changes validate the current password by signing in with the server-verified user's email, check that the resulting user ID matches, then call `updateUser` with the new and current passwords. This creates a recent session for Supabase's secure-password-change setting. The form requires a different password of at least 12 characters and matching confirmation. Password values are never returned in action state or logged. See [Supabase password security](https://supabase.com/docs/guides/auth/password-security).
 
@@ -95,3 +95,7 @@ Apply the additive migration `202609110003_multi_pet_profiles.sql` after the two
 ## Local services and Pawport Community (Phase 4)
 
 The [Phase 4 handoff](docs/LOCAL_SERVICES.md) covers `/services`, separate Google and Pawport ratings, private saved places, reviews/reporting, Google Cloud setup, attribution/privacy, migration `202609110004_local_services_reviews.sql`, security tests and staging acceptance. Live search needs the server-only `GOOGLE_MAPS_API_KEY`; without it, the app displays a configuration message. Apply the additive migration only in the intended, authorized environment after Phase 3. Phase 4 intentionally permits public reads of a restricted published-review projection; anonymous access to pet/medical tables remains denied.
+
+## Forgotten passwords
+
+Login now includes **Forgot password?**. Follow [password recovery setup](docs/PASSWORD_RECOVERY.md) to update the Supabase Reset Password email template and allowlisted redirect URLs before testing delivery. No database migration is required.

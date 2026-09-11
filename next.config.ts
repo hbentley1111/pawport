@@ -36,6 +36,13 @@ const config: NextConfig = {
         ],
       },
       {
+        source: "/auth/reset-password",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
+        ],
+      },
+      {
         source: "/share/:path*",
         headers: [
           { key: "Cache-Control", value: "private, no-store, max-age=0" },

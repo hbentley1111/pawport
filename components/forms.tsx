@@ -66,8 +66,8 @@ function Field({
     </label>
   );
 }
-export function AuthForm() {
-  const [signup, setSignup] = useState(true);
+export function AuthForm({ signInFirst = false }: { signInFirst?: boolean }) {
+  const [signup, setSignup] = useState(!signInFirst);
   return (
     <>
       <div className="auth-tabs">
@@ -79,6 +79,11 @@ export function AuthForm() {
         </button>
       </div>
       <CredentialsForm key={String(signup)} signup={signup} />
+      <p>
+        <Link className="document-link" href="/forgot-password">
+          Forgot password?
+        </Link>
+      </p>
       <p className="fine-print">A little peace of mind. All in one place.</p>
     </>
   );
