@@ -58,6 +58,9 @@ export default async function AccountPage() {
             <PasswordForm />
           </section>
         </div>
+        <Link className="document-link" href="/provider">
+          Provider verification workspace
+        </Link>
         <div className="account-signout">
           <div>
             <h3>All done for now?</h3>

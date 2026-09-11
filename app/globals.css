@@ -1801,3 +1801,225 @@ h3 {
     font-size: 32px;
   }
 }
+
+/* Additive records workspace, retaining the passport's existing visual language. */
+.records-container {
+  width: 100%;
+  max-width: 1180px;
+  margin-top: 35px;
+}
+.records-container > .section-heading {
+  align-items: flex-start;
+}
+.records-container h1 {
+  font-size: 34px;
+  margin: 8px 0 12px;
+}
+.trust-explainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px 24px;
+  background: #edf2e6;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 25px 0;
+  font-size: 12px;
+  color: #5f7058;
+  line-height: 1.7;
+}
+.trust-explainer strong {
+  display: block;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.health-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+  gap: 25px;
+  align-items: start;
+}
+.health-vaccinations {
+  display: grid;
+  gap: 20px;
+}
+.health-record h2 {
+  margin: 0;
+}
+.health-record .section-heading {
+  align-items: flex-start;
+}
+.health-record .muted {
+  margin: 0;
+}
+.health-record .fine-print {
+  color: #687668;
+  font-size: 12px;
+}
+.record-dates {
+  display: flex;
+  gap: 30px;
+  margin: 20px 0;
+  color: #687668;
+  font-size: 12px;
+}
+.record-dates strong {
+  display: block;
+  color: var(--ink);
+  font-size: 13px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+.trust-detail {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 7px;
+}
+.trust-detail > small {
+  font-size: 10px;
+  line-height: 1.7;
+  color: #536750;
+  white-space: normal;
+  max-width: 210px;
+}
+.trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  padding: 6px 8px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.trust-owner {
+  background: #f0f1ec;
+  color: #65715b;
+}
+.trust-document {
+  background: #f5eedf;
+  color: #816b36;
+}
+.trust-verified {
+  background: #e5f0e0;
+  color: #3e6733;
+}
+.document-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--green);
+  font-size: 12px;
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.record-disclosure {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 17px;
+}
+.record-disclosure summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--green);
+}
+.record-disclosure .form-stack {
+  margin-top: 20px;
+}
+.record-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #5d6d56;
+}
+.record-consent input {
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.field textarea {
+  border: 1px solid #dce2d6;
+  border-radius: 6px;
+  padding: 12px;
+  color: var(--ink);
+  font: inherit;
+  resize: vertical;
+}
+.field textarea:focus {
+  outline: 2px solid #7eaa91;
+  outline-offset: 2px;
+}
+.record-pending {
+  margin-top: 20px;
+}
+.record-pending .form-stack {
+  margin-top: 15px;
+}
+.document-list {
+  margin-top: 20px;
+}
+.document-item {
+  padding: 17px 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.document-item strong {
+  font-size: 12px;
+  display: block;
+}
+.document-item small {
+  display: block;
+  color: #687668;
+  font-size: 11px;
+  margin-top: 6px;
+}
+.document-library .fine-print {
+  font-size: 12px;
+  color: #687668;
+}
+.provider-records {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 25px;
+  margin: 30px 0;
+}
+.provider-records .form-stack {
+  margin-top: 20px;
+}
+.record-header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+@media (max-width: 800px) {
+  .health-layout,
+  .provider-records {
+    grid-template-columns: 1fr;
+  }
+  .trust-explainer {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .record-header-actions {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .records-container > .section-heading {
+    flex-direction: column;
+  }
+  .records-container h1 {
+    font-size: 30px;
+  }
+  .health-record > .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .document-library {
+    order: -1;
+  }
+}
