@@ -91,7 +91,15 @@ export default async function AppointmentDetail({
               now={new Date().getTime()}
             />
             {a.source === "external" ? (
-              <ExternalAppointmentNotice state={a.sync_state} />
+              <>
+                <ExternalAppointmentNotice state={a.sync_state} />
+                {a.booking_origin === "pawport_live" && (
+                  <p>
+                    Booked through Pawport. Contact the provider to cancel or
+                    reschedule.
+                  </p>
+                )}
+              </>
             ) : (
               <section className="business-panel">
                 <h2>Confirmed through Pawport</h2>

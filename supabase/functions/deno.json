@@ -1,0 +1,5 @@
+{
+  "imports": { "zod": "npm:zod@4.0.0" },
+  "compilerOptions": { "strict": true },
+  "tasks": { "check": "deno check scheduling-live-booking/index.ts" }
+}

@@ -1,3 +1,4 @@
+import { LiveBookingLink } from "@/components/live-booking/owner";
 import { requestIntake } from "@/lib/appointment-requests/data";
 import { RequestCTA } from "@/components/appointment-requests/presentation";
 import { FromBusiness } from "@/components/business-profiles/presentation";
@@ -71,7 +72,12 @@ export default async function ServiceDetail({
       <ListingOwnership placeId={id} status={claimStatus} />
       {intake && <RequestCTA location={intake.locationId} />}
       {!profile?.error && profile?.data && (
-        <FromBusiness profile={profile.data as PublicProfile} />
+        <>
+          <FromBusiness profile={profile.data as PublicProfile} />
+          <LiveBookingLink
+            locationId={(profile.data as PublicProfile).locationId}
+          />
+        </>
       )}
       <div className="community-layout">
         <CommunityReviews
