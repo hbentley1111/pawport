@@ -90,7 +90,20 @@ export default async function AppointmentDetail({
               pet={pet}
               now={new Date().getTime()}
             />
-            <ExternalAppointmentNotice state={a.sync_state} />
+            {a.source === "external" ? (
+              <ExternalAppointmentNotice state={a.sync_state} />
+            ) : (
+              <section className="business-panel">
+                <h2>Confirmed through Pawport</h2>
+                <p>
+                  This appointment was arranged through an appointment request.
+                  To cancel, open your request.
+                </p>
+                <Link href="/appointments/requests">
+                  Manage appointment requests
+                </Link>
+              </section>
+            )}
             <WatchCallToAction
               appointmentId={a.id}
               supported={Boolean(openingContext)}

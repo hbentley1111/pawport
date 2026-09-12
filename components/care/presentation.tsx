@@ -22,6 +22,9 @@ export function CareEntry({
           {pet.name} · {careLabel(a.appointment_type)}
         </span>
         <h3>{a.title}</h3>
+        {a.source === "pawport" && (
+          <span className="fine-print">Confirmed through Pawport</span>
+        )}
         {a.source === "external" && (
           <small>
             Synced from provider

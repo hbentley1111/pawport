@@ -52,6 +52,8 @@ export type DashboardLocation = {
   publicProfileUrl: string | null;
   googlePlaceId: string;
   scheduling: SchedulingSummary;
+  newRequestCount?: number;
+  awaitingOwnerCount?: number;
 };
 export type DashboardOrganization = {
   id: string;

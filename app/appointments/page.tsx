@@ -59,6 +59,9 @@ export default async function Appointments({
   return (
     <AppFrame>
       <main className="care-page">
+        <Link className="document-link" href="/appointments/requests">
+          Appointment requests · View requests and time proposals
+        </Link>
         <header className="care-heading">
           <div>
             <p className="eyebrow">ALL THEIR NEXT STEPS, TOGETHER</p>

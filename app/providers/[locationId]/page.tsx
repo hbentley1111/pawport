@@ -1,3 +1,5 @@
+import { requestIntake } from "@/lib/appointment-requests/data";
+import { RequestCTA } from "@/components/appointment-requests/presentation";
 import { notFound } from "next/navigation";
 import { publicProfile } from "@/lib/business-profiles/data";
 import { ServicesShell } from "@/components/services/shell";
@@ -21,9 +23,11 @@ export default async function Profile({
 }) {
   const p = await publicProfile((await params).locationId);
   if (!p) notFound();
+  const intake = await requestIntake(p.locationId);
   return (
     <ServicesShell>
       <BusinessProfile profile={p} />
+      {intake && <RequestCTA location={p.locationId} />}
     </ServicesShell>
   );
 }
