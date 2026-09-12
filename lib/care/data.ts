@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { activeStatuses, type Appointment } from "./schema";
 import type { Pet } from "@/lib/types";
 export const careFields =
-  "id,pet_id,source,title,appointment_type,starts_at,ends_at,time_zone,status,provider_name,location_text,google_place_id,updated_at,appointment_reminders(id,reminder_minutes,dismissed_at)";
+  "id,pet_id,source,sync_state,title,appointment_type,starts_at,ends_at,time_zone,status,provider_name,location_text,google_place_id,updated_at,appointment_reminders(id,reminder_minutes,dismissed_at)";
 export async function careContext() {
   const { db, user } = await ownerSession();
   const { data: household, error } = await db

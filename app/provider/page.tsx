@@ -53,6 +53,13 @@ export default async function ProviderPage() {
           Review only the records owners have presented to your clinic. Your
           verification is attributed to your authenticated provider identity.
         </p>
+        <Link className="button secondary" href="/connections">
+          Scheduling connections
+        </Link>
+        <p className="fine-print">
+          Scheduling management requires separate authorization from record
+          verification.
+        </p>
         <div className="provider-records">
           {!records.length && (
             <div className="account-card">

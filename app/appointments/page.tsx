@@ -73,6 +73,9 @@ export default async function Appointments({
           </Link>
         </header>
         <div className="care-page-links">
+          <Link className="document-link" href="/connections">
+            Provider connections
+          </Link>
           <Link className="document-link" href="/records">
             <FileHeart size={17} /> Health Records
           </Link>
