@@ -22,8 +22,8 @@ test("desktop and mobile navigation expose the desktop destinations and five mob
       : ["Home", "Pets", "Records", "Care", "Services", "Account"])
       assert.match(html, new RegExp(`<span>${label}</span>`));
     for (const href of mobile
-      ? ["/", "/appointments", "/services", "/account"]
-      : ["/", "/records", "/appointments", "/services", "/account"])
+      ? ["/", "/care", "/services", "/account"]
+      : ["/", "/records", "/care", "/services", "/account"])
       assert.ok(html.includes(`href="${href}"`));
     assert.equal((html.match(/aria-current="page"/g) || []).length, 1);
     assert.match(
@@ -51,6 +51,8 @@ test("route-derived selection distinguishes home, pet profiles, records and deta
     ["/services", "Services"],
     ["/services/place-a", "Services"],
     ["/account", "Account"],
+    ["/care", "Care"],
+    ["/care/plans/new", "Care"],
     ["/appointments", "Care"],
     ["/appointments/new", "Care"],
     ["/login", null],

@@ -11,12 +11,14 @@ const items = [
   { label: "Home", href: "/", icon: House },
   { label: "Pets", href: "/", icon: PawPrint },
   { label: "Records", href: "/records", icon: FileHeart },
-  { label: "Care", href: "/appointments", icon: CalendarDays },
+  { label: "Care", href: "/care", icon: CalendarDays },
   { label: "Services", href: "/services", icon: MapPin },
   { label: "Account", href: "/account", icon: UserRound },
 ] as const;
 export function activeAppSection(pathname: string) {
   if (
+    pathname === "/care" ||
+    pathname.startsWith("/care/") ||
     pathname === "/appointments" ||
     pathname.startsWith("/appointments/") ||
     pathname === "/openings" ||
