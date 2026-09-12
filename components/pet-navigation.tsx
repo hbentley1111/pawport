@@ -12,6 +12,7 @@ export function PetNavigation({
       {[
         ["Overview", base],
         ["Health Records", `${base}/records`],
+        ["Timeline", `${base}/timeline`],
         ["Vaccinations", `${base}#vaccinations`],
         ["Share Passport", `${base}#sharing`],
         ["Edit profile", `${base}/edit`],
