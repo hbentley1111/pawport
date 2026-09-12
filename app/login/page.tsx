@@ -9,7 +9,7 @@ export default async function Login({
   const { error, mode } = await searchParams;
   return (
     <main className="auth-page">
-      <div className="auth-story">
+      <div className="auth-story auth-story-photo">
         <Brand />
         <div>
           <span className="eyebrow">FOR A LIFETIME OF TOGETHER.</span>

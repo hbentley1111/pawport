@@ -1078,6 +1078,31 @@ h3 {
   font-size: 49px;
   margin: 20px 0;
 }
+.auth-story-photo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+/* Decorative photo stays behind the brand copy, never behind the form. */
+.auth-story-photo::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inset: 8% -6% 0 -6%;
+  background: linear-gradient(#faf8f040, #faf8f026 70%),
+    url("/login-dog.jpeg") center 42% / cover no-repeat;
+  opacity: 0.4;
+  filter: blur(3px);
+  mask-image: linear-gradient(to bottom, transparent, #000 24%, #000 72%, transparent),
+    linear-gradient(to right, transparent, #000 15%, #000 72%, transparent);
+  mask-composite: intersect;
+}
+@media (max-width: 767px) {
+  .auth-story-photo::before {
+    display: none;
+  }
+}
 .auth-story p {
   font-size: 14px;
   line-height: 1.9;
