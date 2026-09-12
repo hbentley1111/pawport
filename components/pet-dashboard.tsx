@@ -1,10 +1,11 @@
+import { upcomingCare } from "@/lib/care/data";
 import { ownedPet } from "@/lib/pet-data";
 import { accountProfile } from "@/lib/account";
 import type { Trust } from "@/lib/records";
 import { Dashboard } from "./dashboard";
 export async function PetDashboard({ petId }: { petId: string }) {
   const { pet, db, user } = await ownedPet(petId);
-  const [h, v, s, t] = await Promise.all([
+  const [h, v, s, t, care] = await Promise.all([
     db.from("households").select("name").eq("id", pet.household_id).single(),
     db
       .from("vaccinations")
@@ -19,6 +20,7 @@ export async function PetDashboard({ petId }: { petId: string }) {
       .gt("expires_at", new Date().toISOString())
       .order("created_at", { ascending: false }),
     db.rpc("owner_vaccination_trust", { p_pet: pet.id }),
+    upcomingCare(db, pet.household_id, pet.id),
   ]);
   if (h.error || v.error || s.error || t.error)
     throw new Error("Unable to load this pet’s passport.");
@@ -37,6 +39,7 @@ export async function PetDashboard({ petId }: { petId: string }) {
       accountName={
         accountProfile(user.user_metadata).full_name || "Your account"
       }
+      appointments={care}
       demo={false}
     />
   );

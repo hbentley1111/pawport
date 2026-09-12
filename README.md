@@ -99,3 +99,7 @@ The [Phase 4 handoff](docs/LOCAL_SERVICES.md) covers `/services`, separate Googl
 ## Forgotten passwords
 
 Login now includes **Forgot password?**. Follow [password recovery setup](docs/PASSWORD_RECOVERY.md) to update the Supabase Reset Password email template and allowlisted redirect URLs before testing delivery. No database migration is required.
+
+## Care Calendar (Phase 5A)
+
+Care now provides household/pet appointment timelines, manual create/edit/cancel, in-app reminders and private ICS export. The [care calendar handoff](docs/CARE_CALENDAR.md) documents additive migration `202609110005_care_calendar.sql`, timezone/DST behavior, security, staging acceptance and future connectors. No external bookings or email/push reminders are sent. Mobile Care links to the calendar; Health Records remains available from that page and existing pet/household links.
