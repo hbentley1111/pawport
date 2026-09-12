@@ -70,6 +70,10 @@ export default async function AccountPage() {
           <Link className="document-link" href="/provider/claims">
             My business claims
           </Link>
+
+          <Link className="document-link" href="/provider/dashboard">
+            Business dashboard
+          </Link>
           <Link className="document-link" href="/provider/businesses">
             Business profiles
           </Link>

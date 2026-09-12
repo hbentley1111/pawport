@@ -23,6 +23,9 @@ export default async function Organization({
       <Link href="/provider/businesses">← Business profiles</Link>
       <header className="business-heading">
         <h1>{e.name}</h1>
+        {e.canEdit && (
+          <Link href={`/provider/businesses/${e.id}/team`}>Manage team</Link>
+        )}
         <p>
           Business-provided information ·{" "}
           {e.canEdit ? "Owner / admin editor" : "Read-only access"}

@@ -25,6 +25,9 @@ export default async function ProviderPage() {
     return (
       <main className="setup-page">
         <Brand />
+        <Link href="/provider/dashboard">
+          Business dashboard (separate workspace)
+        </Link>
         <div className="setup-card">
           <h1>Provider access required.</h1>
           <p className="muted">
@@ -43,6 +46,9 @@ export default async function ProviderPage() {
   return (
     <main className="setup-page">
       <Brand />
+      <Link href="/provider/dashboard">
+        Business dashboard (separate workspace)
+      </Link>
       <div className="records-container">
         <Link href="/account" className="account-back">
           <ArrowLeft size={15} /> Account settings
