@@ -3920,3 +3920,13 @@ html:has(.owner-app) {
 .business-form fieldset { min-width: 0; border: 1px solid var(--line, #dfe5da); border-radius: 16px; padding: 16px; }
 .business-form fieldset legend { padding: 0 6px; font-weight: 600; }
 .business-form input[type="datetime-local"] { min-width: 0; max-width: 100%; }
+
+/* Business-local live times remain comfortable at mobile widths. */
+.live-slot-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); gap:.75rem; }
+.live-slot-grid label { display:flex; flex-wrap:wrap; align-items:center; gap:.65rem; padding:1rem; border:1px solid #cad8ca; border-radius:1rem; cursor:pointer; min-height:48px; }
+.live-slot-grid label:focus-within { outline:2px solid #315f46; outline-offset:3px; }
+.live-slot-grid small { width:100%; }
+
+.live-slot-grid label { display:grid; grid-template-columns:1rem minmax(0,1fr); }
+.live-slot-grid input[type="radio"] { width:1rem; height:1rem; min-height:0; margin:0; padding:0; accent-color:#315f46; }
+.live-slot-grid small { grid-column:2; }

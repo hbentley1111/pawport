@@ -63,6 +63,11 @@ export function LocationCard({
       )}
       <div className="provider-actions">
         <Link
+          href={`/provider/businesses/${o.id}/live-booking?location=${l.id}`}
+        >
+          Live booking status
+        </Link>
+        <Link
           className="button secondary"
           href={`/provider/businesses/${o.id}/requests?location=${l.id}`}
         >

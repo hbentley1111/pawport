@@ -55,6 +55,8 @@ export type WebhookRequest = {
 // Verified envelope is adapter-owned; transport must never normalize arbitrary JSON directly.
 export type VerifiedWebhook = { readonly event: SchedulingEvent };
 export interface SchedulingAdapter {
+  /** Privileged booking runtimes provide this capability; ordinary Next.js adapters do not. */
+  readonly liveBooking?: import("../../supabase/functions/_shared/live-booking/contract").LiveSchedulingAdapter;
   readonly system: SchedulingSystem;
   readonly capabilities: Readonly<SchedulingCapabilities>;
   validateConnection(connection: SchedulingConnection): Promise<boolean>;

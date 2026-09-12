@@ -27,7 +27,9 @@ export function CareEntry({
         )}
         {a.source === "external" && (
           <small>
-            Synced from provider
+            {a.booking_origin === "pawport_live"
+              ? "Booked through Pawport · Provider managed"
+              : "Synced from provider"}
             {a.sync_state === "disconnected"
               ? " · Disconnected"
               : a.sync_state === "paused"

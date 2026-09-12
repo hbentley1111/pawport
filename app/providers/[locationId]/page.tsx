@@ -1,3 +1,4 @@
+import { LiveBookingLink } from "@/components/live-booking/owner";
 import { requestIntake } from "@/lib/appointment-requests/data";
 import { RequestCTA } from "@/components/appointment-requests/presentation";
 import { notFound } from "next/navigation";
@@ -27,6 +28,7 @@ export default async function Profile({
   return (
     <ServicesShell>
       <BusinessProfile profile={p} />
+      <LiveBookingLink locationId={p.locationId} />
       {intake && <RequestCTA location={p.locationId} />}
     </ServicesShell>
   );

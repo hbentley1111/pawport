@@ -109,6 +109,7 @@ export type Appointment = {
   id: string;
   pet_id: string;
   source: "manual" | "pawport" | "external";
+  booking_origin?: "pawport_live" | null;
   title: string;
   appointment_type: (typeof careTypes)[number];
   starts_at: string;
