@@ -17,6 +17,7 @@ export function HouseholdDashboard({
   pets,
   vaccinations,
   recordsMode = false,
+  showCareSummary = true,
   appointments = null,
   openings = [],
   carePlans = null,
@@ -25,6 +26,7 @@ export function HouseholdDashboard({
   pets: Pet[];
   vaccinations: Vaccination[];
   recordsMode?: boolean;
+  showCareSummary?: boolean;
   appointments?: Appointment[] | null;
   openings?: WatchSummary[];
   carePlans?: CarePlan[] | null;
@@ -58,17 +60,21 @@ export function HouseholdDashboard({
         {!recordsMode && (
           <>
             <HouseholdQuickAccess />
-            <CareComingUp
-              plans={carePlans}
-              pets={pets}
-              now={new Date().getTime()}
-            />
-            <OpeningsSummary watches={openings} />
-            <UpcomingCare
-              appointments={appointments}
-              pets={pets}
-              now={new Date().getTime()}
-            />
+            {showCareSummary && (
+              <>
+                <CareComingUp
+                  plans={carePlans}
+                  pets={pets}
+                  now={new Date().getTime()}
+                />
+                <OpeningsSummary watches={openings} />
+                <UpcomingCare
+                  appointments={appointments}
+                  pets={pets}
+                  now={new Date().getTime()}
+                />
+              </>
+            )}
           </>
         )}
         <div className="section-heading family-section">

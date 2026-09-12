@@ -1,8 +1,5 @@
-import { carePlans } from "@/lib/care-plans/data";
-import { openingsData } from "@/lib/openings/data";
-import { upcomingCare } from "@/lib/care/data";
-import { PetDashboard } from "@/components/pet-dashboard";
-import { HouseholdDashboard } from "@/components/household-dashboard";
+import { AppFrame } from "@/components/app-frame";
+import { TodayDashboard } from "@/components/today/dashboard";
 import { redirect } from "next/navigation";
 import { createClient, configured } from "@/lib/supabase/server";
 import { Dashboard } from "@/components/dashboard";
@@ -48,28 +45,17 @@ export default async function Home() {
     .order("id");
   if (pError) throw new Error("Unable to load pets.");
   if (!pets?.length) redirect("/onboarding");
-  if (pets.length === 1) return <PetDashboard petId={pets[0].id} />;
-  const { data: vaccinations, error: vError } = await db
-    .from("vaccinations")
-    .select("*")
-    .in(
-      "pet_id",
-      pets.map((p) => p.id),
-    );
-  if (vError) throw new Error("Unable to load vaccination summaries.");
-  const [routines, appointments, openings] = await Promise.all([
-    carePlans(db),
-    upcomingCare(db, household.id),
-    openingsData(db),
-  ]);
   return (
-    <HouseholdDashboard
-      carePlans={routines}
-      appointments={appointments}
-      openings={openings.watches}
-      household={household.name}
-      pets={pets}
-      vaccinations={vaccinations || []}
-    />
+    <AppFrame>
+      <TodayDashboard
+        household={household.name}
+        pets={pets.map(({ id, name, species, photo_id }) => ({
+          id,
+          name,
+          species,
+          photo_id,
+        }))}
+      />
+    </AppFrame>
   );
 }
