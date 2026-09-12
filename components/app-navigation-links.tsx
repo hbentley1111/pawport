@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 const items = [
   { label: "Home", href: "/", icon: House },
-  { label: "Pets", href: "/", icon: PawPrint },
+  { label: "Pets", href: "/pets", icon: PawPrint },
   { label: "Records", href: "/records", icon: FileHeart },
   { label: "Care", href: "/care", icon: CalendarDays },
   { label: "Services", href: "/services", icon: MapPin },
@@ -39,7 +39,7 @@ export function activeAppSection(pathname: string) {
     pathname.startsWith("/connections/")
   )
     return "Account";
-  if (pathname.startsWith("/pets/")) return "Pets";
+  if (pathname === "/pets" || pathname.startsWith("/pets/")) return "Pets";
   return pathname === "/" ? "Home" : null;
 }
 export function AppNavigationLinks({

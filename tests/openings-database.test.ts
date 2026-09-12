@@ -143,6 +143,10 @@ test("Smart Openings PostgreSQL ownership, lifecycle, notifications and generic 
     await pg.exec(
       await readFile("supabase/migrations/202609110008_care_plans.sql", "utf8"),
     );
+    for (const f of ["009_pet_timeline", "010_pawport_today"])
+      await pg.exec(
+        await readFile(`supabase/migrations/202609110${f}.sql`, "utf8"),
+      );
     const data = {
       earliest_date: date(1),
       latest_date: date(19),
@@ -353,6 +357,40 @@ test("Smart Openings PostgreSQL ownership, lifecycle, notifications and generic 
           { matches: { id: string; status: string }[] }[]
         >("select my_availability_watches() as result");
         mid = watches[0].matches[0].id;
+        const todayOpening = await value<{
+          count: number;
+          items: { id: string; subtitle: string }[];
+        }>("select my_today_openings(array['mock']) as result");
+        assert.equal(todayOpening.count, 1);
+        assert.equal(todayOpening.items[0].id, `opening:${mid}`);
+        assert.match(
+          todayOpening.items[0].subtitle,
+          /Availability can change quickly/,
+        );
+        assert.equal(
+          (
+            await value<{ count: number }>(
+              "select my_today_openings() as result",
+            )
+          ).count,
+          0,
+        );
+        assert.equal(
+          await value("select my_notification_count(false) as result"),
+          0,
+        );
+        assert.equal(
+          await value("select my_notification_count(true) as result"),
+          1,
+        );
+        const safeNotices = await value<{ notifications: { type: string }[] }>(
+          "select my_notifications(false,null,null,25,true) as result",
+        );
+        assert.equal(safeNotices.notifications[0].type, "availability_match");
+        assert.doesNotMatch(
+          JSON.stringify(safeNotices),
+          /external_slot_id|credential_ref|connection_id|dedupe_key/,
+        );
         assert.equal(watches[0].matches[0].status, "notified");
         await role(undefined, true);
         work = await begin();
@@ -388,6 +426,14 @@ test("Smart Openings PostgreSQL ownership, lifecycle, notifications and generic 
         await role(a);
         await pg.query("select mark_notification_read($1)", [nid]);
         await pg.query("select dismiss_availability_match($1)", [mid]);
+        assert.equal(
+          (
+            await value<{ count: number }>(
+              "select my_today_openings(array['mock']) as result",
+            )
+          ).count,
+          0,
+        );
         assert.ok(
           (
             await value<{ dismissed_at: string }[]>(

@@ -108,6 +108,10 @@ test("Care plans PostgreSQL recurrence, privacy, lifecycle and reminders", async
     await pg.exec(
       await readFile("supabase/migrations/202609110008_care_plans.sql", "utf8"),
     );
+    for (const f of ["009_pet_timeline", "010_pawport_today"])
+      await pg.exec(
+        await readFile(`supabase/migrations/202609110${f}.sql`, "utf8"),
+      );
     assert.deepEqual(
       (
         await pg.query(

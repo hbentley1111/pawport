@@ -22,8 +22,8 @@ test("desktop and mobile navigation expose the desktop destinations and five mob
       : ["Home", "Pets", "Records", "Care", "Services", "Account"])
       assert.match(html, new RegExp(`<span>${label}</span>`));
     for (const href of mobile
-      ? ["/", "/care", "/services", "/account"]
-      : ["/", "/records", "/care", "/services", "/account"])
+      ? ["/", "/pets", "/care", "/services", "/account"]
+      : ["/", "/pets", "/records", "/care", "/services", "/account"])
       assert.ok(html.includes(`href="${href}"`));
     assert.equal((html.match(/aria-current="page"/g) || []).length, 1);
     assert.match(
@@ -43,6 +43,7 @@ test("desktop and mobile navigation expose the desktop destinations and five mob
 test("route-derived selection distinguishes home, pet profiles, records and detail pages", () => {
   for (const [path, section] of [
     ["/", "Home"],
+    ["/pets", "Pets"],
     ["/pets/new", "Pets"],
     ["/pets/pet-a", "Pets"],
     ["/pets/pet-a/edit", "Pets"],
@@ -90,7 +91,8 @@ test("auth and provider routes stay outside the owner navigation and routing dec
     );
   const home = readFileSync("app/page.tsx", "utf8");
   assert.match(home, /memberships\?\.length\) redirect\("\/provider"\)/);
-  assert.match(home, /pets.length === 1\) return <PetDashboard/);
+  assert.match(home, /TodayDashboard/);
+  assert.match(home, /!pets\?\.length\) redirect\("\/onboarding"\)/);
   const records = readFileSync("app/records/page.tsx", "utf8");
   assert.match(
     records,
