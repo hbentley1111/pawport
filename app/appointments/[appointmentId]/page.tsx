@@ -1,3 +1,4 @@
+import { ConnectedOperations } from "@/components/live-booking/connected-operations";
 import { watchContext } from "@/lib/openings/data";
 import { WatchCallToAction } from "@/components/openings/presentation";
 import { ExternalAppointmentNotice } from "@/components/scheduling/presentation";
@@ -37,6 +38,10 @@ export default async function AppointmentDetail({
     );
   if (!result.data) notFound();
   const a = result.data as unknown as Appointment;
+  const operationState =
+    a.booking_origin === "pawport_live"
+      ? await db.rpc("my_connected_operation_state", { p_appointment: a.id })
+      : null;
   const pet = pets.find((p) => p.id === a.pet_id);
   if (!pet) notFound();
   const { saved } = await searchParams;
@@ -94,10 +99,11 @@ export default async function AppointmentDetail({
               <>
                 <ExternalAppointmentNotice state={a.sync_state} />
                 {a.booking_origin === "pawport_live" && (
-                  <p>
-                    Booked through Pawport. Contact the provider to cancel or
-                    reschedule.
-                  </p>
+                  <ConnectedOperations
+                    initialState={operationState?.data || undefined}
+                    appointmentId={a.id}
+                    summary={`${pet.name} · ${a.provider_name || "Provider"} · ${new Intl.DateTimeFormat("en-US", { timeZone: a.time_zone, dateStyle: "medium", timeStyle: "short" }).format(new Date(a.starts_at))}`}
+                  />
                 )}
               </>
             ) : (

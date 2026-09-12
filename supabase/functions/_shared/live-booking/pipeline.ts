@@ -1,8 +1,46 @@
 import { z } from "zod";
+import { createConnectedPipeline } from "./connected-pipeline.ts";
 import { BookingError, type LiveSchedulingAdapter } from "./contract.ts";
 import { localDate, nextSevenDates } from "./schemas.ts";
 
 export const actionSchema = z.discriminatedUnion("action", [
+  z
+    .object({
+      action: z.literal("appointment_operations"),
+      appointmentId: z.uuid(),
+    })
+    .strict(),
+  z
+    .object({
+      action: z.literal("cancel_appointment"),
+      appointmentId: z.uuid(),
+    })
+    .strict(),
+  z
+    .object({
+      action: z.literal("reconcile_appointment"),
+      appointmentId: z.uuid(),
+    })
+    .strict(),
+  z
+    .object({
+      action: z.literal("reschedule_availability"),
+      appointmentId: z.uuid(),
+    })
+    .strict(),
+  z
+    .object({
+      action: z.literal("reschedule_appointment"),
+      appointmentId: z.uuid(),
+      quoteId: z.uuid(),
+    })
+    .strict(),
+  z
+    .object({
+      action: z.literal("opening_reschedule_quote"),
+      matchId: z.uuid(),
+    })
+    .strict(),
   z
     .object({
       action: z.literal("availability"),
@@ -87,6 +125,15 @@ export function createPipeline(
     return { a, catalog, slots };
   };
   return async (user: string, action: Action): Promise<unknown> => {
+    if (
+      action.action === "appointment_operations" ||
+      action.action === "cancel_appointment" ||
+      action.action === "reconcile_appointment" ||
+      action.action === "reschedule_availability" ||
+      action.action === "reschedule_appointment" ||
+      action.action === "opening_reschedule_quote"
+    )
+      return createConnectedPipeline(rpc, resolve, clock)(user, action);
     const p_user = user;
     if (action.action === "provider_catalog") {
       const c = await rpc<Context>("prepare_live_provider_catalog", {
