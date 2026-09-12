@@ -1,3 +1,5 @@
+import { UpcomingCare } from "./care/cards";
+import type { Appointment } from "@/lib/care/schema";
 import Link from "next/link";
 import { ArrowUpRight, Heart, Plus, ShieldCheck } from "lucide-react";
 import { AppFrame } from "./app-frame";
@@ -11,11 +13,13 @@ export function HouseholdDashboard({
   pets,
   vaccinations,
   recordsMode = false,
+  appointments = null,
 }: {
   household: string;
   pets: Pet[];
   vaccinations: Vaccination[];
   recordsMode?: boolean;
+  appointments?: Appointment[] | null;
 }) {
   return (
     <AppFrame>
@@ -43,7 +47,16 @@ export function HouseholdDashboard({
             </span>
           </div>
         </section>
-        {!recordsMode && <HouseholdQuickAccess />}
+        {!recordsMode && (
+          <>
+            <HouseholdQuickAccess />
+            <UpcomingCare
+              appointments={appointments}
+              pets={pets}
+              now={new Date().getTime()}
+            />
+          </>
+        )}
         <div className="section-heading family-section">
           <div>
             <h2>

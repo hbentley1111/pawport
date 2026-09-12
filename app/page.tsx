@@ -1,3 +1,4 @@
+import { upcomingCare } from "@/lib/care/data";
 import { PetDashboard } from "@/components/pet-dashboard";
 import { HouseholdDashboard } from "@/components/household-dashboard";
 import { redirect } from "next/navigation";
@@ -56,6 +57,7 @@ export default async function Home() {
   if (vError) throw new Error("Unable to load vaccination summaries.");
   return (
     <HouseholdDashboard
+      appointments={await upcomingCare(db, household.id)}
       household={household.name}
       pets={pets}
       vaccinations={vaccinations || []}

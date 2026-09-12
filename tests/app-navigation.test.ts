@@ -9,7 +9,7 @@ import {
 } from "../components/app-navigation-links";
 import { HouseholdQuickAccess } from "../components/household-quick-access";
 import { Brand } from "../components/brand";
-test("desktop and mobile navigation expose the five global destinations with text labels", () => {
+test("desktop and mobile navigation expose the desktop destinations and five mobile destinations with text labels", () => {
   for (const mobile of [false, true]) {
     const html = renderToStaticMarkup(
       createElement(AppNavigationLinks, {
@@ -17,9 +17,13 @@ test("desktop and mobile navigation expose the five global destinations with tex
         mobile,
       }),
     );
-    for (const label of ["Home", "Pets", "Records", "Services", "Account"])
+    for (const label of mobile
+      ? ["Home", "Pets", "Care", "Services", "Account"]
+      : ["Home", "Pets", "Records", "Care", "Services", "Account"])
       assert.match(html, new RegExp(`<span>${label}</span>`));
-    for (const href of ["/", "/records", "/services", "/account"])
+    for (const href of mobile
+      ? ["/", "/appointments", "/services", "/account"]
+      : ["/", "/records", "/appointments", "/services", "/account"])
       assert.ok(html.includes(`href="${href}"`));
     assert.equal((html.match(/aria-current="page"/g) || []).length, 1);
     assert.match(
@@ -28,6 +32,8 @@ test("desktop and mobile navigation expose the five global destinations with tex
     );
     assert.match(html, /aria-label="(?:Mobile )?Pawport navigation"/);
     assert.doesNotMatch(html, /Vaccinations|Share Passport/);
+    assert.equal((html.match(/<a /g) || []).length, mobile ? 5 : 6);
+    if (mobile) assert.doesNotMatch(html, /href="\/records"/);
   }
   assert.match(
     renderToStaticMarkup(createElement(Brand)),
@@ -45,6 +51,8 @@ test("route-derived selection distinguishes home, pet profiles, records and deta
     ["/services", "Services"],
     ["/services/place-a", "Services"],
     ["/account", "Account"],
+    ["/appointments", "Care"],
+    ["/appointments/new", "Care"],
     ["/login", null],
     ["/provider", null],
   ])
