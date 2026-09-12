@@ -1,3 +1,5 @@
+import { OpeningsSummary } from "./openings/presentation";
+import type { WatchSummary } from "@/lib/openings/schema";
 import { UpcomingCare } from "./care/cards";
 import type { Appointment } from "@/lib/care/schema";
 import { Brand } from "./brand";
@@ -37,6 +39,7 @@ export function Dashboard({
   demo,
   accountName = "Your account",
   appointments = null,
+  openings = [],
 }: {
   pet: Pet;
   vaccinations: Vaccination[];
@@ -45,6 +48,7 @@ export function Dashboard({
   demo: boolean;
   accountName?: string;
   appointments?: Appointment[] | null;
+  openings?: WatchSummary[];
 }) {
   const due = vaccinations.filter((v) =>
     ["Due soon", "Overdue"].includes(vaccinationStatus(v.due_on)),
@@ -197,6 +201,7 @@ export function Dashboard({
                   </Link>
                 </div>
                 <PetNavigation petId={pet.id} />
+                <OpeningsSummary watches={openings} petId={pet.id} />
                 <UpcomingCare
                   appointments={appointments}
                   pets={[pet]}

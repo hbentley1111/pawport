@@ -73,6 +73,9 @@ export default async function Appointments({
           </Link>
         </header>
         <div className="care-page-links">
+          <Link className="document-link" href="/openings">
+            Openings
+          </Link>
           <Link className="document-link" href="/connections">
             Provider connections
           </Link>

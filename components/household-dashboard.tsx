@@ -1,3 +1,5 @@
+import { OpeningsSummary } from "./openings/presentation";
+import type { WatchSummary } from "@/lib/openings/schema";
 import { UpcomingCare } from "./care/cards";
 import type { Appointment } from "@/lib/care/schema";
 import Link from "next/link";
@@ -14,12 +16,14 @@ export function HouseholdDashboard({
   vaccinations,
   recordsMode = false,
   appointments = null,
+  openings = [],
 }: {
   household: string;
   pets: Pet[];
   vaccinations: Vaccination[];
   recordsMode?: boolean;
   appointments?: Appointment[] | null;
+  openings?: WatchSummary[];
 }) {
   return (
     <AppFrame>
@@ -50,6 +54,7 @@ export function HouseholdDashboard({
         {!recordsMode && (
           <>
             <HouseholdQuickAccess />
+            <OpeningsSummary watches={openings} />
             <UpcomingCare
               appointments={appointments}
               pets={pets}

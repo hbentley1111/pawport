@@ -38,10 +38,13 @@ export type SchedulingEvent = {
   status?: Appointment["status"];
 };
 export type AvailabilitySlot = {
+  connectionId: string;
+  appointmentType: Appointment["appointment_type"];
+  bookable: boolean;
   externalSlotId: string;
   startsAt: string;
   endsAt: string;
-  externalServiceId: string;
+  externalServiceId?: string;
   externalStaffId?: string;
   externalResourceId?: string;
 };
@@ -71,7 +74,7 @@ export interface SchedulingAdapter {
   listAvailability?(
     connection: SchedulingConnection,
     query: {
-      type: Appointment["appointment_type"];
+      type?: Appointment["appointment_type"];
       from: string;
       to: string;
       externalServiceId?: string;

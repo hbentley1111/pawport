@@ -16,7 +16,12 @@ const items = [
   { label: "Account", href: "/account", icon: UserRound },
 ] as const;
 export function activeAppSection(pathname: string) {
-  if (pathname === "/appointments" || pathname.startsWith("/appointments/"))
+  if (
+    pathname === "/appointments" ||
+    pathname.startsWith("/appointments/") ||
+    pathname === "/openings" ||
+    pathname.startsWith("/openings/")
+  )
     return "Care";
   if (
     pathname === "/records" ||
