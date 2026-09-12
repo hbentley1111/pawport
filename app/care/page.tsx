@@ -1,3 +1,4 @@
+import { PreventiveLoader } from "@/components/preventive-care/client";
 import Link from "next/link";
 import { AppFrame } from "@/components/app-frame";
 import { careContext } from "@/lib/care/data";
@@ -56,6 +57,7 @@ export default async function Care() {
             Add appointment
           </Link>
         </div>
+        <PreventiveLoader />
         <CareComingUp plans={plans} pets={pets} now={new Date().getTime()} />
         {!!notifications?.length && (
           <section className="routine-summary">

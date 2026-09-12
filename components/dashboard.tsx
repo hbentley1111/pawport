@@ -1,3 +1,4 @@
+import { PetPreventiveCard } from "./preventive-care/client";
 import { RecentActivity } from "./timeline/presentation";
 import type { PetTimelineEvent } from "@/lib/timeline/schema";
 import { CareComingUp } from "./care-plans/presentation";
@@ -209,6 +210,7 @@ export function Dashboard({
                   </Link>
                 </div>
                 <PetNavigation petId={pet.id} />
+                <PetPreventiveCard petId={pet.id} petName={pet.name} />
                 <CareComingUp
                   plans={carePlans}
                   pets={[pet]}
