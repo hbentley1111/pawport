@@ -35,6 +35,8 @@ export const DETAIL_FIELD_MASK = [
   "nationalPhoneNumber",
   "websiteUri",
 ].join(",");
+export const CLAIM_CONFIRMATION_FIELD_MASK =
+  "id,displayName,formattedAddress,googleMapsUri,attributions";
 const METERS_PER_MILE = 1609.344,
   EARTH_METERS = 6371008.8;
 export class PlacesError extends Error {
@@ -304,6 +306,22 @@ export function createPlacesClient(
       return [...unique.values()].sort(
         (a, b) => (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity),
       );
+    },
+    // Live confirmation only. Never used as persisted organization or claim fields.
+    async claimConfirmation(raw: string): Promise<Place> {
+      const id = placeIdSchema.parse(raw);
+      const data = await json(
+        `https://places.googleapis.com/v1/places/${encodeURIComponent(id)}?languageCode=en&regionCode=US`,
+        { headers: headers(CLAIM_CONFIRMATION_FIELD_MASK) },
+      );
+      const place = normalize(data);
+      if (!place || place.id !== id)
+        throw new PlacesError(
+          "not_found",
+          404,
+          "This business is no longer available on Google Maps.",
+        );
+      return place;
     },
     async details(raw: string): Promise<Place> {
       const id = placeIdSchema.parse(raw);
