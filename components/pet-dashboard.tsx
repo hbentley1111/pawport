@@ -1,3 +1,4 @@
+import { petTimeline } from "@/lib/timeline/data";
 import { carePlans } from "@/lib/care-plans/data";
 import { openingsData } from "@/lib/openings/data";
 import { upcomingCare } from "@/lib/care/data";
@@ -7,7 +8,7 @@ import type { Trust } from "@/lib/records";
 import { Dashboard } from "./dashboard";
 export async function PetDashboard({ petId }: { petId: string }) {
   const { pet, db, user } = await ownedPet(petId);
-  const [h, v, s, t, care, openings, routines] = await Promise.all([
+  const [h, v, s, t, care, openings, routines, timeline] = await Promise.all([
     db.from("households").select("name").eq("id", pet.household_id).single(),
     db
       .from("vaccinations")
@@ -25,6 +26,7 @@ export async function PetDashboard({ petId }: { petId: string }) {
     upcomingCare(db, pet.household_id, pet.id),
     openingsData(db),
     carePlans(db, pet.id),
+    petTimeline(db, pet.id, "all", null, 3),
   ]);
   if (h.error || v.error || s.error || t.error)
     throw new Error("Unable to load this pet’s passport.");
@@ -43,6 +45,7 @@ export async function PetDashboard({ petId }: { petId: string }) {
       accountName={
         accountProfile(user.user_metadata).full_name || "Your account"
       }
+      recentActivity={timeline?.events || null}
       carePlans={routines}
       appointments={care}
       openings={openings.watches}

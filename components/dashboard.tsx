@@ -1,3 +1,5 @@
+import { RecentActivity } from "./timeline/presentation";
+import type { PetTimelineEvent } from "@/lib/timeline/schema";
 import { CareComingUp } from "./care-plans/presentation";
 import type { CarePlan } from "@/lib/care-plans/schema";
 import { OpeningsSummary } from "./openings/presentation";
@@ -43,6 +45,7 @@ export function Dashboard({
   appointments = null,
   openings = [],
   carePlans = null,
+  recentActivity = null,
 }: {
   pet: Pet;
   vaccinations: Vaccination[];
@@ -53,6 +56,7 @@ export function Dashboard({
   appointments?: Appointment[] | null;
   openings?: WatchSummary[];
   carePlans?: CarePlan[] | null;
+  recentActivity?: PetTimelineEvent[] | null;
 }) {
   const due = vaccinations.filter((v) =>
     ["Due soon", "Overdue"].includes(vaccinationStatus(v.due_on)),
@@ -211,6 +215,7 @@ export function Dashboard({
                   petId={pet.id}
                   now={new Date().getTime()}
                 />
+                <RecentActivity events={recentActivity} petId={pet.id} />
                 <OpeningsSummary watches={openings} petId={pet.id} />
                 <UpcomingCare
                   appointments={appointments}

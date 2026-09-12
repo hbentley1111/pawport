@@ -47,6 +47,10 @@ export async function POST(request: NextRequest) {
   } catch {
     return fail("Invalid upload.");
   }
+  const purpose = z
+    .enum(["profile", "journal"])
+    .safeParse(form.get("purpose") || "profile");
+  if (!purpose.success) return fail("Invalid photo purpose.");
   const file = form.get("file");
   const pet = z.uuid().safeParse(form.get("pet_id"));
   if (!(file instanceof File) || !pet.success)
@@ -87,7 +91,9 @@ export async function POST(request: NextRequest) {
       502,
     );
   const { data: finalized, error: finalizeError } = await db.rpc(
-    "finalize_pet_photo",
+    purpose.data === "journal"
+      ? "finalize_journal_photo"
+      : "finalize_pet_photo",
     {
       p_photo: photo.id,
     },
@@ -109,9 +115,13 @@ export async function POST(request: NextRequest) {
   revalidatePath(`/pets/${pet.data}`, "layout");
   return NextResponse.json(
     {
-      success: cleanupFailed
-        ? "Profile photo saved. The previous file is no longer displayed; its storage cleanup will need a retry by an administrator."
-        : "Profile photo saved.",
+      ...(purpose.data === "journal" ? { photo_id: photo.id } : {}),
+      success:
+        purpose.data === "journal"
+          ? "Photo uploaded. Save your moment to add it to the timeline."
+          : cleanupFailed
+            ? "Profile photo saved. The previous file is no longer displayed; its storage cleanup will need a retry by an administrator."
+            : "Profile photo saved.",
     },
     { headers: { "Cache-Control": "private, no-store" } },
   );
