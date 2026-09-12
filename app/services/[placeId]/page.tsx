@@ -1,3 +1,5 @@
+import { FromBusiness } from "@/components/business-profiles/presentation";
+import type { PublicProfile } from "@/lib/business-profiles/schema";
 import Link from "next/link";
 import { ListingOwnership } from "@/components/provider-claiming/presentation";
 import { listingClaimStatus } from "@/lib/provider-claiming/data";
@@ -22,7 +24,7 @@ export default async function ServiceDetail({
   if (!parsed.success) notFound();
   const id = parsed.data;
   const { db, member } = await serviceMember();
-  const [reviews, own, fav, owner, claimStatus] = db
+  const [reviews, own, fav, owner, claimStatus, profile] = db
     ? await Promise.all([
         db.rpc("read_service_reviews", { p_place: id, p_offset: 0 }),
         member ? db.rpc("my_service_review", { p_place: id }) : null,
@@ -35,8 +37,9 @@ export default async function ServiceDetail({
           : null,
         member ? db.from("households").select("id").maybeSingle() : null,
         listingClaimStatus(db, id),
+        db.rpc("service_provider_public_profile_for_place", { p_place: id }),
       ])
-    : [null, null, null, null, null];
+    : [null, null, null, null, null, null];
   return (
     <ServicesShell>
       <PlaceDetails
@@ -61,6 +64,9 @@ export default async function ServiceDetail({
         </div>
       )}
       <ListingOwnership placeId={id} status={claimStatus} />
+      {!profile?.error && profile?.data && (
+        <FromBusiness profile={profile.data as PublicProfile} />
+      )}
       <div className="community-layout">
         <CommunityReviews
           key={`${id}:${own?.data?.updated_at || ""}:${own?.data?.deleted_at || ""}`}

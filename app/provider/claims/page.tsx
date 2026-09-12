@@ -27,6 +27,9 @@ export default async function Claims({
   const page = bad ? null : await claimantClaims(db, cursor);
   return (
     <ServicesShell>
+      <Link className="button secondary" href="/provider/businesses">
+        Manage business profiles
+      </Link>
       <div className="claim-page">
         <header className="care-heading">
           <div>

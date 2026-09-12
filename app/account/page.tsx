@@ -70,6 +70,9 @@ export default async function AccountPage() {
           <Link className="document-link" href="/provider/claims">
             My business claims
           </Link>
+          <Link className="document-link" href="/provider/businesses">
+            Business profiles
+          </Link>
           <div className="account-signout">
             <div>
               <h3>All done for now?</h3>

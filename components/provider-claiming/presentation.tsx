@@ -118,7 +118,8 @@ export function ClaimCard({
         (c.participationActive ? (
           <>
             <p>This business is now claimed on Pawport.</p>
-            <p className="muted">Business profile management is coming next.</p>
+            <p className="muted">Your business profile is ready to manage.</p>
+            <Link href="/provider/businesses">Manage business profiles</Link>
           </>
         ) : (
           <p>

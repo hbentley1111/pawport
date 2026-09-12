@@ -100,7 +100,8 @@ test("claim lifecycle cards use neutral copy and preserve suspension/history wit
   const approved = render(ClaimCard, {
     claim: { ...claim, status: "approved", participationActive: true },
   });
-  assert.match(approved, /Business profile management is coming next/);
+  assert.match(approved, /Your business profile is ready to manage/);
+  assert.match(approved, /href="\/provider\/businesses"/);
   assert.doesNotMatch(approved, /Edit profile|Verify vaccination/);
   assert.match(
     render(ClaimCard, { claim: { ...claim, status: "approved" } }),
