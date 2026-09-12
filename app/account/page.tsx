@@ -61,6 +61,9 @@ export default async function AccountPage() {
           <Link className="document-link" href="/services">
             Discover local pet services
           </Link>
+          <Link className="document-link" href="/connections">
+            Provider scheduling connections
+          </Link>
           <Link className="document-link" href="/provider">
             Provider verification workspace
           </Link>

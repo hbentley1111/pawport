@@ -105,6 +105,7 @@ export type Reminder = {
   dismissed_at: string | null;
 };
 export type Appointment = {
+  sync_state?: "current" | "paused" | "disconnected" | "attention" | null;
   id: string;
   pet_id: string;
   source: "manual" | "pawport" | "external";

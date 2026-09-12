@@ -22,6 +22,18 @@ export function CareEntry({
           {pet.name} · {careLabel(a.appointment_type)}
         </span>
         <h3>{a.title}</h3>
+        {a.source === "external" && (
+          <small>
+            Synced from provider
+            {a.sync_state === "disconnected"
+              ? " · Disconnected"
+              : a.sync_state === "paused"
+                ? " · Sync paused"
+                : a.sync_state === "attention"
+                  ? " · Needs attention"
+                  : ""}
+          </small>
+        )}
         <CareDateTime value={a.starts_at} zone={zone} />
         {a.ends_at && (
           <small>

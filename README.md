@@ -103,3 +103,5 @@ Login now includes **Forgot password?**. Follow [password recovery setup](docs/P
 ## Care Calendar (Phase 5A)
 
 Care now provides household/pet appointment timelines, manual create/edit/cancel, in-app reminders and private ICS export. The [care calendar handoff](docs/CARE_CALENDAR.md) documents additive migration `202609110005_care_calendar.sql`, timezone/DST behavior, security, staging acceptance and future connectors. No external bookings or email/push reminders are sent. Mobile Care links to the calendar; Health Records remains available from that page and existing pet/household links.
+
+Provider scheduling connection architecture, local mock testing, security and first-vendor readiness: [Scheduling Connections](docs/SCHEDULING_CONNECTIONS.md). Phase 5B has no live vendor integration or background sync.

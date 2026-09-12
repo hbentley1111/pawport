@@ -1,9 +1,10 @@
+import { ExternalAppointmentNotice } from "@/components/scheduling/presentation";
 import Link from "next/link";
 import { z } from "zod";
 import { notFound } from "next/navigation";
 import { AppFrame } from "@/components/app-frame";
 import { AppointmentForm, CancelAppointment } from "@/components/care/form";
-import { CareCard } from "@/components/care/cards";
+import { ExternalCare } from "@/components/scheduling/external-care";
 import { careContext, careFields } from "@/lib/care/data";
 import type { Appointment } from "@/lib/care/schema";
 export const dynamic = "force-dynamic";
@@ -71,7 +72,7 @@ export default async function AppointmentDetail({
           Calendar export includes pet name and your provider/location entries,
           but excludes private notes. Exported events do not sync automatically.
         </p>
-        {a.status === "cancelled" && (
+        {a.status === "cancelled" && a.source === "manual" && (
           <p role="status" className="feedback">
             Cancelled in Pawport. This does not cancel with the provider.
           </p>
@@ -80,13 +81,12 @@ export default async function AppointmentDetail({
           <AppointmentForm key={a.updated_at} appointment={a} pets={pets} />
         ) : (
           <>
-            <CareCard
+            <ExternalCare
               appointment={a}
               pet={pet}
-              zone={a.time_zone}
               now={new Date().getTime()}
             />
-            <p>This connected appointment is read-only here.</p>
+            <ExternalAppointmentNotice state={a.sync_state} />
           </>
         )}
         {a.source === "manual" && a.status !== "cancelled" && (

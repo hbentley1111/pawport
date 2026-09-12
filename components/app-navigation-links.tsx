@@ -25,7 +25,12 @@ export function activeAppSection(pathname: string) {
     return "Records";
   if (pathname === "/services" || pathname.startsWith("/services/"))
     return "Services";
-  if (pathname === "/account" || pathname.startsWith("/account/"))
+  if (
+    pathname === "/account" ||
+    pathname.startsWith("/account/") ||
+    pathname === "/connections" ||
+    pathname.startsWith("/connections/")
+  )
     return "Account";
   if (pathname.startsWith("/pets/")) return "Pets";
   return pathname === "/" ? "Home" : null;
