@@ -88,6 +88,9 @@ test("Connected operations: canonical cancellation, privacy, ambiguity and confl
     await pg.query("select set_live_booking_sandbox_enabled(true)");
     await pg.query("select set_booking_capability($1,true)", [connection]);
     let serial = 0;
+    // Keep the cancellation-dedupe fixtures on one UTC day regardless of test-run time.
+    const fixtureDay =
+      Math.floor(Date.now() / 86400000) * 86400000 + 3 * 86400000;
     const createAppointment = async () => {
       await role(undefined, "service_role");
       await pg.query(
@@ -95,7 +98,7 @@ test("Connected operations: canonical cancellation, privacy, ambiguity and confl
         [connection],
       );
       const start = new Date(
-          Math.floor(Date.now() / 1000) * 1000 + (48 + serial++) * 3600000,
+          fixtureDay + 12 * 3600000 + serial++ * 60000,
         ).toISOString(),
         end = new Date(Date.parse(start) + 1800000).toISOString();
       const quotes = await value<{ quoteId: string }[]>(
