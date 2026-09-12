@@ -1,3 +1,5 @@
+import { requestIntake } from "@/lib/appointment-requests/data";
+import { RequestCTA } from "@/components/appointment-requests/presentation";
 import { FromBusiness } from "@/components/business-profiles/presentation";
 import type { PublicProfile } from "@/lib/business-profiles/schema";
 import Link from "next/link";
@@ -40,6 +42,9 @@ export default async function ServiceDetail({
         db.rpc("service_provider_public_profile_for_place", { p_place: id }),
       ])
     : [null, null, null, null, null, null];
+  const intake = profile?.data
+    ? await requestIntake((profile.data as PublicProfile).locationId)
+    : null;
   return (
     <ServicesShell>
       <PlaceDetails
@@ -64,6 +69,7 @@ export default async function ServiceDetail({
         </div>
       )}
       <ListingOwnership placeId={id} status={claimStatus} />
+      {intake && <RequestCTA location={intake.locationId} />}
       {!profile?.error && profile?.data && (
         <FromBusiness profile={profile.data as PublicProfile} />
       )}

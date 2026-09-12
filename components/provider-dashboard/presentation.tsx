@@ -64,6 +64,16 @@ export function LocationCard({
       <div className="provider-actions">
         <Link
           className="button secondary"
+          href={`/provider/businesses/${o.id}/requests?location=${l.id}`}
+        >
+          Appointment requests
+          {(l.newRequestCount || 0) > 0 ? ` · ${l.newRequestCount} new` : ""}
+          {(l.awaitingOwnerCount || 0) > 0
+            ? ` · ${l.awaitingOwnerCount} awaiting owner`
+            : ""}
+        </Link>
+        <Link
+          className="button secondary"
           href={`/provider/businesses/${o.id}/locations/${l.id}`}
         >
           {canManageTeam(o.role) ? "Manage profile" : "View business"}

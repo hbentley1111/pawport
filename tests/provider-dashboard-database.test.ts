@@ -84,7 +84,7 @@ test("Provider dashboard: scoped business authority, invitation lifecycle and pr
     for (const f of (await readdir("supabase/migrations"))
       .filter((f) => f.endsWith(".sql"))
       .sort()) {
-      if (f.includes("013_provider_dashboard")) continue;
+      if (f >= "202609110013") continue;
       await pg.exec(await readFile("supabase/migrations/" + f, "utf8"));
     }
     for (const [id, email] of [
@@ -154,6 +154,14 @@ test("Provider dashboard: scoped business authority, invitation lifecycle and pr
         "utf8",
       ),
     );
+    // Run compatibility assertions against subsequent additive migrations too.
+    for (const f of (await readdir("supabase/migrations"))
+      .filter(
+        (f) => f.endsWith(".sql") && f > "202609110013_provider_dashboard.sql",
+      )
+      .sort()) {
+      await pg.exec(await readFile("supabase/migrations/" + f, "utf8"));
+    }
     assert.deepEqual(
       (
         await pg.query(
