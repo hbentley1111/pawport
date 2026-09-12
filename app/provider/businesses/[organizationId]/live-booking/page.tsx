@@ -1,3 +1,4 @@
+import { ConnectedOperations } from "@/components/live-booking/connected-operations";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
@@ -26,11 +27,27 @@ export default async function LiveSettings({
       business.locations.find((l) => l.id === query.location) ||
       (!query.location ? business.locations[0] : undefined);
   if (!location) notFound();
-  const { data, error } = await db.rpc("my_live_booking_configuration", {
-    p_organization: org,
-    p_location: location.id,
-  });
+  const [{ data, error }, appointments] = await Promise.all([
+    db.rpc("my_live_booking_configuration", {
+      p_organization: org,
+      p_location: location.id,
+    }),
+    db.rpc("my_connected_appointments", {
+      p_organization: org,
+      p_location: location.id,
+    }),
+  ]);
   if (error || !data) notFound();
+  const items = (appointments.data || []) as {
+    appointmentId: string;
+    title: string;
+    petName: string;
+    startsAt: string;
+    timeZone: string;
+    status: string;
+    mutationState: string | null;
+    canManage: boolean;
+  }[];
   return (
     <ServicesShell>
       <Link href="/provider/dashboard">Business dashboard</Link>
@@ -52,6 +69,36 @@ export default async function LiveSettings({
         <button className="button secondary">Show location</button>
       </form>
       <LiveConfiguration org={org} data={data as Configuration} />
+      <section>
+        <h2>Pawport live appointments</h2>
+        {!items.length && <p>No recent live appointments at this location.</p>}
+        {items.map((a) => (
+          <article className="business-panel" key={a.appointmentId}>
+            <h3>{a.title}</h3>
+            <p>
+              {a.petName} ·{" "}
+              {new Intl.DateTimeFormat("en-US", {
+                timeZone: a.timeZone,
+                dateStyle: "medium",
+                timeStyle: "short",
+              }).format(new Date(a.startsAt))}{" "}
+              · {a.status}
+            </p>
+            {a.canManage && a.status !== "cancelled" && (
+              <ConnectedOperations
+                initialState={{
+                  canCancel: false,
+                  canReschedule: false,
+                  mutationState: a.mutationState,
+                }}
+                appointmentId={a.appointmentId}
+                summary={`${a.petName} · ${a.title}`}
+                autoLoad={false}
+              />
+            )}
+          </article>
+        ))}
+      </section>
     </ServicesShell>
   );
 }

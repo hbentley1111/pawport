@@ -12,6 +12,15 @@ const read = (key: string) => Deno.env.get(key);
 const base = read("SUPABASE_URL") || "";
 const key = read("SUPABASE_SERVICE_ROLE_KEY") || "";
 const allowed = new Set([
+  "prepare_connected_context",
+  "record_appointment_mutation_validation",
+  "begin_connected_cancellation",
+  "assert_connected_dispatch",
+  "record_connected_vendor_confirmation",
+  "complete_connected_cancellation",
+  "fail_connected_mutation",
+  "lease_connected_reconciliation",
+  "reconcile_connected_mutation",
   "prepare_live_availability_context",
   "record_live_connection_validation",
   "store_live_booking_quotes",
@@ -49,6 +58,8 @@ const rpc: Rpc = async <T>(
       "invalid_mapping",
       "vendor_error",
       "unknown",
+      "unsupported",
+      "conflict",
     ] as const;
     throw new BookingError(
       safe.find((c) => error.message === c) || "unavailable",

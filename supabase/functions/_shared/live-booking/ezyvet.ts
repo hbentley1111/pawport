@@ -1,5 +1,11 @@
 import { z } from "zod";
 import {
+  lookupNumericId,
+  parseCalendarAppointment,
+  verifyCancellationResponse,
+} from "./appointment-schema.ts";
+import type { VendorAppointment } from "./contract.ts";
+import {
   BookingError,
   type LiveSchedulingAdapter,
   type Catalog,
@@ -25,10 +31,85 @@ const API = "https://api.trial.ezyvet.com",
   BOOKING = "https://apiv2.trial.ezyvet.com";
 export class EzyVetAdapter implements LiveSchedulingAdapter {
   readonly system = "ezyvet" as const;
-  readonly capabilities = {
-    supportsAvailability: true,
-    supportsAppointmentCreate: true,
-  };
+  get capabilities() {
+    return {
+      supportsAvailability: true,
+      supportsAppointmentCreate: true,
+      supportsAppointmentCancel: this.credentials.scope
+        .split(/\s+/)
+        .includes("write-appointment"),
+      supportsAppointmentReschedule: false,
+    };
+  }
+  async getAppointment(
+    externalId: string,
+    numericId?: number,
+  ): Promise<VendorAppointment> {
+    parse(uid("appointment"), externalId);
+    const id =
+      numericId ??
+      lookupNumericId(
+        await this.get(
+          "/v2/appointment",
+          new URLSearchParams({ uid: externalId }),
+        ),
+        externalId,
+      );
+    if (!Number.isSafeInteger(id) || id <= 0)
+      throw new BookingError("vendor_error");
+    return parseCalendarAppointment(
+      await this.get(
+        "/v2.1/calendar/appointments",
+        new URLSearchParams({ "filter[id][in]": String(id), pageSize: "1" }),
+      ),
+      externalId,
+      id,
+    );
+  }
+  async cancelAppointment(
+    appointment: VendorAppointment,
+  ): Promise<VendorAppointment> {
+    if (!this.capabilities.supportsAppointmentCancel)
+      throw new BookingError("unsupported");
+    if (
+      !appointment.active ||
+      !Number.isSafeInteger(appointment.id) ||
+      appointment.id <= 0
+    )
+      throw new BookingError("conflict");
+    const token = await this.accessToken();
+    const response = await this.fetchBounded(
+      API + "/v2/appointment/" + appointment.id,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/merge-patch+json",
+        },
+        body: JSON.stringify({
+          cancel: true,
+          cancellation_reason_text: "Cancelled through Pawport",
+        }),
+      },
+      true,
+    );
+    if (response.status !== 200) {
+      if ([401, 403].includes(response.status))
+        throw new BookingError("unauthorized");
+      if (response.status === 429) throw new BookingError("rate_limited");
+      if ([400, 404, 422].includes(response.status))
+        throw new BookingError("vendor_error");
+      throw new BookingError("unknown");
+    }
+    try {
+      return verifyCancellationResponse(JSON.parse(response.text), appointment);
+    } catch {
+      throw new BookingError("unknown");
+    }
+  }
+  async rescheduleAppointment(): Promise<never> {
+    throw new BookingError("unsupported");
+  }
   private token?: { value: string; expires: number };
   private tokenPending?: Promise<string>;
   constructor(

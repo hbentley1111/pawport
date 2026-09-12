@@ -4,6 +4,10 @@ import { liveAction, liveError } from "@/lib/live-booking/client";
 import { saveBinding } from "@/app/provider/businesses/[organizationId]/live-booking/actions";
 import type { Catalog } from "../../supabase/functions/_shared/live-booking/contract";
 export type Configuration = {
+  connectedOperations?: {
+    cancellationSupported: boolean;
+    rescheduleSupported: boolean;
+  };
   locationId: string;
   connections: {
     id: string | null;
@@ -141,6 +145,22 @@ export function LiveConfiguration({
   return (
     <section>
       <p>Sandbox only. Production direct booking is disabled.</p>
+      <section className="business-panel">
+        <h2>Connected appointment operations</h2>
+        <p>
+          Cancellation:{" "}
+          {data.connectedOperations?.cancellationSupported
+            ? "Sandbox capability approved"
+            : "Unavailable"}
+        </p>
+        <p>
+          Rescheduling: Unavailable — current vendor PATCH does not document
+          schedule updates.
+        </p>
+        <p>
+          Capability support is controlled by the trusted integration operator.
+        </p>
+      </section>
       {!data.connections.length && (
         <p>
           No ezyVet connection is configured. Appointment requests remain
