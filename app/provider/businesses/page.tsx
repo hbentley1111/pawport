@@ -9,6 +9,10 @@ export default async function Businesses() {
   const items = await businesses(db);
   return (
     <ServicesShell>
+      <Link className="document-link" href="/provider/dashboard">
+        Business dashboard
+      </Link>
+
       <header className="business-heading">
         <p className="eyebrow">YOUR BUSINESS ON PAWPORT</p>
         <h1>Business profiles</h1>

@@ -27,6 +27,10 @@ export default async function Claims({
   const page = bad ? null : await claimantClaims(db, cursor);
   return (
     <ServicesShell>
+      <Link className="document-link" href="/provider/dashboard">
+        Business dashboard
+      </Link>
+
       <Link className="button secondary" href="/provider/businesses">
         Manage business profiles
       </Link>
