@@ -1,3 +1,5 @@
+import { CareComingUp } from "./care-plans/presentation";
+import type { CarePlan } from "@/lib/care-plans/schema";
 import { OpeningsSummary } from "./openings/presentation";
 import type { WatchSummary } from "@/lib/openings/schema";
 import { UpcomingCare } from "./care/cards";
@@ -40,6 +42,7 @@ export function Dashboard({
   accountName = "Your account",
   appointments = null,
   openings = [],
+  carePlans = null,
 }: {
   pet: Pet;
   vaccinations: Vaccination[];
@@ -49,6 +52,7 @@ export function Dashboard({
   accountName?: string;
   appointments?: Appointment[] | null;
   openings?: WatchSummary[];
+  carePlans?: CarePlan[] | null;
 }) {
   const due = vaccinations.filter((v) =>
     ["Due soon", "Overdue"].includes(vaccinationStatus(v.due_on)),
@@ -201,6 +205,12 @@ export function Dashboard({
                   </Link>
                 </div>
                 <PetNavigation petId={pet.id} />
+                <CareComingUp
+                  plans={carePlans}
+                  pets={[pet]}
+                  petId={pet.id}
+                  now={new Date().getTime()}
+                />
                 <OpeningsSummary watches={openings} petId={pet.id} />
                 <UpcomingCare
                   appointments={appointments}

@@ -1,3 +1,4 @@
+import { carePlans } from "@/lib/care-plans/data";
 import { openingsData } from "@/lib/openings/data";
 import { upcomingCare } from "@/lib/care/data";
 import { PetDashboard } from "@/components/pet-dashboard";
@@ -56,10 +57,16 @@ export default async function Home() {
       pets.map((p) => p.id),
     );
   if (vError) throw new Error("Unable to load vaccination summaries.");
+  const [routines, appointments, openings] = await Promise.all([
+    carePlans(db),
+    upcomingCare(db, household.id),
+    openingsData(db),
+  ]);
   return (
     <HouseholdDashboard
-      appointments={await upcomingCare(db, household.id)}
-      openings={(await openingsData(db)).watches}
+      carePlans={routines}
+      appointments={appointments}
+      openings={openings.watches}
       household={household.name}
       pets={pets}
       vaccinations={vaccinations || []}

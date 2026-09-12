@@ -77,10 +77,7 @@ test("Care is reachable on desktop and five-item mobile navigation; records rema
         mobile,
       }),
     );
-    assert.match(
-      html,
-      /<a(?=[^>]*href="\/appointments")(?=[^>]*aria-current="page")/,
-    );
+    assert.match(html, /<a(?=[^>]*href="\/care")(?=[^>]*aria-current="page")/);
     assert.equal((html.match(/<a /g) || []).length, mobile ? 5 : 6);
   }
   assert.match(

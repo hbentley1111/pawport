@@ -139,6 +139,10 @@ test("Smart Openings PostgreSQL ownership, lifecycle, notifications and generic 
         "utf8",
       ),
     );
+    // Exercise the complete existing availability pipeline after the additive care notification extension.
+    await pg.exec(
+      await readFile("supabase/migrations/202609110008_care_plans.sql", "utf8"),
+    );
     const data = {
       earliest_date: date(1),
       latest_date: date(19),
