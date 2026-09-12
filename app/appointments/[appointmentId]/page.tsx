@@ -1,3 +1,5 @@
+import { watchContext } from "@/lib/openings/data";
+import { WatchCallToAction } from "@/components/openings/presentation";
 import { ExternalAppointmentNotice } from "@/components/scheduling/presentation";
 import Link from "next/link";
 import { z } from "zod";
@@ -38,6 +40,8 @@ export default async function AppointmentDetail({
   const pet = pets.find((p) => p.id === a.pet_id);
   if (!pet) notFound();
   const { saved } = await searchParams;
+  const openingContext =
+    a.source === "external" ? await watchContext(db, a.id) : null;
   return (
     <AppFrame>
       <main className="care-page care-editor">
@@ -87,6 +91,10 @@ export default async function AppointmentDetail({
               now={new Date().getTime()}
             />
             <ExternalAppointmentNotice state={a.sync_state} />
+            <WatchCallToAction
+              appointmentId={a.id}
+              supported={Boolean(openingContext)}
+            />
           </>
         )}
         {a.source === "manual" && a.status !== "cancelled" && (

@@ -3713,3 +3713,19 @@ html:has(.owner-app) {
 .scheduling-card .button {
   min-height: 44px;
 }
+
+.opening-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; margin: 24px 0 36px; }
+.opening-card { min-width: 0; overflow-wrap: anywhere; }
+.opening-actions,.opening-presets,.opening-days { display: flex; flex-wrap: wrap; gap: 12px; margin: 18px 0; align-items: center; }
+.opening-days label { display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 5px; }
+.opening-form fieldset { border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin: 20px 0; }
+.opening-form legend { padding: 0 8px; }
+.opening-form .button,.opening-card .button { min-height: 44px; }
+.opening-match { border-top: 1px solid var(--line); padding: 24px 0; }
+.opening-home { display: flex; gap: 18px; align-items: center; background: #f1f4ec; border-radius: 18px; padding: 22px; margin: 24px 0; }
+.opening-home h2 { font-size: 23px; }
+.opening-home p { margin: 6px 0; }
+.opening-notification { background: #f1f4ec; border-radius: 14px; padding: 20px; margin: 16px 0; }
+@media(max-width: 800px) { .opening-grid { grid-template-columns: 1fr; } .opening-home { flex-wrap: wrap; } }
+.opening-days input { accent-color: var(--green); }
+.opening-card p { margin: 8px 0; line-height: 1.6; }

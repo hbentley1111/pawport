@@ -1,3 +1,4 @@
+import { openingsData } from "@/lib/openings/data";
 import { upcomingCare } from "@/lib/care/data";
 import { PetDashboard } from "@/components/pet-dashboard";
 import { HouseholdDashboard } from "@/components/household-dashboard";
@@ -58,6 +59,7 @@ export default async function Home() {
   return (
     <HouseholdDashboard
       appointments={await upcomingCare(db, household.id)}
+      openings={(await openingsData(db)).watches}
       household={household.name}
       pets={pets}
       vaccinations={vaccinations || []}

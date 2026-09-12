@@ -6,6 +6,7 @@ import type {
   ExternalAppointment,
   WebhookRequest,
   VerifiedWebhook,
+  AvailabilitySlot,
 } from "@/lib/care/scheduling-adapter";
 import { schedulingEventSchema } from "./schema";
 export function assertMockEnabled() {
@@ -104,10 +105,21 @@ export class MockSchedulingAdapter implements SchedulingAdapter {
       status: v.status,
     });
   }
-  async listAvailability(c: SchedulingConnection) {
+  private slots: AvailabilitySlot[] | null = null;
+  setAvailability(c: SchedulingConnection, slots: AvailabilitySlot[]) {
     this.check(c);
-    return [
+    this.slots = slots.map((s) => ({ ...s }));
+  }
+  async listAvailability(
+    c: SchedulingConnection,
+    query?: { from: string; to: string },
+  ) {
+    this.check(c);
+    const slots = this.slots || [
       {
+        connectionId: c.id,
+        appointmentType: "veterinary" as const,
+        bookable: true,
         externalSlotId: "demo-slot",
         startsAt: "2027-10-10T14:00:00Z",
         endsAt: "2027-10-10T14:30:00Z",
@@ -115,6 +127,14 @@ export class MockSchedulingAdapter implements SchedulingAdapter {
         externalResourceId: "demo-room",
       },
     ];
+    return slots
+      .filter(
+        (s) =>
+          !query ||
+          (Date.parse(s.startsAt) >= Date.parse(query.from) &&
+            Date.parse(s.startsAt) <= Date.parse(query.to)),
+      )
+      .map((s) => ({ ...s }));
   }
   updateAppointment(
     c: SchedulingConnection,
