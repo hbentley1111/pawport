@@ -5,8 +5,19 @@ import { DashboardSummary, LocationCard } from "./presentation";
 import type { DashboardOrganization } from "@/lib/provider-dashboard/schema";
 export function ProviderDashboard({
   organizations,
+  ecosystemCounts = {},
 }: {
   organizations: DashboardOrganization[];
+  ecosystemCounts?: Record<
+    string,
+    {
+      newRequests: number;
+      sentQuotes: number;
+      awaitingResponse: number;
+      publishedOffers: number;
+      draftOffers: number;
+    } | null
+  >;
 }) {
   const [orgId, setOrgId] = useState(organizations[0]?.id || ""),
     [locationId, setLocationId] = useState("all");
@@ -49,6 +60,31 @@ export function ProviderDashboard({
         </label>
       )}
       <DashboardSummary organization={org} />
+      {ecosystemCounts[org.id] && (
+        <section className="business-panel">
+          <h2>Quotes & community</h2>
+          <p>
+            {ecosystemCounts[org.id]!.newRequests} new quote requests ·{" "}
+            {ecosystemCounts[org.id]!.sentQuotes} sent quotes
+          </p>
+          <p>
+            {ecosystemCounts[org.id]!.publishedOffers} published offers ·{" "}
+            {ecosystemCounts[org.id]!.draftOffers} draft offers
+          </p>
+          <p>
+            {ecosystemCounts[org.id]!.awaitingResponse} reviews awaiting a
+            business response
+          </p>
+        </section>
+      )}
+      {org.status === "active" && (
+        <nav className="care-page-links">
+          <Link href={`/provider/businesses/${org.id}/quotes`}>Quotes</Link>
+          <Link href={`/provider/businesses/${org.id}/community`}>
+            Offers &amp; business responses
+          </Link>
+        </nav>
+      )}
       {org.status === "active" && (
         <>
           {org.locations.length > 1 && (

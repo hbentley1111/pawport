@@ -106,6 +106,15 @@ export type BusinessAudit = {
 };
 export const auditLabel = (type: string) =>
   ({
+    quote_sent: "sent a quote",
+    quote_revised: "revised a quote",
+    quote_declined: "declined a quote request",
+    quote_withdrawn: "withdrew a quote",
+    offer_published: "published an offer",
+    offer_paused: "paused an offer",
+    offer_archived: "archived an offer",
+    review_response_published: "published or edited a business response",
+    review_response_withdrawn: "withdrew a business response",
     invitation_created: "invited",
     invitation_revoked: "revoked an invitation for",
     invitation_accepted: "joined the team",

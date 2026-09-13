@@ -1,3 +1,4 @@
+import { PublicEcosystem } from "@/components/ecosystem/public";
 import { LiveBookingLink } from "@/components/live-booking/owner";
 import { requestIntake } from "@/lib/appointment-requests/data";
 import { RequestCTA } from "@/components/appointment-requests/presentation";
@@ -74,6 +75,9 @@ export default async function ServiceDetail({
       {!profile?.error && profile?.data && (
         <>
           <FromBusiness profile={profile.data as PublicProfile} />
+          <PublicEcosystem
+            locationId={(profile.data as PublicProfile).locationId}
+          />
           <LiveBookingLink
             locationId={(profile.data as PublicProfile).locationId}
           />

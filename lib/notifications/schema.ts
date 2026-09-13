@@ -6,7 +6,8 @@ export type OwnerNotification = {
     | "appointment_reminder"
     | "verification_update"
     | "appointment_request_update"
-    | "appointment_change";
+    | "appointment_change"
+    | "provider_quote_update";
   title: string;
   body: string;
   actionUrl: string;

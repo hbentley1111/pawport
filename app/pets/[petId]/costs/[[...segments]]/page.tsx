@@ -1,3 +1,5 @@
+import { QuoteCard } from "@/components/ecosystem/presentation";
+import { EcosystemForm, QuotePlanning } from "@/components/ecosystem/forms";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
@@ -310,13 +312,52 @@ export default async function PetCosts({
         <>
           <h1>{p.title}</h1>
           <p>
-            Owner planned: {dollars(p.plannedAmountCents)} ·{" "}
-            {p.status.replaceAll("_", " ")}
+            {p.source === "provider_quote"
+              ? "Provider quote planning"
+              : "Owner planned"}
+            : {dollars(p.plannedAmountCents)} · {p.status.replaceAll("_", " ")}
           </p>
+          {p.quote && (
+            <>
+              <p>{p.businessName}</p>
+              <QuoteCard quote={p.quote} />
+              {p.quoteUpdated && p.quoteRequestId && (
+                <>
+                  <p>
+                    Provider has updated this quote. Your saved planning record
+                    has not changed.
+                  </p>
+                  <QuotePlanning
+                    petId={petId}
+                    requestId={p.quoteRequestId}
+                    year={p.planningYear}
+                    update
+                  />
+                </>
+              )}
+            </>
+          )}
           {p.convertedExpenseId ? (
             <Link href={`${base}/expenses/${p.convertedExpenseId}`}>
               View recorded expense
             </Link>
+          ) : p.source === "provider_quote" ? (
+            <EcosystemForm
+              action="plan_status"
+              hidden={{ pet: petId, planned: p.plannedCostId }}
+              label="Update planning status"
+              fields={[
+                {
+                  name: "status",
+                  label: "Planning status (not medical completion)",
+                  options: ["planned", "completed", "cancelled"].map((id) => ({
+                    id,
+                    name: id,
+                  })),
+                  value: p.status,
+                },
+              ]}
+            />
           ) : (
             <CostForm
               mode="planned"
