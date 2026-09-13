@@ -30,6 +30,7 @@ export type PawportTodayItem = {
   };
 };
 export type TodayResult = {
+  insuranceRenewals?: import("@/lib/insurance/schema").Renewal[];
   attention: PawportTodayItem[];
   comingUp: PawportTodayItem[];
   recentActivity: (PetTimelineEvent & { petName: string })[];

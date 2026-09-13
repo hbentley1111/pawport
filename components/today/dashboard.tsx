@@ -153,6 +153,22 @@ export function TodayDashboard({
           )}
         </>
       )}
+      {result?.insuranceRenewals && result.insuranceRenewals.length > 0 && (
+        <section className="routine-summary">
+          <h2>Recorded renewals</h2>
+          {result.insuranceRenewals.map((r) => (
+            <article className="routine-card" key={r.id}>
+              <h3>
+                {r.petName} — {r.title}
+              </h3>
+              <p>
+                {r.date} · {r.sourceLabel}
+              </p>
+              <Link href={r.actionUrl}>View coverage information</Link>
+            </article>
+          ))}
+        </section>
+      )}
       <TodayQuickActions pets={pets} />
     </main>
   );

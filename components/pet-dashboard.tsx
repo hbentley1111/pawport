@@ -8,26 +8,28 @@ import type { Trust } from "@/lib/records";
 import { Dashboard } from "./dashboard";
 export async function PetDashboard({ petId }: { petId: string }) {
   const { pet, db, user } = await ownedPet(petId);
-  const [h, v, s, t, care, openings, routines, timeline] = await Promise.all([
-    db.from("households").select("name").eq("id", pet.household_id).single(),
-    db
-      .from("vaccinations")
-      .select("*")
-      .eq("pet_id", pet.id)
-      .order("administered_on", { ascending: false }),
-    db
-      .from("share_passes")
-      .select("id,expires_at,revoked_at,created_at")
-      .eq("pet_id", pet.id)
-      .is("revoked_at", null)
-      .gt("expires_at", new Date().toISOString())
-      .order("created_at", { ascending: false }),
-    db.rpc("owner_vaccination_trust", { p_pet: pet.id }),
-    upcomingCare(db, pet.household_id, pet.id),
-    openingsData(db),
-    carePlans(db, pet.id),
-    petTimeline(db, pet.id, "all", null, 3),
-  ]);
+  const [h, v, s, t, care, openings, routines, timeline, coverage] =
+    await Promise.all([
+      db.from("households").select("name").eq("id", pet.household_id).single(),
+      db
+        .from("vaccinations")
+        .select("*")
+        .eq("pet_id", pet.id)
+        .order("administered_on", { ascending: false }),
+      db
+        .from("share_passes")
+        .select("id,expires_at,revoked_at,created_at")
+        .eq("pet_id", pet.id)
+        .is("revoked_at", null)
+        .gt("expires_at", new Date().toISOString())
+        .order("created_at", { ascending: false }),
+      db.rpc("owner_vaccination_trust", { p_pet: pet.id }),
+      upcomingCare(db, pet.household_id, pet.id),
+      openingsData(db),
+      carePlans(db, pet.id),
+      petTimeline(db, pet.id, "all", null, 3),
+      db.rpc("my_pet_coverage_plans", { p_pet: pet.id }),
+    ]);
   if (h.error || v.error || s.error || t.error)
     throw new Error("Unable to load this pet’s passport.");
   const trust = new Map<string | undefined, Trust>(
@@ -46,6 +48,7 @@ export async function PetDashboard({ petId }: { petId: string }) {
         accountProfile(user.user_metadata).full_name || "Your account"
       }
       recentActivity={timeline?.events || null}
+      coveragePlans={coverage.error ? null : coverage.data}
       carePlans={routines}
       appointments={care}
       openings={openings.watches}

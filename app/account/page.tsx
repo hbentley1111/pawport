@@ -37,6 +37,7 @@ export default async function AccountPage() {
                 <UserRound size={22} />
               </span>
               <h2 id="details-title">Account holder</h2>
+              <Link href="/insurance">Insurance &amp; coverage</Link>
               <p className="muted">
                 These details are private and never appear on a shared pet
                 passport.

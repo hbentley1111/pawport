@@ -1,3 +1,5 @@
+import { CoverageCard } from "./insurance/presentation";
+import type { PlanSummary } from "@/lib/insurance/schema";
 import { PetPreventiveCard } from "./preventive-care/client";
 import { RecentActivity } from "./timeline/presentation";
 import type { PetTimelineEvent } from "@/lib/timeline/schema";
@@ -47,6 +49,7 @@ export function Dashboard({
   openings = [],
   carePlans = null,
   recentActivity = null,
+  coveragePlans = null,
 }: {
   pet: Pet;
   vaccinations: Vaccination[];
@@ -58,6 +61,7 @@ export function Dashboard({
   openings?: WatchSummary[];
   carePlans?: CarePlan[] | null;
   recentActivity?: PetTimelineEvent[] | null;
+  coveragePlans?: PlanSummary[] | null;
 }) {
   const due = vaccinations.filter((v) =>
     ["Due soon", "Overdue"].includes(vaccinationStatus(v.due_on)),
@@ -211,6 +215,26 @@ export function Dashboard({
                 </div>
                 <PetNavigation petId={pet.id} />
                 <PetPreventiveCard petId={pet.id} petName={pet.name} />
+                <section className="routine-card">
+                  <h2>Insurance &amp; coverage</h2>
+                  {coveragePlans === null ? (
+                    <p>Coverage summary unavailable.</p>
+                  ) : coveragePlans.length ? (
+                    coveragePlans
+                      .slice(0, 2)
+                      .map((plan) => (
+                        <CoverageCard key={plan.planId} plan={plan} />
+                      ))
+                  ) : (
+                    <>
+                      <p>No coverage information added.</p>
+                      <Link href={`/pets/${pet.id}/insurance/new`}>
+                        Add insurance or wellness plan
+                      </Link>
+                    </>
+                  )}
+                  <Link href={`/pets/${pet.id}/insurance`}>View coverage</Link>
+                </section>
                 <CareComingUp
                   plans={carePlans}
                   pets={[pet]}
