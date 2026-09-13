@@ -33,7 +33,7 @@ export async function ecosystemAction(_: Result, f: FormData): Promise<Result> {
         data[k] = k.endsWith("_cents") ? cents(text(k)) : text(k) || null;
       args = { p_org: uuid("org"), p_request: uuid("request"), p_data: data };
     } else if (a === "declined" || a === "withdrawn") {
-      name = "close_service_quote";
+      name = "set_service_quote_status";
       args = { p_org: uuid("org"), p_request: uuid("request"), p_action: a };
     } else if (a === "withdraw") {
       name = "withdraw_service_quote_request";
