@@ -143,6 +143,7 @@ grant execute on function public.set_service_quote_status(uuid,uuid,text) to aut
 revoke all on function public.ec_offer_limit(uuid,uuid,text) from public,anon,authenticated;
 revoke all on function public.ec_offer_audit(uuid,text) from public,anon,authenticated;
 
-drop function if exists public.close_service_quote(uuid,uuid,text);
+-- Keep the original close_service_quote RPC as a compatibility alias for the
+-- migration's regression suite; the application uses set_service_quote_status.
 
 commit;
