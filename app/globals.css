@@ -3934,3 +3934,156 @@ html:has(.owner-app) {
 /* Preventive care labels state provenance in words, never color alone. */
 .preventive-source { display: inline-block; padding: .3rem .65rem; border: 1px solid var(--line, #dbe4d7); border-radius: .5rem; font-size: .78rem; font-weight: 600; margin-bottom: .65rem; }
 .guidance-source { background: transparent; border-style: dashed; font-weight: 400; }
+
+.pet-cost-snapshot {
+  display: block;
+  color: var(--ink);
+  background: #f3f5ee;
+  border: 1px solid #dce3d8;
+  border-radius: 20px;
+  padding: 26px 30px;
+  margin: 24px 0;
+}
+.pet-cost-snapshot:hover {
+  border-color: #9bad9c;
+  background: #f0f3eb;
+}
+.pet-cost-snapshot:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 5px;
+}
+.pet-cost-snapshot header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.pet-cost-snapshot header svg {
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.pet-cost-snapshot h2 {
+  font: normal 27px/1.2 var(--serif);
+  margin: 6px 0 8px;
+}
+.pet-cost-snapshot p {
+  line-height: 1.6;
+  margin: 0;
+}
+.pet-cost-snapshot .cost-snapshot-year {
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  color: #536b5b;
+}
+.cost-snapshot-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 34px;
+  align-items: center;
+  margin: 24px 0 18px;
+}
+.cost-bone {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.cost-snapshot-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  list-style: none;
+  padding: 0;
+  margin: 15px 0 0;
+  font-size: 12px;
+  color: #516456;
+}
+.cost-snapshot-legend li {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.cost-key {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+  border: 1px solid #aabaac;
+}
+.cost-key.spent {
+  background: #335c4b;
+}
+.cost-key.planned {
+  background: repeating-linear-gradient(135deg, #b8c8b7 0 3px, #91aa96 3px 4px);
+}
+.cost-key.remaining {
+  background: #ecede5;
+}
+.cost-snapshot-metrics {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px 20px;
+}
+.cost-snapshot-metrics dt {
+  font-size: 12px;
+  color: #516456;
+}
+.cost-snapshot-metrics dt small {
+  display: block;
+  font-size: 10px;
+  margin-top: 3px;
+}
+.cost-snapshot-metrics dd {
+  margin: 5px 0 0;
+  font-size: 20px;
+  letter-spacing: -0.4px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.cost-snapshot-metrics .cost-snapshot-total {
+  grid-column: 1/-1;
+  border-top: 1px solid #d9e1d5;
+  padding-top: 15px;
+}
+.cost-snapshot-total dd {
+  font-size: 30px;
+  font-family: var(--serif);
+}
+.pet-cost-snapshot .cost-snapshot-note {
+  font-size: 12px;
+  color: #516456;
+}
+.pet-cost-snapshot footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid #d9e1d5;
+  font-size: 12px;
+  font-weight: 600;
+}
+.cost-snapshot-empty {
+  margin-top: 22px !important;
+}
+.cost-snapshot-empty h3 {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+@media (max-width: 700px) {
+  .pet-cost-snapshot {
+    padding: 22px 20px;
+  }
+  .cost-snapshot-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .pet-cost-snapshot h2 {
+    font-size: 25px;
+  }
+  .cost-bone {
+    max-width: 440px;
+    margin: auto;
+  }
+}

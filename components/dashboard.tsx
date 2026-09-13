@@ -1,3 +1,5 @@
+import { PetCareCostSnapshot } from "./costs/pet-care-cost-snapshot";
+import type { CareCostSnapshot } from "@/lib/costs/snapshot";
 import { CoverageCard } from "./insurance/presentation";
 import type { PlanSummary } from "@/lib/insurance/schema";
 import { PetPreventiveCard } from "./preventive-care/client";
@@ -50,6 +52,8 @@ export function Dashboard({
   carePlans = null,
   recentActivity = null,
   coveragePlans = null,
+  costSnapshot = null,
+  costYear = new Date().getFullYear(),
 }: {
   pet: Pet;
   vaccinations: Vaccination[];
@@ -62,6 +66,8 @@ export function Dashboard({
   carePlans?: CarePlan[] | null;
   recentActivity?: PetTimelineEvent[] | null;
   coveragePlans?: PlanSummary[] | null;
+  costSnapshot?: CareCostSnapshot | null;
+  costYear?: number;
 }) {
   const due = vaccinations.filter((v) =>
     ["Due soon", "Overdue"].includes(vaccinationStatus(v.due_on)),
@@ -215,13 +221,6 @@ export function Dashboard({
                 </div>
                 <PetNavigation petId={pet.id} />
                 <PetPreventiveCard petId={pet.id} petName={pet.name} />
-                <section className="routine-card">
-                  <h2>Costs &amp; planning</h2>
-                  <p>
-                    Recorded expenses, explicit reimbursements and your plans.
-                  </p>
-                  <Link href={`/pets/${pet.id}/costs`}>View costs</Link>
-                </section>
                 <section className="routine-card">
                   <h2>Insurance &amp; coverage</h2>
                   {coveragePlans === null ? (
@@ -388,6 +387,13 @@ export function Dashboard({
                 </div>
               </div>
             </div>
+            {!demo && (
+              <PetCareCostSnapshot
+                petId={pet.id}
+                year={costYear}
+                data={costSnapshot}
+              />
+            )}
             <section className="records-section" id="vaccinations">
               <div className="section-heading">
                 <div>
