@@ -177,9 +177,15 @@ test("Provider dashboard: scoped business authority, invitation lifecycle and pr
         policyname: string;
       }>("select * from pg_policies order by schemaname,tablename,policyname")
     ).rows;
-    // Phase 9B adds a separate private bucket. Preserve the exact old policy
-    // snapshot and permit only these six additional policies, not arbitrary changes.
+    // Phases 9B/9C add separate private document buckets. Preserve the exact old policy
+    // snapshot and permit only these twelve additional policies, not arbitrary changes.
     const insurancePolicyNames = [
+      "expense_document_delete_guard",
+      "expense_document_insert",
+      "expense_document_insert_guard",
+      "expense_document_read",
+      "expense_document_read_guard",
+      "expense_document_update_guard",
       "insurance_document_delete_guard",
       "insurance_document_insert",
       "insurance_document_insert_guard",

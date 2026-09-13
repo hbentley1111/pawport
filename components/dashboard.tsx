@@ -216,6 +216,13 @@ export function Dashboard({
                 <PetNavigation petId={pet.id} />
                 <PetPreventiveCard petId={pet.id} petName={pet.name} />
                 <section className="routine-card">
+                  <h2>Costs &amp; planning</h2>
+                  <p>
+                    Recorded expenses, explicit reimbursements and your plans.
+                  </p>
+                  <Link href={`/pets/${pet.id}/costs`}>View costs</Link>
+                </section>
+                <section className="routine-card">
                   <h2>Insurance &amp; coverage</h2>
                   {coveragePlans === null ? (
                     <p>Coverage summary unavailable.</p>

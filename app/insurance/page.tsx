@@ -15,6 +15,7 @@ export default async function InsuranceHome() {
     <AppFrame>
       <main className="care-page">
         <h1>Insurance &amp; coverage</h1>
+        <Link href="/costs">Costs &amp; planning</Link>
         <InsuranceNotice />
         {!pets.length && <p>Add a pet to organize coverage information.</p>}
         {pets.map((p) => (

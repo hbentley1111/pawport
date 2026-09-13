@@ -61,6 +61,16 @@ export default async function AppointmentDetail({
           </p>
         )}
         <div className="care-page-links">
+          <Link
+            href={`/pets/${a.pet_id}/costs/planning/new?appointment=${a.id}`}
+          >
+            Add planned cost
+          </Link>
+          <Link
+            href={`/pets/${a.pet_id}/costs/expenses/new?appointment=${a.id}`}
+          >
+            Record expense
+          </Link>
           <a
             href={`/appointments/${a.id}/calendar`}
             className="button secondary"
