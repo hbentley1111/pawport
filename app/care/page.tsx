@@ -50,6 +50,7 @@ export default async function Care() {
           }
         />
         <div className="care-page-links">
+          <Link href="/costs">Costs &amp; planning</Link>
           <Link href="/records" className="document-link">
             Health Records
           </Link>

@@ -101,6 +101,11 @@ export default async function PlanDetail({
         {p.status !== "archived" && (
           <>
             <div className="care-page-links">
+              <Link
+                href={`/pets/${p.pet_id}/costs/planning/new?carePlan=${p.id}`}
+              >
+                Add to cost planning
+              </Link>
               <CareButton
                 id={p.id}
                 action={p.status === "active" ? "paused" : "active"}
