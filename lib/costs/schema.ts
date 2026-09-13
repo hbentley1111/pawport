@@ -60,6 +60,11 @@ export type Expense = {
   documentCount: number;
 };
 export type Planned = {
+  source?: "owner_entered" | "provider_quote";
+  quote?: import("@/lib/ecosystem/schema").Quote | null;
+  quoteUpdated?: boolean;
+  quoteRequestId?: string | null;
+  businessName?: string | null;
   plannedCostId: string;
   title: string;
   category: string;

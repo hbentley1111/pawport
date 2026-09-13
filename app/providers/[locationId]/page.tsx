@@ -1,3 +1,4 @@
+import { PublicEcosystem } from "@/components/ecosystem/public";
 import { LiveBookingLink } from "@/components/live-booking/owner";
 import { requestIntake } from "@/lib/appointment-requests/data";
 import { RequestCTA } from "@/components/appointment-requests/presentation";
@@ -30,6 +31,7 @@ export default async function Profile({
       <BusinessProfile profile={p} />
       <LiveBookingLink locationId={p.locationId} />
       {intake && <RequestCTA location={p.locationId} />}
+      <PublicEcosystem locationId={p.locationId} showReviews />
     </ServicesShell>
   );
 }

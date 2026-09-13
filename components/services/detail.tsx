@@ -1,4 +1,5 @@
 "use client";
+import { BusinessResponse } from "@/components/ecosystem/presentation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { MapPin, ArrowUpRight, Phone, Globe, Clock, Star } from "lucide-react";
@@ -238,6 +239,7 @@ export function CommunityReviews({
             </span>
           </header>
           {r.comment && <ReviewText comment={r.comment} />}
+          {r.response && <BusinessResponse response={r.response} />}
           {member && <ReportReview reviewId={r.id} />}
         </article>
       ))}

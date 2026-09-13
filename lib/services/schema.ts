@@ -104,6 +104,7 @@ export type Place = {
   website?: string | null;
 };
 export type PublicReview = {
+  response?: import("@/lib/ecosystem/schema").ResponseDTO | null;
   id: string;
   rating: number;
   comment: string | null;

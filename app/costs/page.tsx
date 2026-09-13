@@ -27,6 +27,7 @@ export default async function Costs({
         {pets.map((p) => (
           <CostSnapshot key={p.petId} data={p} />
         ))}
+        <Link href="/quotes">Provider quotes</Link>
         <Link href="/insurance">Insurance &amp; coverage</Link>
       </main>
     </AppFrame>

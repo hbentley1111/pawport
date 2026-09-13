@@ -1,3 +1,4 @@
+import { QuoteCard } from "@/components/ecosystem/quote-card";
 import Link from "next/link";
 import {
   dollars,
@@ -117,7 +118,24 @@ export function PlannedList({
                   {p.dueOn || "No date entered"} · {p.planningYear}
                 </p>
                 <p>Planned amount: {dollars(p.plannedAmountCents)}</p>
-                <p>Owner entered · {p.status.replaceAll("_", " ")}</p>
+                {p.quote && (
+                  <>
+                    <p>{p.businessName}</p>
+                    <QuoteCard quote={p.quote} />
+                    {p.quoteUpdated && (
+                      <p>
+                        Provider has updated this quote. Your saved planning
+                        amount has not changed.
+                      </p>
+                    )}
+                  </>
+                )}
+                <p>
+                  {p.source === "provider_quote"
+                    ? "Provider quote"
+                    : "Owner entered"}{" "}
+                  · {p.status.replaceAll("_", " ")}
+                </p>
               </article>
             ))}
         </section>

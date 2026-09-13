@@ -38,6 +38,7 @@ export default async function AccountPage() {
               </span>
               <h2 id="details-title">Account holder</h2>
               <Link href="/costs">Costs &amp; planning</Link>
+              <Link href="/quotes">Provider quotes</Link>
               <Link href="/insurance">Insurance &amp; coverage</Link>
               <p className="muted">
                 These details are private and never appear on a shared pet
