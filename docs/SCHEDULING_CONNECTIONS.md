@@ -62,11 +62,11 @@ No new production environment variables are required. `PAWPORT_ENABLE_MOCK_SCHED
 
 ## Explicit external pet matching
 
-A future trusted worker must independently bind the authenticated external customer to the correct Pawport household through provider authorization plus owner authentication/consent. It may then propose a pet mapping. Do not feed arbitrary client-supplied connection, customer or pet IDs into the worker RPC. Worker credentials are trusted operational authority, not a substitute for verifying this binding.
+A future trusted worker must independently bind the authenticated external customer to the correct PetThread household through provider authorization plus owner authentication/consent. It may then propose a pet mapping. Do not feed arbitrary client-supplied connection, customer or pet IDs into the worker RPC. Worker credentials are trusted operational authority, not a substitute for verifying this binding.
 
 Names, breed, phone and email are never matching keys in this implementation. The owner sees a pending proposal for their own pet and must verify the record with the provider before confirming. The UI intentionally does not expose raw vendor customer IDs. The real adapter must supply an adequate owner verification flow before enabling proposals for live data. A scheduling manager cannot confirm for the household owner.
 
-A confirmed mapping is required at import time. The transaction locks the mapping while writing so consent revocation and sync serialize safely. Database triggers require pet/household consistency and owner attribution on confirmed mappings. One external pet cannot be mapped to a different Pawport pet by editing the mapping; rejected/disconnected mappings reserve the identifier until an explicitly audited future remapping workflow is designed.
+A confirmed mapping is required at import time. The transaction locks the mapping while writing so consent revocation and sync serialize safely. Database triggers require pet/household consistency and owner attribution on confirmed mappings. One external pet cannot be mapped to a different PetThread pet by editing the mapping; rejected/disconnected mappings reserve the identifier until an explicitly audited future remapping workflow is designed.
 
 ## Sync and normalization lifecycle
 
@@ -105,7 +105,7 @@ Contract groups:
 
 The mock exposes fictional pet/appointment data, isolated appointment copies, rescheduling, idempotent cancellation, availability, signed-event/duplicate simulation. Appointment creation is deliberately unsupported and its capability is false. The registry and methods reject production. Demo data is memory-only, not a real connected provider or a persisted booking.
 
-External service mapping is deferred until a vendor's catalog semantics are known. The adapter must map approved external service IDs to controlled Pawport appointment types; unmapped services should require explicit mapping or use an approved `other` fallback with a safe title. A future `external_service_mappings` table would use connection + service ID, user/vendor-owned label, Pawport type and active flag. Service/staff/resource identifiers are available on availability queries/slots now. Do not persist Google-derived labels as vendor metadata.
+External service mapping is deferred until a vendor's catalog semantics are known. The adapter must map approved external service IDs to controlled PetThread appointment types; unmapped services should require explicit mapping or use an approved `other` fallback with a safe title. A future `external_service_mappings` table would use connection + service ID, user/vendor-owned label, PetThread type and active flag. Service/staff/resource identifiers are available on availability queries/slots now. Do not persist Google-derived labels as vendor metadata.
 
 ## Connection and appointment UX
 

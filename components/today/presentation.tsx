@@ -1,3 +1,4 @@
+import { brandLabel } from "@/lib/brand";
 import Link from "next/link";
 import { PetAvatar } from "../pet-avatar";
 import type { Pet } from "@/lib/types";
@@ -10,7 +11,7 @@ export function TodayEmpty({ fresh }: { fresh: boolean }) {
       <h2>{fresh ? "You're all set." : "All caught up."}</h2>
       <p>
         {fresh
-          ? "Add a care routine, appointment, health record, or moment and Pawport will start keeping track."
+          ? "Add a care routine, appointment, health record, or moment and PetThread will start keeping track."
           : "Nothing needs your attention today."}
       </p>
     </div>
@@ -37,7 +38,11 @@ export function TodayItemCard({
       </div>
       <div className="today-card-body">
         <h3>{i.title}</h3>
-        {i.subtitle && <p className="muted">{i.subtitle}</p>}
+        {i.subtitle && (
+          <p className="muted">
+            {i.kind === "appointment" ? brandLabel(i.subtitle) : i.subtitle}
+          </p>
+        )}
         {i.metadata.demo && (
           <p className="routine-provenance">Demo availability</p>
         )}

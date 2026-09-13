@@ -1,3 +1,4 @@
+import { preventiveExplanation } from "@/lib/brand";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ownedPet } from "@/lib/pet-data";
@@ -44,7 +45,7 @@ export default async function GuidancePage({
           <h2>General information</h2>
           <p>{g.summary}</p>
           <h2>Why am I seeing this?</h2>
-          <p>{g.explanation}</p>
+          <p>{preventiveExplanation(g.explanation)}</p>
           <h2>Things to ask your veterinarian</h2>
           <p>{g.discussionPrompt}</p>
           <p>

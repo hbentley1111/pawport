@@ -53,8 +53,8 @@ export function ClaimForm({
         />
       </label>
       <p id="claim-name-help" className="fine-print">
-        This business name may be displayed on Pawport after approval. For an
-        existing organization, Pawport uses its saved name.
+        This business name may be displayed on PetThread after approval. For an
+        existing organization, PetThread uses its saved name.
       </p>
       <label className="field">
         <span>Your role at the business</span>
@@ -86,8 +86,8 @@ export function ClaimForm({
         />
       </label>
       <p id="claim-email-help" className="fine-print">
-        Use an email associated with the business. Pawport may use it to review
-        your claim. Email ownership is not automatically verified.
+        Use an email associated with the business. PetThread may use it to
+        review your claim. Email ownership is not automatically verified.
       </p>
       <label className="field">
         <span>Optional note</span>

@@ -1,3 +1,4 @@
+import { brandLabel, preventiveExplanation } from "@/lib/brand";
 import Link from "next/link";
 import {
   guidanceDisclaimer,
@@ -16,7 +17,7 @@ export function SourceBadge({
     <span
       className={`preventive-source ${item.sourceType === "pawport_guidance" ? "guidance-source" : ""}`}
     >
-      {item.sourceLabel}
+      {brandLabel(item.sourceLabel)}
     </span>
   );
 }
@@ -67,7 +68,7 @@ function ItemCard({ item }: { item: PreventiveItem }) {
             : ""}
         {itemDate(item)}
       </p>
-      <p className="fine-print">{item.explanation}</p>
+      <p className="fine-print">{preventiveExplanation(item.explanation)}</p>
       <Link className="document-link" href={item.actionUrl}>
         {item.itemType === "record"
           ? "View health records"
@@ -128,7 +129,7 @@ export function PreventiveSnapshot({ data }: { data: PreventiveCare }) {
         <p>{guidanceDisclaimer}</p>
         {!supported && (
           <p>
-            Pawport doesn’t yet provide general preventive-care guidance for
+            PetThread doesn’t yet provide general preventive-care guidance for
             this species. Your records, appointments and care plans are still
             available.
           </p>

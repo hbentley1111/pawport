@@ -112,7 +112,7 @@ export function OrganizationForm({ editor: e }: { editor: ProfileEditor }) {
         type="email"
       />
       <p className="fine-print">
-        This email will be visible on your public Pawport profile. It is
+        This email will be visible on your public PetThread profile. It is
         separate from your private claim email.
       </p>
       <Field

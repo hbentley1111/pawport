@@ -225,7 +225,7 @@ function MemberActions({
       >
         <label className="business-check">
           <input type="checkbox" name="confirm" value="yes" required />
-          Remove this member’s business access. Their personal Pawport account
+          Remove this member’s business access. Their personal PetThread account
           stays available.
         </label>
       </TeamForm>
@@ -240,7 +240,7 @@ export function TeamRoster({ org, team }: { org: string; team: Team }) {
         {team.members.map((m) => (
           <li key={m.membershipId}>
             <h3>
-              {m.displayEmail || "Pawport member"}
+              {m.displayEmail || "PetThread member"}
               {m.isSelf ? " (you)" : ""}
             </h3>
             <p>

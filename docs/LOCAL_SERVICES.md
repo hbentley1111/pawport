@@ -1,18 +1,18 @@
-# Local services and Pawport Community — Phase 4
+# Local services and PetThread Community — Phase 4
 
 Implementation branch: `feature/local-services-reviews`. This change does not apply remote migrations, merge to main, or deploy. Use an isolated Supabase staging project for acceptance testing.
 
 ## Product and routes
 
-`/services` provides ZIP/device-location search, eight category chips, radius selection, separate Google and Pawport ratings, and a private saved list. `/services/[placeId]` loads current business details and independent Pawport reviews. Services is linked from the household dashboard, single-pet dashboard, per-pet navigation, and Account. No selected pet is required. Existing records, provider verification, photos, and share routes are unchanged.
+`/services` provides ZIP/device-location search, eight category chips, radius selection, separate Google and PetThread ratings, and a private saved list. `/services/[placeId]` loads current business details and independent PetThread reviews. Services is linked from the household dashboard, single-pet dashboard, per-pet navigation, and Account. No selected pet is required. Existing records, provider verification, photos, and share routes are unchanged.
 
-Discovery requires a signed-in member to bound paid API use. Published community reviews have a public, privacy-safe read projection. Missing Google configuration shows a clear message and disables live search; the rest of Pawport still works. Missing Phase 4 tables produces an unavailable community state rather than fictitious zero ratings.
+Discovery requires a signed-in member to bound paid API use. Published community reviews have a public, privacy-safe read projection. Missing Google configuration shows a clear message and disables live search; the rest of PetThread still works. Missing Phase 4 tables produces an unavailable community state rather than fictitious zero ratings.
 
 This release prioritizes a mobile list experience. There is no map, Google photo display, or individual Google review text. A Google map/list toggle is a later enhancement; do not add another mapping provider to display Google Places results.
 
 ## Google architecture and current references
 
-Browser requests go to authenticated Pawport endpoints; only the server calls Google. `lib/services/server.ts` is marked `server-only` and supplies `GOOGLE_MAPS_API_KEY` to the injectable transport. No client receives that variable, key, Google request URL containing a key, or raw upstream error. The app uses ordinary API-key authentication, not service accounts.
+Browser requests go to authenticated PetThread endpoints; only the server calls Google. `lib/services/server.ts` is marked `server-only` and supplies `GOOGLE_MAPS_API_KEY` to the injectable transport. No client receives that variable, key, Google request URL containing a key, or raw upstream error. The app uses ordinary API-key authentication, not service accounts.
 
 Required APIs:
 
@@ -53,17 +53,17 @@ Geocoding v3 does not use a Places field mask; its response is reduced to the ma
 
 ## Persistence, attribution, and location privacy
 
-Only `google_place_id` is persisted as Google identity. There is no business mirror table. Addresses, coordinates, Google scores/counts/reviews, hours, names, phone numbers, websites and photos are not written to Pawport tables or logs. Google fetches use `cache: "no-store"`; service API responses are private/no-store and pages are dynamic. The browser holds current responses only in component memory, with no localStorage, persistent client query cache, or service-worker cache. Saved places fetch fresh details when the member explicitly opens that list.
+Only `google_place_id` is persisted as Google identity. There is no business mirror table. Addresses, coordinates, Google scores/counts/reviews, hours, names, phone numbers, websites and photos are not written to PetThread tables or logs. Google fetches use `cache: "no-store"`; service API responses are private/no-store and pages are dynamic. The browser holds current responses only in component memory, with no localStorage, persistent client query cache, or service-worker cache. Saved places fetch fresh details when the member explicitly opens that list.
 
 This conservative design follows Google's [Places policies](https://developers.google.com/maps/documentation/places/web-service/policies) and [Place ID guidance](https://developers.google.com/maps/documentation/places/web-service/place-id). Place IDs may change or become unavailable; a stale favorite shows an unavailable state and can be removed. There is no automatic identifier migration in this MVP.
 
-The official, unmodified dark-gray Google Maps SVG is included as `public/google-maps-attribution.svg`, sourced from Google's [attribution asset package](https://developers.google.com/static/maps/documentation/images/Google_Maps_Attribution_Assets.zip). It appears inside each Google business section, with accessible “Google Maps” text, 18px height, and required clearspace. Provider attributions returned by Places are rendered with safe links. Pawport ratings/reviews have a separate visual section; neither score is blended or relabeled. Any future photo or individual Google-review feature must add the required author attribution, source links, and applicable ordering notice at implementation time.
+The official, unmodified dark-gray Google Maps SVG is included as `public/google-maps-attribution.svg`, sourced from Google's [attribution asset package](https://developers.google.com/static/maps/documentation/images/Google_Maps_Attribution_Assets.zip). It appears inside each Google business section, with accessible “Google Maps” text, 18px height, and required clearspace. Provider attributions returned by Places are rendered with safe links. PetThread ratings/reviews have a separate visual section; neither score is blended or relabeled. Any future photo or individual Google-review feature must add the required author attribution, source links, and applicable ordering notice at implementation time.
 
 GPS is requested only on “Use my location,” sent in the POST body for that active search, and never placed in URLs, analytics, tables, or preferences. Geolocation denial leaves ZIP search usable. The permissions policy permits self geolocation on services pages only. ZIP input is exactly five digits; the default radius is 10 miles, with 5/10/25/50 allowed server-side. Only an explicit “Remember this ZIP & radius” saves the user's entered ZIP and radius. “Forget saved area” deletes the preference. Returned geocoding coordinates are never saved.
 
 Infrastructure operators must keep request-body capture and outgoing Google URL/header capture disabled or redacted in observability products. In particular, the Geocoding request URL contains a key. This code never logs it. Device location is transmitted to Google to perform search; describe this in the product's reviewed privacy policy.
 
-**Before public production launch, Pawport must have publicly accessible Terms of Use and a Privacy Policy appropriate for Google Maps Platform usage, with required references to Google's terms/privacy.** The existing Help link is not a substitute. Have these documents reviewed; this implementation does not invent legal language or assert legal approval. Recheck policies for the billing-account region, including any EEA-specific conditions.
+**Before public production launch, PetThread must have publicly accessible Terms of Use and a Privacy Policy appropriate for Google Maps Platform usage, with required references to Google's terms/privacy.** The existing Help link is not a substitute. Have these documents reviewed; this implementation does not invent legal language or assert legal approval. Recheck policies for the billing-account region, including any EEA-specific conditions.
 
 ## Migration and database design
 
@@ -82,12 +82,12 @@ Indexes support published reviews per place and the report queue. Auth reference
 
 All four tables enable RLS. No browser role gets direct INSERT/UPDATE/DELETE grants. Mutations use narrowly scoped `SECURITY DEFINER` functions with empty search paths, explicit execute grants, and ownership derived from `auth.uid()`. There is no caller-supplied author argument. No service-role credential is used by the app.
 
-Public review column grants expose only review ID, Place ID, rating, comment, and timestamps; RLS admits published rows only. Reviewers' auth UUIDs and moderation fields cannot be selected or used as query filters by public/member roles. Community DTOs use the fixed label **Pawport Member**, never account metadata, emails, household names, pet IDs, or location preferences. Review UUIDs identify reviews and are not auth UUIDs. React renders comments as escaped text, without HTML parsing.
+Public review column grants expose only review ID, Place ID, rating, comment, and timestamps; RLS admits published rows only. Reviewers' auth UUIDs and moderation fields cannot be selected or used as query filters by public/member roles. Community DTOs use the fixed label **PetThread Member**, never account metadata, emails, household names, pet IDs, or location preferences. Review UUIDs identify reviews and are not auth UUIDs. React renders comments as escaped text, without HTML parsing.
 
 - `save_service_review`: validates content, serializes per-user creation with a transaction advisory lock, allows up to 10 new reviews per rolling day; edits own row.
 - `withdraw_service_review`: own review only, soft withdrawal.
 - `my_service_review`: own content/status only, no author identifier.
-- `service_community_summaries`: max 20 validated Place IDs; published Pawport-only average/count derived from rows.
+- `service_community_summaries`: max 20 validated Place IDs; published PetThread-only average/count derived from rows.
 - `read_service_reviews`: privacy-safe newest-first pages of 20, offset capped at 1,000.
 - `set_service_favorite`: own records, idempotent, max 100 saved IDs, transaction-serialized.
 - `set_service_preference`: own ZIP/radius, null ZIP deletes preference.
@@ -111,7 +111,7 @@ A bounded process-local limiter allows per member, per five minutes: 20 search/s
 
 ## Manual Google Cloud and local setup
 
-1. Create/select a Google Cloud project for Pawport; enable billing. Prefer separate staging and production projects/keys and budgets.
+1. Create/select a Google Cloud project for PetThread; enable billing. Prefer separate staging and production projects/keys and budgets.
 2. Enable **Places API (New)** and **Geocoding API**. Do not enable Maps JavaScript for this implementation.
 3. Create an API key. Set **API restrictions** to exactly those two APIs. Apply server IP application restrictions when fixed outbound egress is available. Browser HTTP-referrer restrictions are not suitable for these server calls. Ordinary serverless egress may not be stable: use a supported fixed-egress setup for IP restrictions, or document that limitation and retain API restrictions, conservative quotas, monitoring and rotation. Follow [Google API security guidance](https://developers.google.com/maps/api-security-best-practices).
 4. Configure conservative per-API quotas, billing alerts and access to usage/error dashboards. Confirm enabled APIs and key restrictions with a staging request.
@@ -128,7 +128,7 @@ New suites:
 
 - `services-search.test.ts`: ZIP/GPS validation, radius/category/URL/field injection denial, ZIP resolution, supported/fallback methods, 50-mile bounds, duplicate IDs, filtering, fixed masks, detail projection, error/quota/no-key behavior, limiter and review constraints.
 - `services-database.test.ts`: real PostgreSQL in PGlite applies all four migrations; proves unchanged medical rows/policies and old verified shares, create/edit/withdraw/republish, identity protection including direct table grants, anonymous denial, uniqueness, published aggregation, favorites/preferences isolation, report uniqueness and moderation isolation.
-- `services-render.test.ts`: separate Google/Pawport scores, no-review text, attribution accessibility and escaped malicious comments.
+- `services-render.test.ts`: separate Google/PetThread scores, no-review text, attribution accessibility and escaped malicious comments.
 - `services-security.test.ts`: client import-graph boundary and post-build browser asset scan.
 
 Existing tests are retained. Existing hosted Supabase suites require explicit test credentials and otherwise skip. PGlite validates SQL authorization but does not replace hosted PostgREST, Auth, concurrency, or real Google acceptance. No live Google or hosted Phase 4 end-to-end test is claimed by offline tests.

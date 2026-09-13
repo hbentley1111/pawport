@@ -14,13 +14,14 @@ export default async function Login({
         <div>
           <span className="eyebrow">FOR A LIFETIME OF TOGETHER.</span>
           <h1>
-            Their whole world.
-            <br />A little more cared for.
+            Everything your pet needs,
+            <br />
+            connected.
           </h1>
           <p>
-            A private home for your pet’s health records.
+            PetThread is the connected operating layer
             <br />
-            Ready for wherever life takes you.
+            for a pet’s life.
           </p>
           <PawPrint className="auth-paw" size={130} strokeWidth={1} />
         </div>
@@ -30,7 +31,7 @@ export default async function Login({
       </div>
       <div className="auth-form-area">
         <div className="auth-form-card">
-          <p className="eyebrow">WELCOME TO PAWPORT</p>
+          <p className="eyebrow">WELCOME TO PETTHREAD</p>
           <h2>Good care starts here.</h2>
           <p className="muted">You bring the love. We’ll keep the records.</p>
           {error && (

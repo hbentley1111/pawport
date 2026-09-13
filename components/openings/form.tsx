@@ -154,9 +154,9 @@ function Editor({
         </div>
       </fieldset>
       <p className="privacy-note">
-        Openings can change quickly. Pawport does not reserve or book
-        appointments. Notifications appear in Pawport only; no email or push is
-        sent.
+        Openings can change quickly. PetThread does not reserve or book
+        appointments. Notifications appear in PetThread only; no email or push
+        is sent.
       </p>
       {state.error && (
         <p role="alert" className="feedback error">

@@ -206,7 +206,7 @@ export function LiveConfiguration({
           <p>Vendor-local timezone: {catalog.site.timeZone}</p>
           {catalog.timeZoneMismatch && (
             <p role="status">
-              The vendor timezone differs from the Pawport location profile.
+              The vendor timezone differs from the PetThread location profile.
               Booking uses the vendor timezone; review the profile
               configuration.
             </p>

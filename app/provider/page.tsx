@@ -31,7 +31,7 @@ export default async function ProviderPage() {
         <div className="setup-card">
           <h1>Provider access required.</h1>
           <p className="muted">
-            Clinic membership is granted by the Pawport administrator after
+            Clinic membership is granted by the PetThread administrator after
             checking your provider identity.
           </p>
           <Link className="button" href="/account">

@@ -2,13 +2,13 @@
 
 ## Product purpose and trust architecture
 
-Pawport connects claimed-business service knowledge to owner organization: request a quote, receive a manually entered price, explicitly save it to cost planning, and book/request an appointment separately. Offers and business review responses enrich the existing community. The partner registry is an empty internal foundation, not evidence of any commercial relationship.
+PetThread connects claimed-business service knowledge to owner organization: request a quote, receive a manually entered price, explicitly save it to cost planning, and book/request an appointment separately. Offers and business review responses enrich the existing community. The partner registry is an empty internal foundation, not evidence of any commercial relationship.
 
 | Concept          | Meaning                                                            | Does not establish                                                                 |
 | ---------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
 | Claimed business | Approved ability to represent the business                         | Veterinary credentials, endorsement, service quality or health-record verification |
 | Provider quote   | Price information entered by an authorized business representative | Guaranteed final price, invoice, medical advice or insurance coverage              |
-| Business offer   | Information published by the business                              | Pawport recommendation, best price or guaranteed availability                      |
+| Business offer   | Information published by the business                              | PetThread recommendation, best price or guaranteed availability                    |
 | Review response  | Response from the matching claimed business                        | Medical verification or access to reviewer identity                                |
 | Partner record   | Internal relationship/configuration record                         | An active contract, public badge or executable integration capability              |
 
@@ -18,7 +18,7 @@ Pawport connects claimed-business service knowledge to owner organization: reque
 
 ### Quote requests
 
-`service_quote_requests` snapshots the owner-selected pet, household, owner, business, location, service title and optional note. Identity and submitted note are immutable. Initial intake requires an active, explicitly quote-enabled Pawport service at an active business/location with a published profile. `accepts_quote_requests` defaults to false on existing services. The initial implementation requires a service rather than supporting arbitrary service-less requests.
+`service_quote_requests` snapshots the owner-selected pet, household, owner, business, location, service title and optional note. Identity and submitted note are immutable. Initial intake requires an active, explicitly quote-enabled PetThread service at an active business/location with a published profile. `accepts_quote_requests` defaults to false on existing services. The initial implementation requires a service rather than supporting arbitrary service-less requests.
 
 Statuses are requested, quoted, declined, withdrawn and expired. Requests initially expire after seven days. A sent quote extends workflow validity to its explicitly entered validity date, or thirty days if no date is entered. Reads present overdue requests as expired; new submissions lazily expire old open requests. A past quote date says “Quote validity date has passed,” without asserting whether the business would honor it.
 
@@ -52,7 +52,7 @@ Public DTOs contain offer text/dates, business name, optional location and “Of
 
 `service_review_responses` has one response per review, with published/withdrawn/moderated states. Owner/admin must represent the active claimed location whose Google Place ID matches that review. Edits and withdrawal append business audit events. The response is escaped plain text, limited to 1,500 characters. Providers are warned not to include customer names, contacts, medical details or private information. Audit records identify the action; this initial phase does not retain a separate historical copy of each response body.
 
-The existing public review reader is wrapped to append an explicitly constructed response DTO. Review text, stars, ordering and community score remain unchanged. Reviewer identity remains **Pawport Member**. Responder auth IDs and emails are absent. Withdrawn/moderated responses, hidden/deleted reviews and suspended businesses do not expose public responses.
+The existing public review reader is wrapped to append an explicitly constructed response DTO. Review text, stars, ordering and community score remain unchanged. Reviewer identity remains **PetThread Member**. Responder auth IDs and emails are absent. Withdrawn/moderated responses, hidden/deleted reviews and suspended businesses do not expose public responses.
 
 `service_review_response_reports` stores authenticated private reports for harassment, privacy, spam, misleading or other. One report per user/response and ten reports/user/day bound abuse. The trusted `pawport_partner_operator` can read a recent 100-report queue and moderate a response through narrow RPCs. Reports do not expose reporter identities to businesses. A business cannot restore a moderated response. There is no AI moderation or broad provider review-moderation authority. No operator UI is included.
 
@@ -70,7 +70,7 @@ Credential references accept only a dedicated `PARTNER_` name and contain no cre
 - `/provider/businesses/[organizationId]/quotes` and detail provide a scoped inbox and owner/admin quote actions.
 - `/provider/businesses/[organizationId]/community` manages service quote opt-in, offers and responses. Other active members receive read-only views. Reviews shown here are the most recent public page (20); older-response management pagination is a known limitation.
 - Provider dashboard shows safe quote, offer and unanswered-review counts, respecting accessible locations, with contextual links. Organization-wide offers are visible to organization members.
-- Published provider profiles show quote intake, offers and existing public community reviews/responses. Local Services adds the same Pawport-owned section alongside the Google listing. Discovery/search sorting, Google attribution, review ranking and medical guidance are unchanged. No additional Google business content is persisted.
+- Published provider profiles show quote intake, offers and existing public community reviews/responses. Local Services adds the same PetThread-owned section alongside the Google listing. Discovery/search sorting, Google attribution, review ranking and medical guidance are unchanged. No additional Google business content is persisted.
 - Account and Costs link to owner quotes. Quote-backed plans visibly retain provider provenance and their original revision.
 
 No new primary navigation tab or social feed is added. Forms have visible labels, keyboard-native controls, pending states and error/status announcements. Quote ranges have an accessible “Provider quote: $650 to $900” label. Trust does not rely on color. Mobile cards separate quote source, amount, dates and actions.

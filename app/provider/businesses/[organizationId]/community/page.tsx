@@ -108,10 +108,10 @@ export default async function Community({
                 </p>
               ),
             )}
-            <h3>Pawport community reviews</h3>
+            <h3>PetThread community reviews</h3>
             {l.reviews.reviews.map((r) => (
               <article className="routine-card" key={r.id}>
-                <h4>Pawport Member · {r.rating} stars</h4>
+                <h4>PetThread Member · {r.rating} stars</h4>
                 <p>{r.comment}</p>
                 {m.canManage ? (
                   <EcosystemForm

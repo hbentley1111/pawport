@@ -1,6 +1,6 @@
 # Appointment Requests — Phase 8A
 
-Pawport connects an owner's request with a human business response. This is **request → human response → confirmation**, not real-time inventory, instant booking, or a vendor booking. Nothing is booked until the appointment is confirmed. A claimed business remains distinct from a medically credentialed veterinary provider.
+PetThread connects an owner's request with a human business response. This is **request → human response → confirmation**, not real-time inventory, instant booking, or a vendor booking. Nothing is booked until the appointment is confirmed. A claimed business remains distinct from a medically credentialed veterinary provider.
 
 ## Migration and rollout
 
@@ -10,13 +10,13 @@ Existing services receive `accepts_appointment_requests = false`. No location st
 
 ## Data model
 
-| Table | Purpose and limits |
-| --- | --- |
-| `service_provider_request_settings` | One location; disabled by default; instructions ≤1000; notice 0–336 hours; advance 1–180 days. |
-| `appointment_requests` | One immutable owner/household/pet/location/service/contact/timezone identity; current proposal and unique canonical appointment reference; seven-day lifetime. Contact name ≤120, phone ≤40, note ≤1000. |
-| `appointment_request_windows` | One to three immutable preferred windows; positions 1–3; each 30 minutes–8 hours, future, nonoverlapping, within intake notice/advance limits. |
-| `appointment_request_proposals` | Provider's exact proposed time, message ≤500, snapshot timezone, bounded expiry; one pending proposal per request; previous proposals retained. At most 50 proposals per request. |
-| `appointment_request_events` | Append-only lifecycle events with actor retained privately and safe owner-visible messages. No medical history is copied here. |
+| Table                               | Purpose and limits                                                                                                                                                                                       |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `service_provider_request_settings` | One location; disabled by default; instructions ≤1000; notice 0–336 hours; advance 1–180 days.                                                                                                           |
+| `appointment_requests`              | One immutable owner/household/pet/location/service/contact/timezone identity; current proposal and unique canonical appointment reference; seven-day lifetime. Contact name ≤120, phone ≤40, note ≤1000. |
+| `appointment_request_windows`       | One to three immutable preferred windows; positions 1–3; each 30 minutes–8 hours, future, nonoverlapping, within intake notice/advance limits.                                                           |
+| `appointment_request_proposals`     | Provider's exact proposed time, message ≤500, snapshot timezone, bounded expiry; one pending proposal per request; previous proposals retained. At most 50 proposals per request.                        |
+| `appointment_request_events`        | Append-only lifecycle events with actor retained privately and safe owner-visible messages. No medical history is copied here.                                                                           |
 
 `service_provider_services.accepts_appointment_requests` is an operational toggle, separate from service activity and profile editing. The existing notifications table gains type `appointment_request_update` and `appointment_request_id`; existing care, opening, appointment-reminder and verification integrity checks remain.
 
@@ -48,7 +48,7 @@ Server actions fetch the authorized intake/request timezone; they never use a br
 
 - `requested`: waiting for the business.
 - `provider_proposed`: a pending alternative awaits owner consent.
-- `confirmed`: linked to one canonical Pawport appointment.
+- `confirmed`: linked to one canonical PetThread appointment.
 - `declined`, `withdrawn`, `cancelled_by_owner`, `cancelled_by_provider`, `expired`: closed history.
 
 Direct confirmation requires the exact start/end to fit entirely inside **one** submitted preferred window. Otherwise the provider must propose a time. A proposal is future, at most eight hours long, inside the maximum advance horizon, and expires at the earliest of 48 hours, request expiry, or its start time. A new proposal supersedes the old pending proposal transactionally.
@@ -63,13 +63,13 @@ Reads present requests past their seven-day expiry as expired without requiring 
 
 - `source = pawport`, `status = confirmed`;
 - household/pet and `created_by` come from the request owner;
-- provider name and title come from Pawport business organization/service data;
+- provider name and title come from PetThread business organization/service data;
 - appointment type maps emergency_veterinary→emergency_vet, walking→walker, sitting→sitter, retail→other; other supported categories retain their corresponding type;
 - Google Place ID uses the existing claimed-location linkage;
 - optional address is built only from business-entered location profile fields;
 - timezone comes from the request snapshot.
 
-The same transaction creates existing in-app appointment reminders at 1440 and 120 minutes, links the appointment, updates request/proposal status, appends history, and emits any required owner notification. No appointment or reminder table is duplicated. Existing reminder workers, ICS export, Today and appointment history continue to consume canonical records. Today and Timeline distinguish “Confirmed through Pawport” from external synchronization and owner-entered manual appointments.
+The same transaction creates existing in-app appointment reminders at 1440 and 120 minutes, links the appointment, updates request/proposal status, appends history, and emits any required owner notification. No appointment or reminder table is duplicated. Existing reminder workers, ICS export, Today and appointment history continue to consume canonical records. Today and Timeline distinguish “Confirmed through PetThread” from external synchronization and owner-entered manual appointments.
 
 Request-created appointments remain read-only in the ordinary appointment editor. The owner follows the request-management link to cancel. Manual appointments remain editable, and externally synced appointments retain their provider-managed behavior.
 
@@ -102,7 +102,7 @@ Notification Center reuses its existing pagination/read/dismiss behavior. Unconf
 
 Lists use stable `(created_at DESC, id DESC)` cursor pagination, 25 records per page. Group headings apply to the current page. Request history is bounded to the latest 100 events. Forms have labels, validation feedback, pending states and explicit confirmation for destructive lifecycle actions. Provider dashboard locations show only new/waiting-on-owner counts and link to their scoped inbox.
 
-Published public business profiles and Local Services display Request appointment only when intake is available. The appointment list links to request management. Google listing data stays visually and architecturally separate from Pawport business-provided content.
+Published public business profiles and Local Services display Request appointment only when intake is available. The appointment list links to request management. Google listing data stays visually and architecturally separate from PetThread business-provided content.
 
 ## Security and races
 

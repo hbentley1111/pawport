@@ -1,4 +1,6 @@
 "use client";
+import { brandLabel } from "@/lib/brand";
+
 import { useActionState, useState } from "react";
 import { partnerAction } from "@/app/operator/partners/actions";
 import { createBrowserClient } from "@supabase/ssr";
@@ -42,7 +44,7 @@ export function OperatorForm({
             <select name={f.name} defaultValue={f.value || f.options[0]}>
               {f.options.map((o) => (
                 <option key={o} value={o}>
-                  {o.replaceAll("_", " ")}
+                  {brandLabel(o).replaceAll("_", " ")}
                 </option>
               ))}
             </select>

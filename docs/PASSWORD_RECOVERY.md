@@ -26,7 +26,7 @@ The server derives the email destination from trusted app configuration, never a
 
 Viewing the reset page does not consume its single-use token, avoiding accidental consumption by email-link previews. On form submission, the server validates the password and confirmation before verifying the token as `recovery`. A separate Supabase client with persistence/refresh disabled verifies the token and updates that verified account. An existing browser session is never accepted as recovery authorization and is never switched to another account by this flow. The isolated recovery session is signed out afterward. If the provider rejects an update after consuming the token, the user is directed to request a new link.
 
-Passwords and sessions are never returned in action state. Reset pages are dynamic, private/no-store, noindex, and use the existing no-referrer policy. Do not add analytics that record the reset URL/query or form fields. Use Supabase's expiration and single-use protection; no recovery tokens are stored in Pawport tables. Existing signup confirmation and sign-in actions are unchanged.
+Passwords and sessions are never returned in action state. Reset pages are dynamic, private/no-store, noindex, and use the existing no-referrer policy. Do not add analytics that record the reset URL/query or form fields. Use Supabase's expiration and single-use protection; no recovery tokens are stored in PetThread tables. Existing signup confirmation and sign-in actions are unchanged.
 
 ## Verification
 

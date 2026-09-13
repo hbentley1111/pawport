@@ -39,7 +39,7 @@ export async function submitClaim(
     const safe: Record<string, string> = {
       "Claim limit reached": "You can submit up to 10 claims in 30 days.",
       "Listing already claimed":
-        "This business has already been claimed on Pawport.",
+        "This business has already been claimed on PetThread.",
       "Claim already pending":
         "You already have a pending claim for this listing.",
       "Organization management required":

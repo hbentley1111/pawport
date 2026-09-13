@@ -69,8 +69,8 @@ export function RoutineEmpty() {
       <Repeat2 size={28} aria-hidden="true" />
       <h2>Nothing to remember yet.</h2>
       <p>
-        Add medications, grooming, preventives, or any routine you want Pawport
-        to remember.
+        Add medications, grooming, preventives, or any routine you want
+        PetThread to remember.
       </p>
       <Link href="/care/plans/new" className="button">
         <Plus size={16} aria-hidden="true" />

@@ -83,7 +83,7 @@ export default async function AccountPage() {
           <div className="account-signout">
             <div>
               <h3>All done for now?</h3>
-              <p className="muted">Sign out of your Pawport account.</p>
+              <p className="muted">Sign out of your PetThread account.</p>
             </div>
             <form action={signOut}>
               <Submit>

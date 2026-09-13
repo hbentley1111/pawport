@@ -1,6 +1,6 @@
 # Global owner navigation
 
-The shared `AppFrame` provides a sticky Pawport header on desktop and a fixed bottom navigation below 768px. Both use `AppNavigationLinks`, with current-route selection from `usePathname`. Destinations are Home `/`, Pets `/`, Records `/records`, Services `/services`, and Account `/account`. Home is active at `/`; Pets is active on profile/add/edit routes; Records is active on both `/records` and per-pet record pages. The logo links home. Vaccinations and sharing remain in the existing pet navigation.
+The shared `AppFrame` provides a sticky PetThread header on desktop and a fixed bottom navigation below 768px. Both use `AppNavigationLinks`, with current-route selection from `usePathname`. Destinations are Home `/`, Pets `/`, Records `/records`, Services `/services`, and Account `/account`. Home is active at `/`; Pets is active on profile/add/edit routes; Records is active on both `/records` and per-pet record pages. The logo links home. Vaccinations and sharing remain in the existing pet navigation.
 
 Household home keeps its existing hero/cards and adds four compact quick-access cards: Health Records, Local Services, Add Pet, and Account. The records picker deliberately does not show those extra cards. Existing one-pet and multi-pet routing is unchanged, including the one-pet records redirect. Add Pet still uses the existing 20-pet enforcement.
 

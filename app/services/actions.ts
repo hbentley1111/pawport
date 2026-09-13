@@ -49,7 +49,7 @@ export async function saveReview(
           "Unable to save your review. You may have reached the daily limit, or this review may be under moderation.",
       };
     refresh(parsed.data.placeId);
-    return { success: "Your Pawport review has been saved." };
+    return { success: "Your PetThread review has been saved." };
   } catch (error) {
     return failure(error);
   }

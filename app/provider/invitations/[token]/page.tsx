@@ -9,7 +9,7 @@ import { AcceptInvitation } from "@/components/provider-dashboard/forms";
 import { Brand } from "@/components/dashboard";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "Business invitation | Pawport",
+  title: "Business invitation | PetThread",
   robots: { index: false, follow: false },
   referrer: "no-referrer",
 };
@@ -27,7 +27,7 @@ export default async function Invitation({
         <Brand />
         <section className="business-panel">
           <h1>Business invitation</h1>
-          <p>Sign in to accept this Pawport business invitation.</p>
+          <p>Sign in to accept this PetThread business invitation.</p>
           <Link className="button" href="/login" referrerPolicy="no-referrer">
             Sign in
           </Link>

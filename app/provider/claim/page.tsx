@@ -56,7 +56,7 @@ export default async function Claim({
       <div className="claim-page">
         <header className="care-heading">
           <div>
-            <p className="eyebrow">YOUR BUSINESS ON PAWPORT</p>
+            <p className="eyebrow">YOUR BUSINESS ON PETTHREAD</p>
             <h1>Claim this listing</h1>
             <p className="muted">
               Let us know who stands behind this business.
@@ -69,7 +69,7 @@ export default async function Claim({
         {!status?.claimable || organizations === null ? (
           <>
             {status?.claimed && (
-              <p>This business has already been claimed on Pawport.</p>
+              <p>This business has already been claimed on PetThread.</p>
             )}
             <ListingOwnership
               placeId={id}
@@ -79,7 +79,7 @@ export default async function Claim({
         ) : place ? (
           <>
             <ClaimGoogleConfirmation place={place} />
-            <h2>Your Pawport business information</h2>
+            <h2>Your PetThread business information</h2>
             <ClaimForm placeId={id} organizations={organizations} />
           </>
         ) : (

@@ -81,11 +81,11 @@ export function ReviewForm({
     <section className="review-editor">
       <h2>
         {own && !own.deleted_at
-          ? "Your Pawport review"
+          ? "Your PetThread review"
           : "Share your experience"}
       </h2>
       <p className="muted">
-        Your Pawport review is separate from reviews on Google Maps.
+        Your PetThread review is separate from reviews on Google Maps.
       </p>
       {own?.hidden ? (
         <p className="feedback">
@@ -124,11 +124,11 @@ export function ReviewForm({
             />
           </label>
           <p className="fine-print">
-            Up to 1,500 characters. Published as Pawport Member. Please leave
+            Up to 1,500 characters. Published as PetThread Member. Please leave
             out personal contact details and private pet health information.
           </p>
           <ServiceFeedback state={state} />
-          <Submit>{own ? "Save my review" : "Publish Pawport review"}</Submit>
+          <Submit>{own ? "Save my review" : "Publish PetThread review"}</Submit>
         </form>
       )}
       {own && !own.deleted_at && <WithdrawForm placeId={placeId} id={own.id} />}

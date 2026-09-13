@@ -286,7 +286,7 @@ test("per-member search budget is bounded, separates callers and expires", () =>
   now = 300001;
   assert.ok(allow("A", "search"));
 });
-test("Pawport review validation requires rating and bounds plain text", () => {
+test("PetThread review validation requires rating and bounds plain text", () => {
   const review = {
     placeId: "valid",
     rating: 5,

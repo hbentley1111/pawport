@@ -30,7 +30,7 @@ export default async function NewRequest({
         <section className="business-panel">
           <h1>Appointment requests unavailable</h1>
           <p>
-            This location is not accepting Pawport appointment requests right
+            This location is not accepting PetThread appointment requests right
             now.
           </p>
           <Link href="/services">Find local services</Link>

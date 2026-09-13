@@ -106,7 +106,7 @@ export function DashboardSummary({
 }) {
   return (
     <header className="business-heading">
-      <p className="eyebrow">PAWPORT FOR BUSINESS</p>
+      <p className="eyebrow">PETTHREAD FOR BUSINESS</p>
       <h1>{o.name}</h1>
       <p>
         {roleLabel(o.role)} ·{" "}

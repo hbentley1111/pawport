@@ -58,7 +58,7 @@ export function TodayDashboard({
     <main className="care-page today-page">
       <header className="care-heading">
         <div>
-          <p className="eyebrow">PAWPORT TODAY · {household}</p>
+          <p className="eyebrow">PETTHREAD TODAY · {household}</p>
           <h1>A little peace of mind.</h1>
           <p className="muted">What needs your attention, all in one place.</p>
         </div>

@@ -1,3 +1,4 @@
+import { brandLabel } from "@/lib/brand";
 import type { Row } from "@/lib/partners/schema";
 export function ConnectionStatus({ connection: c }: { connection: Row }) {
   return (
@@ -53,7 +54,9 @@ export function OperationsRows({
           {fields.map((k) => (
             <p key={k}>
               <strong>{k.replaceAll("_", " ")}:</strong>{" "}
-              {String(r[k] ?? "Not entered")}
+              {k === "direction"
+                ? brandLabel(String(r[k] ?? "Not entered"))
+                : String(r[k] ?? "Not entered")}
             </p>
           ))}
         </article>

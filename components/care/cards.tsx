@@ -78,14 +78,14 @@ export function CareCard({
               </li>
             ))}
           </ul>
-          <p>No notifications are sent outside Pawport.</p>
+          <p>No notifications are sent outside PetThread.</p>
         </details>
       )}
       {due.map((r) => (
         <ReminderNotice
           key={r.id}
           id={r.id}
-          label={`${reminderLabel(r.reminder_minutes)} · due in Pawport`}
+          label={`${reminderLabel(r.reminder_minutes)} · due in PetThread`}
         />
       ))}
     </article>
@@ -152,8 +152,8 @@ export function UpcomingCare({
         <Plus size={16} /> Add appointment
       </Link>
       <p className="fine-print">
-        Times shown in {zone}. Reminders appear in Pawport; no email or push is
-        sent.
+        Times shown in {zone}. Reminders appear in PetThread; no email or push
+        is sent.
       </p>
     </section>
   );
@@ -183,7 +183,7 @@ export function CareTimeline({
         Times shown in {zone}.{" "}
         {view === "past"
           ? "Includes cancelled and completed appointments, even when their date is in the future."
-          : "These are appointments you record, not bookings made by Pawport."}
+          : "These are appointments you record, not bookings made by PetThread."}
       </p>
       {!visible.length ? (
         <CareCalendarEmpty past={view === "past"} />

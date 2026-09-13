@@ -1,6 +1,6 @@
 # Care plans & recurring reminders — Phase 6A
 
-Pawport remembers the schedule an owner enters. It does not decide what care a pet needs, recommend medication, calculate doses, infer schedules, or change verified medical information. Every routine is labelled **Owner-entered routine**. A vaccination reminder is separate from the vaccination record, provenance, and veterinary verification. Completion records that the owner marked a task complete; it is not clinical evidence.
+PetThread remembers the schedule an owner enters. It does not decide what care a pet needs, recommend medication, calculate doses, infer schedules, or change verified medical information. Every routine is labelled **Owner-entered routine**. A vaccination reminder is separate from the vaccination record, provenance, and veterinary verification. Completion records that the owner marked a task complete; it is not clinical evidence.
 
 ## Schema and migration
 
@@ -27,7 +27,7 @@ Two daily doses are represented as two owner-entered routines in this phase. The
 
 All mutations lock the plan before the occurrence. `complete_care_occurrence` and `skip_care_occurrence` preserve the old row, set the appropriate timestamp, dismiss obsolete notifications and generate one next sequence only if active. Repeating an action on a resolved row is a no-op. The unique pending index is a second concurrency barrier.
 
-The next occurrence follows the scheduled anchor, never the completion or snooze time. September 1 completed on September 2 still advances to October 1. If an owner is many intervals late, the next item may still be overdue: Pawport does not invent missed completions or silently discard missed care. They may skip it or edit the future anchor. Only one pending item is ever generated, including for an overdue backlog.
+The next occurrence follows the scheduled anchor, never the completion or snooze time. September 1 completed on September 2 still advances to October 1. If an owner is many intervals late, the next item may still be overdue: PetThread does not invent missed completions or silently discard missed care. They may skip it or edit the future anchor. Only one pending item is ever generated, including for an overdue backlog.
 
 One-time or ended plans remain visible under Finished / history with no pending item. They remain active until the owner pauses/archives them. Completed and skipped rows cannot be rewritten, moved between plans, or reclassified through application RPCs.
 
@@ -105,9 +105,9 @@ Limitations: one time per plan/day; no automatic external delivery; date-only re
 
 Read authorized `care_plan_occurrences` joined to the owned plan/pet, using `completed_at` / `skipped_at` as event time and snapshot fields as display context. Examples: “Heartworm prevention completed”, “Medication skipped”, “Grooming routine completed”. Preserve the owner-entered provenance. Do not convert care events into medical verification. Historical rows survive schedule edits and archive; an additional paginated timeline DTO can expose older rows without loosening table access.
 
-## Phase 6C Pawport Today readiness
+## Phase 6C PetThread Today readiness
 
-Pending occurrences plus active plans and effective due time answer overdue/today/this-week questions in the plan zone. Completed/skipped timestamps and plan updated_at identify recent changes. Reuse `dueLabel`/`relevantPlans` and add bounded database due-window queries at larger scale. Stored occurrence snapshots and immutable source preserve provenance. No full Pawport Today dashboard is built here.
+Pending occurrences plus active plans and effective due time answer overdue/today/this-week questions in the plan zone. Completed/skipped timestamps and plan updated_at identify recent changes. Reuse `dueLabel`/`relevantPlans` and add bounded database due-window queries at larger scale. Stored occurrence snapshots and immutable source preserve provenance. No full PetThread Today dashboard is built here.
 
 ## Verification recorded for this branch
 

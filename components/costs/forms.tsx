@@ -226,7 +226,7 @@ export function CostForm({
       )}
       {mode === "budget" && (
         <p>
-          These are planning amounts you set. Pawport does not recommend how
+          These are planning amounts you set. PetThread does not recommend how
           much you should budget.
         </p>
       )}

@@ -20,7 +20,7 @@ export default async function Profile({
         <Link href={`/pets/${pet.id}/care`}>Back to {pet.name}’s care</Link>
         <h1>Care profile</h1>
         <p>
-          Help Pawport organize topics you may want to discuss with your
+          Help PetThread organize topics you may want to discuss with your
           veterinarian.
         </p>
         <p>

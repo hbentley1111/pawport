@@ -1,6 +1,6 @@
 # Live booking with ezyVet — Phase 8B
 
-Pawport can execute the real ezyVet **sandbox** availability and booking workflow through a protected scheduling worker. This branch does not enable production booking, deploy a function, apply a remote migration, or install credentials. All automatic tests use fake HTTP transports and sanitized structural fixtures.
+PetThread can execute the real ezyVet **sandbox** availability and booking workflow through a protected scheduling worker. This branch does not enable production booking, deploy a function, apply a remote migration, or install credentials. All automatic tests use fake HTTP transports and sanitized structural fixtures.
 
 Appointment Requests remain the human-confirmed fallback. Live booking means an actual vendor appointment was created after explicit owner confirmation; a request means a business still needs to respond. Availability is never a reservation.
 
@@ -73,7 +73,7 @@ Owner route: `/appointments/book?locationId=…&serviceId=…`. The owner choose
 
 ## Availability and timezone normalization
 
-The vendor site timezone is authoritative. The site-information timezone relationship must resolve to a valid IANA name. A mismatch with the Pawport profile is reported to managers; it is never silently interpreted in the profile timezone.
+The vendor site timezone is authoritative. The site-information timezone relationship must resolve to a valid IANA name. A mismatch with the PetThread profile is reported to managers; it is never silently interpreted in the profile timezone.
 
 V4 rows provide a local date and slot time with an offset. The parser combines those **vendor-provided** values, checks the resulting local clock/date against the IANA zone, and produces absolute timestamps. It rejects inconsistent offsets/nonexistent spring times; repeated fall-back times retain their distinct offsets. Seven dates are calculated as local calendar dates rather than seven UTC midnights.
 
@@ -102,11 +102,11 @@ Production requires a tested reconciliation runbook and monitoring before enable
 
 ## Canonical external appointments and existing features
 
-Successful bookings use source `external`, system `ezyvet`, `booking_origin=pawport_live`, status `confirmed`, sync state `current`, and the owner's household/pet/created-by identity. Provider name, service title, and address come only from Pawport provider-entered records. Google contributes only the existing Place ID relationship.
+Successful bookings use source `external`, system `ezyvet`, `booking_origin=pawport_live`, status `confirmed`, sync state `current`, and the owner's household/pet/created-by identity. Provider name, service title, and address come only from PetThread provider-entered records. Google contributes only the existing Place ID relationship.
 
 The returned vendor appointment UID is registered in `external_appointment_state` and `external_appointment_aliases`, using the same connection-first lock as imports. If sync arrived first, completion reuses that appointment and preserves its newer authoritative fields. Otherwise the cursor starts NULL so the next real sync can advance it. This prevents duplicate appointments.
 
-Appointments and Pawport Today pick up the normal confirmed appointment. Completed/cancelled outcomes later flow through the existing timeline. Care cards identify bookings through Pawport. These external appointments remain provider-managed: **Contact the provider to cancel or reschedule.** No local-only cancellation, vendor cancellation, or vendor rescheduling was added.
+Appointments and PetThread Today pick up the normal confirmed appointment. Completed/cancelled outcomes later flow through the existing timeline. Care cards identify bookings through PetThread. These external appointments remain provider-managed: **Contact the provider to cancel or reschedule.** No local-only cancellation, vendor cancellation, or vendor rescheduling was added.
 
 ## Privacy and trust
 

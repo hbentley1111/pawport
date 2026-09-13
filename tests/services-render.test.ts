@@ -8,7 +8,7 @@ import {
   GoogleAttribution,
 } from "../components/services/ratings";
 import type { Place } from "../lib/services/schema";
-test("Google and Pawport ratings render separately and never share a computed score", () => {
+test("Google and PetThread ratings render separately and never share a computed score", () => {
   const place = { googleRating: 4.6, googleReviewCount: 387 } as Place;
   const google = renderToStaticMarkup(createElement(GoogleRating, { place }));
   const community = renderToStaticMarkup(
@@ -18,10 +18,10 @@ test("Google and Pawport ratings render separately and never share a computed sc
   );
   assert.match(google, /4\.6/);
   assert.match(google, /387 Google reviews/);
-  assert.doesNotMatch(google, /<strong>4\.9<|24 Pawport/);
-  assert.match(community, /Pawport Community/);
+  assert.doesNotMatch(google, /<strong>4\.9<|24 PetThread/);
+  assert.match(community, /PetThread Community/);
   assert.match(community, /4\.9/);
-  assert.match(community, /24 Pawport/);
+  assert.match(community, /24 PetThread/);
   assert.doesNotMatch(community, /<strong>4\.6<|387 Google/);
   assert.match(
     renderToStaticMarkup(
@@ -29,7 +29,7 @@ test("Google and Pawport ratings render separately and never share a computed sc
         rating: { average: null, count: 0 },
       }),
     ),
-    /Be the first Pawport member/,
+    /Be the first PetThread member/,
   );
   assert.match(
     renderToStaticMarkup(createElement(GoogleAttribution)),

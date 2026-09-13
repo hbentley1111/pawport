@@ -2,11 +2,11 @@
 
 This is an internal engineering inventory and planning checklist, not a claim of partnership, certification, pilot participation or general availability. It was assembled by reading the current repository source after fetching main (`fa411ec`) and the existing [live-booking](LIVE_BOOKING_EZYVET.md) and [connected-operations](CONNECTED_APPOINTMENT_OPERATIONS.md) documentation. No new API semantics or vendor calls are introduced in Phase 10A.
 
-## Pawport workflow and implemented capabilities
+## PetThread workflow and implemented capabilities
 
-Pawport supports appointment requests requiring a human response as the fallback. Its specialized ezyVet sandbox foundation supports catalog, real availability, short-lived owner quotes, explicit confirmation, exact availability recheck, vendor booking and canonical external appointment/reminder creation. Confirmed pet/contact mappings are required; no ezyVet contacts or animals are created. Ambiguous booking POSTs remain unknown and are not blindly retried.
+PetThread supports appointment requests requiring a human response as the fallback. Its specialized ezyVet sandbox foundation supports catalog, real availability, short-lived owner quotes, explicit confirmation, exact availability recheck, vendor booking and canonical external appointment/reminder creation. Confirmed pet/contact mappings are required; no ezyVet contacts or animals are created. Ambiguous booking POSTs remain unknown and are not blindly retried.
 
-Connected cancellation supports only Pawport-created live external appointments, required authorization/mapping/capabilities and documented cancellation semantics. Local status changes only after vendor success or conclusive reconciliation. Unknown PATCH outcomes remain pending without automatic mutation retry. Canonical appointment identity and existing sync handling are preserved. Smart Opening notifications remain informational where direct moves are unsupported; nothing auto-books.
+Connected cancellation supports only PetThread-created live external appointments, required authorization/mapping/capabilities and documented cancellation semantics. Local status changes only after vendor success or conclusive reconciliation. Unknown PATCH outcomes remain pending without automatic mutation retry. Canonical appointment identity and existing sync handling are preserved. Smart Opening notifications remain informational where direct moves are unsupported; nothing auto-books.
 
 **Unsupported:** connected rescheduling and Smart Opening → direct reschedule. `supportsAppointmentReschedule` is false and `rescheduleAppointment` throws unsupported. The existing verified PATCH contract does not establish start/end/resource/type update inputs. No cancel-and-rebook workaround is implemented.
 
@@ -38,7 +38,7 @@ All paths below are in `supabase/functions/_shared/live-booking/ezyvet.ts`:
 | GET `/v2.1/calendar/appointments`   | `getAppointment`: `filter[id][in]` and pageSize=1, strict narrow reconciliation               |
 | PATCH `/v2/appointment/{numericId}` | `cancelAppointment`: documented cancellation, not general rescheduling                        |
 
-The PATCH content type is `application/merge-patch+json`; current code sends `{cancel:true,cancellation_reason_text:"Cancelled through Pawport"}` and requires `write-appointment`. Response verification requires the expected ID/UID and inactive state. Other successful-looking/malformed responses remain unknown. The prior connected-operations document records the vendor documentation review behind this contract; Phase 10A does not extend it.
+The PATCH content type is `application/merge-patch+json`; current code sends `{cancel:true,cancellation_reason_text:"Cancelled through PetThread"}` and requires `write-appointment`. Response verification requires the expected ID/UID and inactive state. Other successful-looking/malformed responses remain unknown. The prior connected-operations document records the vendor documentation review behind this contract; Phase 10A does not extend it.
 
 Availability uses v4, never the deprecated legacy endpoint. Vendor request limits and parsing remain in the existing adapter/schema: at most five resources and seven dates per request, bounded duration and deliberate batching. Do not infer write fields from read response fields. Required read/booking commercial scopes must be confirmed with ezyVet for the issued account; successful OAuth alone is insufficient.
 
@@ -85,7 +85,7 @@ Five sites and six weeks are proposed planning targets, subject to ezyVet agreem
 
 ## Support ownership and incidents
 
-Record Pawport technical owner plus partner support/security/privacy contacts. Never store credentials or patient information in pilot notes. Establish on-call coverage, unknown-outcome escalation and responsibility for contacting the clinic to verify ambiguous state. No automatic emails or support messages are sent by Phase 10A.
+Record PetThread technical owner plus partner support/security/privacy contacts. Never store credentials or patient information in pilot notes. Establish on-call coverage, unknown-outcome escalation and responsibility for contacting the clinic to verify ambiguous state. No automatic emails or support messages are sent by Phase 10A.
 
 Rollback/disable: pause the affected partner/connection/capability in the generic control plane and disable the existing scheduling sandbox runtime/capabilities through its trusted controls as applicable. The generic bridge is not yet in legacy dispatch, so disabling only the generic registry is insufficient to stop legacy scheduling. Revoke/rotate compromised credentials through protected configuration. Preserve canonical appointments and audit; do not blindly repeat a mutation, locally cancel a vendor appointment or delete evidence. Use documented read-only reconciliation and escalation when vendor state is uncertain.
 

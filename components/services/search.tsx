@@ -190,7 +190,7 @@ export function ServicesSearch({
           <p>
             From everyday walks to life’s unexpected moments.
             <br className="desktop-break" /> Find your people, with a little
-            help from the Pawport community.
+            help from the PetThread community.
           </p>
         </div>
         <div className="services-hero-art" aria-hidden="true">
@@ -208,14 +208,15 @@ export function ServicesSearch({
           <strong>Live local discovery is not connected yet.</strong>
           <p>
             This feature needs its Google Maps configuration. Your existing
-            Pawport features are available as usual.
+            PetThread features are available as usual.
           </p>
         </div>
       )}
       {!member && (
         <div className="service-notice">
           <Link className="document-link" href="/login">
-            Sign in to find local care, save places, and write Pawport reviews.
+            Sign in to find local care, save places, and write PetThread
+            reviews.
           </Link>
         </div>
       )}
@@ -390,7 +391,7 @@ export function ServicesSearch({
             straight-line distance. Text searches use your area as a bias;
             physical places outside your radius are excluded. Service-area
             businesses may not have a distance—confirm their coverage. This is
-            not an exhaustive directory or a Pawport endorsement.
+            not an exhaustive directory or a PetThread endorsement.
           </p>
         </>
       )}
@@ -461,7 +462,7 @@ export function ServicesSearch({
           <p>
             Choose a category and search your area to find care.
             <br />
-            Google Maps business details. A separate Pawport community
+            Google Maps business details. A separate PetThread community
             perspective.
           </p>
         </div>

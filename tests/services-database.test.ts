@@ -246,7 +246,7 @@ test("Phase 4 community privacy, ownership, moderation, and Phase 1–3 isolatio
       },
     );
     await t.test(
-      "public aggregates are exclusively published Pawport ratings, and public projections contain no private identities",
+      "public aggregates are exclusively published PetThread ratings, and public projections contain no private identities",
       async () => {
         await asUser(null);
         const data = await value<{

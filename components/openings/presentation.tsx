@@ -15,7 +15,7 @@ export function OpeningsEmpty() {
       </p>
       <p className="fine-print">
         Live availability is not connected yet. You can still record and manage
-        care in Pawport.
+        care in PetThread.
       </p>
       <Link className="button secondary" href="/appointments">
         View care calendar

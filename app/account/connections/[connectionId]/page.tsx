@@ -1,3 +1,4 @@
+import { brandLabel } from "@/lib/brand";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
@@ -7,7 +8,7 @@ import { OperatorForm } from "@/components/partners/forms";
 import type { Consent } from "@/lib/partners/schema";
 export const dynamic = "force-dynamic";
 export const metadata = {
-  title: "Connection sharing | Pawport",
+  title: "Connection sharing | PetThread",
   robots: { index: false, follow: false },
 };
 export default async function ConnectionConsent({
@@ -29,8 +30,8 @@ export default async function ConnectionConsent({
         <Link href="/account">Account</Link>
         <h1>{c.partnerName}: connection sharing</h1>
         <p>
-          Choose what Pawport may share with this existing connection. Granting
-          permission does not enable an integration.
+          Choose what PetThread may share with this existing connection.
+          Granting permission does not enable an integration.
         </p>
         <p>
           Environment: {c.environment} · Status: {c.status}
@@ -43,7 +44,7 @@ export default async function ConnectionConsent({
         {c.grants.length ? (
           c.grants.map((g, i) => (
             <p key={i}>
-              {g.category} · {g.purpose} · {g.direction} ·{" "}
+              {g.category} · {g.purpose} · {brandLabel(g.direction)} ·{" "}
               {g.expiresAt || "Until revoked"}
             </p>
           ))

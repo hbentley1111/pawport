@@ -14,8 +14,8 @@ export async function generateMetadata({
 }) {
   const p = await publicProfile((await params).locationId);
   return {
-    title: p ? `${p.businessName} | Pawport` : "Business profile | Pawport",
-    description: p?.tagline || "Business-provided information on Pawport.",
+    title: p ? `${p.businessName} | PetThread` : "Business profile | PetThread",
+    description: p?.tagline || "Business-provided information on PetThread.",
   };
 }
 export default async function Profile({

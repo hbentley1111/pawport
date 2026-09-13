@@ -12,7 +12,7 @@ export const categories = [
   "other",
 ] as const;
 export const profileTrust =
-  "This profile is managed by a representative of the business. Claiming does not indicate veterinary credential verification or Pawport endorsement.";
+  "This profile is managed by a representative of the business. Claiming does not indicate veterinary credential verification or PetThread endorsement.";
 const text = (max: number) => z.string().trim().max(max).default("");
 export const website = text(2048).refine(
   (v) =>

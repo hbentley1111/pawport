@@ -65,7 +65,7 @@ export default async function ServiceDetail({
             Add appointment
           </Link>
           <p className="fine-print">
-            Record care arranged with this business. Pawport does not make a
+            Record care arranged with this business. PetThread does not make a
             booking.
           </p>
         </div>
@@ -109,7 +109,7 @@ export default async function ServiceDetail({
               </Link>
             )}
             <p className="fine-print">
-              Your Pawport review is separate from reviews on Google Maps.
+              Your PetThread review is separate from reviews on Google Maps.
             </p>
           </aside>
         )}

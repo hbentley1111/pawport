@@ -23,12 +23,12 @@ export function CareEntry({
         </span>
         <h3>{a.title}</h3>
         {a.source === "pawport" && (
-          <span className="fine-print">Confirmed through Pawport</span>
+          <span className="fine-print">Confirmed through PetThread</span>
         )}
         {a.source === "external" && (
           <small>
             {a.booking_origin === "pawport_live"
-              ? "Booked through Pawport · Provider managed"
+              ? "Booked through PetThread · Provider managed"
               : "Synced from provider"}
             {a.sync_state === "disconnected"
               ? " · Disconnected"

@@ -115,7 +115,7 @@ export function QuotePlanning({
       action={update ? "update_planning" : "planning"}
       hidden={{ pet: petId, request: requestId }}
       label={update ? "Update planning reference" : "Add to cost planning"}
-      warning="Add this quote to your planning. For a price range, Pawport keeps both amounts without choosing a single planned amount."
+      warning="Add this quote to your planning. For a price range, PetThread keeps both amounts without choosing a single planned amount."
       fields={[
         {
           name: "year",

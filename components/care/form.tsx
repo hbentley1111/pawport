@@ -90,13 +90,13 @@ function Editor({
       <input type="hidden" name="time_zone" value={zone} />
       <input type="hidden" name="google_place_id" value={linked} />
       <p className="care-recording-note">
-        Record care you’ve arranged elsewhere. Pawport does not book or confirm
-        with the provider.
+        Record care you’ve arranged elsewhere. PetThread does not book or
+        confirm with the provider.
       </p>
       {linked && (
         <div className="service-notice">
           <p>
-            Linked to a service on Pawport. Only its Google Place ID is saved.
+            Linked to a service on PetThread. Only its Google Place ID is saved.
           </p>
           <Link
             href={`/services/${encodeURIComponent(linked)}`}
@@ -236,7 +236,7 @@ function Editor({
           </label>
         ))}
         <p className="fine-print">
-          Visible when you open Pawport. No email, text, or push notifications
+          Visible when you open PetThread. No email, text, or push notifications
           are sent.
         </p>
       </fieldset>
@@ -255,7 +255,7 @@ export function CancelAppointment({ id }: { id: string }) {
     <form action={action} className="care-cancel">
       <input type="hidden" name="id" value={id} />
       <p>
-        This changes your Pawport calendar only. Contact the provider
+        This changes your PetThread calendar only. Contact the provider
         separately.
       </p>
       <Submit>Cancel appointment</Submit>

@@ -1,6 +1,6 @@
 # Connected appointment operations — Phase 8C
 
-Pawport asks the provider's scheduling system to make a change. It displays cancellation only after vendor success or conclusive reconciliation. Scheduling never grants medical-record access or verification authority.
+PetThread asks the provider's scheduling system to make a change. It displays cancellation only after vendor success or conclusive reconciliation. Scheduling never grants medical-record access or verification authority.
 
 **Implemented:** sandbox connected cancellation, durable mutation history, read-only reconciliation, cancellation-triggered availability rechecks, and a restricted real-availability watch processor. **Unsupported:** connected rescheduling and Smart Opening moves. The current vendor contract does not establish the required reschedule fields. Those actions fail closed, including direct API calls; there are no fake reschedule controls or local-only changes.
 
@@ -11,10 +11,10 @@ Reviewed September 12, 2026 against the current [ezyVet Appointment Management r
 The documented cancellation body is:
 
 ```json
-{ "cancel": true, "cancellation_reason_text": "Cancelled through Pawport" }
+{ "cancel": true, "cancellation_reason_text": "Cancelled through PetThread" }
 ```
 
-The contract accepts cancellation with `cancel: true` plus a cancellation reason ID or text. Pawport uses only the documented text alternative. It does not guess a status ID or send `active: false`. The parser requires HTTP 200 and exactly one `items[].appointment` with the expected numeric `id`, expected `uid`, and `active: false`. Malformed or unexpected success responses are **unknown**, not successful cancellation.
+The contract accepts cancellation with `cancel: true` plus a cancellation reason ID or text. PetThread uses only the documented text alternative. It does not guess a status ID or send `active: false`. The parser requires HTTP 200 and exactly one `items[].appointment` with the expected numeric `id`, expected `uid`, and `active: false`. Malformed or unexpected success responses are **unknown**, not successful cancellation.
 
 The other documented PATCH inputs are `cancellation_reason`, `status_id`, `description`, `animal_id`, and `consult_id`. **The operation does not document start, end/duration, resource, or appointment-type update inputs.** Response fields are not permission to use them as mutation inputs. Rescheduling remains unsupported until ezyVet supplies an authoritative update contract, response semantics, and sandbox acceptance evidence. No cancel-and-rebook workaround is implemented.
 
@@ -51,7 +51,7 @@ The existing two sandbox environment gates, exact origin allowlist, confirmed-us
 ## Cancellation state machine
 
 1. The owner/provider opens connected options; safe capability output contains only appointment ID, `canCancel`, `canReschedule=false`, and pending state.
-2. A separate confirmation asks Pawport to cancel with the provider. No optimistic local cancellation occurs.
+2. A separate confirmation asks PetThread to cancel with the provider. No optimistic local cancellation occurs.
 3. The database locks the operation, reauthorizes the actor, snapshots canonical start/end/updated timestamp and external version, and records `initiated`.
 4. A second exact vendor GET checks for changes in modification cursor, schedule, identity, type and resources. The database checks its canonical snapshot again and records dispatch.
 5. One documented PATCH is issued. It is never automatically retried after a possible send.
@@ -100,7 +100,7 @@ Known limitations:
 
 - ezyVet sandbox only; production remains disabled.
 - Rescheduling, reminder reset after reschedule and explicit Smart Opening moves remain disabled pending documented vendor semantics.
-- Only Pawport-created live external appointments qualify.
+- Only PetThread-created live external appointments qualify.
 - No unsupported-vendor operations, contact/animal creation, payments, fees, refunds or financial promises.
 - No auto-booking, vendor polling cron or broad provider/customer notification system.
 - Unknown dispatched mutations can require manual vendor investigation after bounded read-only reconciliation.

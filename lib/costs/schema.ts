@@ -18,7 +18,7 @@ export const categories = [
   "other",
 ] as const;
 export const notice =
-  "Cost information in Pawport is based on amounts you record. Pawport does not predict provider prices, insurance coverage, or future veterinary costs.";
+  "Cost information in PetThread is based on amounts you record. PetThread does not predict provider prices, insurance coverage, or future veterinary costs.";
 export function dollars(v: string | number | null | undefined) {
   if (v == null) return "Amount not entered";
   const n = BigInt(v),

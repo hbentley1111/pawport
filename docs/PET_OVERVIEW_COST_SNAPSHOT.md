@@ -6,7 +6,7 @@ The owner pet overview shows a compact care cost snapshot after the overview sta
 
 ## UX rationale
 
-A restrained bone-shaped horizontal visual uses Pawport's muted greens and neutrals. Spent, planned and expected amounts remain separate text values. This is an organizational summary, not a price prediction or financial recommendation.
+A restrained bone-shaped horizontal visual uses PetThread's muted greens and neutrals. Spent, planned and expected amounts remain separate text values. This is an organizational summary, not a price prediction or financial recommendation.
 
 ## Data definitions
 

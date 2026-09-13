@@ -57,7 +57,7 @@ External rows require all three external fields; manual/pawport rows must have n
 
 Normal app mutations create **in_app** reminders only, with 24 hours selected by default. Users may choose none, two hours, 24 hours, one week, or combinations. Replacing choices is atomic with saving the appointment. Removing a reminder choice deletes that preference row; the appointment itself is preserved. Changing start time clears in-app dismissal/sent state so reminders follow the revised time. Normal users cannot set sent timestamps or delivery channels.
 
-These tables cascade on authorized removal of the referenced account/household/pet. This is account-data cleanup, not an appointment delete capability exposed by Pawport.
+These tables cascade on authorized removal of the referenced account/household/pet. This is account-data cleanup, not an appointment delete capability exposed by PetThread.
 
 ## RLS and security
 
@@ -97,7 +97,7 @@ Reminder due time is computed from the current appointment start minus the selec
 
 Timeline cards expose reminder plans and pending/due/dismissed/inactive state. Due reminders appear with a Dismiss action. Summary cards stay compact, showing due notices; detailed plans are in the full timeline. Cancellation, completion and past classification suppress active reminders. Dismissal changes `dismissed_at`, never `sent_at`: viewing the app is not email delivery.
 
-**No emails, SMS, push notifications or background notifications are sent.** There is no cron or delivery worker configured. A reminder can be missed if the owner does not open Pawport before the appointment starts. No reminder alarms are embedded in ICS exports.
+**No emails, SMS, push notifications or background notifications are sent.** There is no cron or delivery worker configured. A reminder can be missed if the owner does not open PetThread before the appointment starts. No reminder alarms are embedded in ICS exports.
 
 To add reliable email/push later:
 
@@ -111,17 +111,17 @@ The email/push channel values and sent state reserve integration points; they ar
 
 ## Add to Calendar / ICS
 
-The authenticated download emits one VEVENT using UTC DTSTART and optional DTEND, title, pet name, user-entered provider/location, and an authenticated Pawport appointment URL. It uses a deterministic SHA-256-derived UID instead of exposing the appointment UUID as UID. The route URL necessarily includes the appointment reference but gives no public access. No household or Auth user identifier, private note, Google content, or reminder data is exported.
+The authenticated download emits one VEVENT using UTC DTSTART and optional DTEND, title, pet name, user-entered provider/location, and an authenticated PetThread appointment URL. It uses a deterministic SHA-256-derived UID instead of exposing the appointment UUID as UID. The route URL necessarily includes the appointment reference but gives no public access. No household or Auth user identifier, private note, Google content, or reminder data is exported.
 
 Text is escaped and lines folded at 75 UTF-8 octets without splitting multibyte characters, with CRLF endings. DTSTAMP/LAST-MODIFIED use the saved update time; status maps cancelled to CANCELLED and requested/waitlisted to TENTATIVE. An omitted end stays omitted rather than inventing a duration. This follows [RFC 5545](https://www.rfc-editor.org/rfc/rfc5545).
 
-Download responses are private/no-store and use `text/calendar`. `CLASS:PRIVATE` is advisory; importing shares the included information with the chosen calendar provider. This is a snapshot, not a subscribed calendar or synchronization link. Updating/cancelling in Pawport does not update previously imported events automatically; calendar apps vary in how they handle reimporting a stable UID.
+Download responses are private/no-store and use `text/calendar`. `CLASS:PRIVATE` is advisory; importing shares the included information with the chosen calendar provider. This is a snapshot, not a subscribed calendar or synchronization link. Updating/cancelling in PetThread does not update previously imported events automatically; calendar apps vary in how they handle reimporting a stable UID.
 
 ## Future scheduling adapters and Smart Openings
 
 `lib/care/scheduling-adapter.ts` defines types only: `SchedulingAdapter` has listAppointments, getAppointment, listAvailability, createAppointment and cancelAppointment. No vendor implementation, token, availability request or booking invocation exists.
 
-The first adapter must establish authorized household/provider/location connections and verified mappings from external pet references to one Pawport pet. Map timestamps with explicit offsets to absolute UTC; map vendor states/types into controlled values while retaining vendor provenance in a separate private connector store where necessary. Populate source=external, connection UUID, external system and external appointment ID. Use the unique external identity for idempotent imports; handle webhook replay, tombstones, time changes, cancellation and conflict policy. Provider/location references live on the future connection record, not as copied Google metadata. Vendor credentials stay in a server-only secret store. Add scoped connector-write RPCs for that worker; ordinary manual RPCs intentionally cannot write external rows.
+The first adapter must establish authorized household/provider/location connections and verified mappings from external pet references to one PetThread pet. Map timestamps with explicit offsets to absolute UTC; map vendor states/types into controlled values while retaining vendor provenance in a separate private connector store where necessary. Populate source=external, connection UUID, external system and external appointment ID. Use the unique external identity for idempotent imports; handle webhook replay, tombstones, time changes, cancellation and conflict policy. Provider/location references live on the future connection record, not as copied Google metadata. Vendor credentials stay in a server-only secret store. Add scoped connector-write RPCs for that worker; ordinary manual RPCs intentionally cannot write external rows.
 
 No `availability_watches` table is created. Defer its schema until the first adapter's permission model and availability semantics are known. Future watches may contain pet, authorized provider/location connection, type, earliest/latest date, preferred weekdays/time window, active flag and last-checked time. A future worker would query only authorized availability, deduplicate notifications and require explicit owner action to book. Phase 5A performs none of those operations and claims no provider availability.
 

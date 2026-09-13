@@ -40,7 +40,7 @@ export function appointmentCalendar(
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Pawport//Care Calendar//EN",
+    "PRODID:-//PetThread//Care Calendar//EN",
     "CALSCALE:GREGORIAN",
     "BEGIN:VEVENT",
     `UID:${uid}@pawport`,
@@ -51,7 +51,7 @@ export function appointmentCalendar(
   if (a.ends_at) lines.push(`DTEND:${stamp(a.ends_at)}`);
   lines.push(
     `SUMMARY:${escape(`${petName} — ${a.title}`)}`,
-    `DESCRIPTION:${escape([`Care for ${petName}`, a.provider_name ? `Provider: ${a.provider_name}` : "", `Pawport: ${url}`].filter(Boolean).join("\n"))}`,
+    `DESCRIPTION:${escape([`Care for ${petName}`, a.provider_name ? `Provider: ${a.provider_name}` : "", `PetThread: ${url}`].filter(Boolean).join("\n"))}`,
   );
   if (a.location_text) lines.push(`LOCATION:${escape(a.location_text)}`);
   lines.push(

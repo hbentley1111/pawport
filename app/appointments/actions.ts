@@ -82,7 +82,7 @@ export async function cancelAppointment(
   revalidatePath(`/appointments/${id.data}`);
   return {
     success:
-      "Marked cancelled in Pawport. Contact the provider separately to cancel with them.",
+      "Marked cancelled in PetThread. Contact the provider separately to cancel with them.",
   };
 }
 export async function dismissReminder(
@@ -97,5 +97,5 @@ export async function dismissReminder(
   });
   if (error) return { error: "Could not dismiss this reminder." };
   refresh();
-  return { success: "Reminder dismissed in Pawport." };
+  return { success: "Reminder dismissed in PetThread." };
 }

@@ -32,10 +32,10 @@ export default async function Notifications({
       <main className="care-page">
         <header className="care-heading">
           <div>
-            <p className="eyebrow">YOUR PAWPORT UPDATES</p>
+            <p className="eyebrow">YOUR PETTHREAD UPDATES</p>
             <h1>Notifications</h1>
             <p className="muted">
-              What Pawport has told you, all in one place.
+              What PetThread has told you, all in one place.
             </p>
           </div>
           <NotificationAction action="all">Mark all read</NotificationAction>

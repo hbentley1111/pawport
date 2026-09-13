@@ -106,7 +106,7 @@ export default async function PetInsurance({
             Status you recorded: {String(c.claim.status).replaceAll("_", " ")}
           </p>
           <p>
-            Owner entered. Pawport has not verified or submitted this claim.
+            Owner entered. PetThread has not verified or submitted this claim.
           </p>
           <InsuranceForm
             mode="claim"

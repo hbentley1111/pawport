@@ -1,13 +1,13 @@
-# Pawport Today + Unified Notification Center (Phase 6C)
+# PetThread Today + Unified Notification Center (Phase 6C)
 
-Pawport should remember what your pet needs so you don't have to. This release surfaces existing information that needs attention, without inventing tasks, clinical recommendations, streaks, scores, or reasons to return.
+PetThread should remember what your pet needs so you don't have to. This release surfaces existing information that needs attention, without inventing tasks, clinical recommendations, streaks, scores, or reasons to return.
 
 | Area          | Question                     | Authority                                       |
 | ------------- | ---------------------------- | ----------------------------------------------- |
 | Timeline      | What happened?               | Existing source records, normalized by Phase 6B |
 | Care          | What routines am I tracking? | Owner-entered plans and occurrences             |
 | Today         | What needs my attention now? | A private, bounded read model                   |
-| Notifications | What has Pawport told me?    | Existing notification message history           |
+| Notifications | What has PetThread told me?  | Existing notification message history           |
 
 ## Migration and schema
 

@@ -40,7 +40,7 @@ export function CommunityRatingDisplay({
   return (
     <div className="community-rating">
       <p className="community-label">
-        <Heart size={14} /> Pawport Community
+        <Heart size={14} /> PetThread Community
       </p>
       {rating === null ? (
         <p>Community rating unavailable</p>
@@ -49,11 +49,11 @@ export function CommunityRatingDisplay({
           <Star size={14} fill="currentColor" />
           <strong>{rating.average?.toFixed(1)}</strong>
           <span>
-            · {rating.count} Pawport review{rating.count === 1 ? "" : "s"}
+            · {rating.count} PetThread review{rating.count === 1 ? "" : "s"}
           </span>
         </p>
       ) : (
-        <p>Be the first Pawport member to review this business.</p>
+        <p>Be the first PetThread member to review this business.</p>
       )}
     </div>
   );

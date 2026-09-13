@@ -1,6 +1,6 @@
 # Pet Insurance & Coverage — Phase 9B
 
-Pawport organizes information an owner records about coverage, private documents and claims. It does not sell, solicit, quote, compare or recommend insurance; act as a producer, broker, adjuster or insurer; submit or adjudicate claims; or determine treatment eligibility. The insurer and policy documents determine actual coverage, benefits, exclusions and claim decisions.
+PetThread organizes information an owner records about coverage, private documents and claims. It does not sell, solicit, quote, compare or recommend insurance; act as a producer, broker, adjuster or insurer; submit or adjudicate claims; or determine treatment eligibility. The insurer and policy documents determine actual coverage, benefits, exclusions and claim decisions.
 
 ## Insurance and wellness
 
@@ -46,7 +46,7 @@ Storage RLS permits only owner-ready reads and owner-pending inserts. Restrictiv
 
 Statuses are draft, submitted, received, in_review, more_information_needed, approved, partially_approved, denied, paid and closed. UI consistently says **Status you recorded**. Owners may correct a recorded status; this is not a carrier-enforced transition graph. Draft is the default. Draft/more-information-needed are organizational Needs action; submitted/received/in-review are In progress; the remainder are Completed without clinical or emotional judgment.
 
-Submitted, approved, reimbursed and owner out-of-pocket amounts are independent nonnegative cents. Pawport imposes no simplistic `approved <= submitted` equation and calculates none of these values. Service and submission dates need not follow a guessed insurer workflow.
+Submitted, approved, reimbursed and owner out-of-pocket amounts are independent nonnegative cents. PetThread imposes no simplistic `approved <= submitted` equation and calculates none of these values. Service and submission dates need not follow a guessed insurer workflow.
 
 `insurance_claim_events` is append-only. Creation, status change, amount change, document attachment/removal and closure are recorded transactionally. Repeating an unchanged status adds no status event. No document text, full claim number or raw audit payload is stored in events. Detail exposes the most recent 100 normalized events without actor UUIDs.
 

@@ -30,14 +30,14 @@ test("desktop and mobile navigation expose the desktop destinations and five mob
       html,
       /<a(?=[^>]*href="\/services")(?=[^>]*aria-current="page")[^>]*>/,
     );
-    assert.match(html, /aria-label="(?:Mobile )?Pawport navigation"/);
+    assert.match(html, /aria-label="(?:Mobile )?PetThread navigation"/);
     assert.doesNotMatch(html, /Vaccinations|Share Passport/);
     assert.equal((html.match(/<a /g) || []).length, mobile ? 5 : 6);
     if (mobile) assert.doesNotMatch(html, /href="\/records"/);
   }
   assert.match(
     renderToStaticMarkup(createElement(Brand)),
-    /<a(?=[^>]*href="\/")(?=[^>]*class="brand")(?=[^>]*aria-label="Pawport home")[^>]*>/,
+    /<a(?=[^>]*href="\/")(?=[^>]*class="brand")(?=[^>]*aria-label="PetThread home")[^>]*>/,
   );
 });
 test("route-derived selection distinguishes home, pet profiles, records and detail pages", () => {

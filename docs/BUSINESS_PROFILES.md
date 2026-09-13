@@ -2,7 +2,7 @@
 
 ## Purpose and boundaries
 
-Phase 7A establishes who may represent a business. Phase 7B lets that business describe itself. “Claimed on Pawport” means representative-managed, not licensed, medically credentialed, endorsed, medically vetted, or guaranteed service quality.
+Phase 7A establishes who may represent a business. Phase 7B lets that business describe itself. “Claimed on PetThread” means representative-managed, not licensed, medically credentialed, endorsed, medically vetted, or guaranteed service quality.
 
 `service_provider_organizations`, locations and business memberships remain separate from `veterinary_providers` and `provider_memberships`. Neither publication nor a veterinary service category creates veterinary identity, verification authority, household access, scheduling permission or availability capability. No booking, vendor integration, team invitation, billing, advertising or review response feature is added.
 
@@ -10,7 +10,7 @@ Phase 7A establishes who may represent a business. Phase 7B lets that business d
 
 All saved text is entered by the provider. No Google name, address, phone, website, hours, category, rating, review, coordinate or photo is prefilled or persisted by this feature. Organization name remains the claimant/provider-entered name in the Phase 7A organization table; claims retain their original evidence snapshots.
 
-The existing location's `google_place_id` connects the profile to discovery. The public profile contains only provider-entered data and links to `/services/{placeId}` for current Google information and Pawport reviews. Local Services renders a separate **From the business** section. Provider contact fallbacks use location → organization only, never Google fields.
+The existing location's `google_place_id` connects the profile to discovery. The public profile contains only provider-entered data and links to `/services/{placeId}` for current Google information and PetThread reviews. Local Services renders a separate **From the business** section. Provider contact fallbacks use location → organization only, never Google fields.
 
 Existing Google API field masks, key handling, attribution and request-time/no-store behavior are unchanged. There are no additional Google calls for profiles. See [LOCAL_SERVICES.md](LOCAL_SERVICES.md) for Google configuration, attribution, persistence restrictions, and public Terms/Privacy launch requirements.
 
@@ -74,7 +74,7 @@ A central explicit SQL builder normalizes profile fields, reused by public reads
 
 `ServiceProviderPublicProfile` (`PublicProfile` in code) contains location ID, existing Google Place ID for the listing link, business/location names, claimed label, description/tagline, public contacts, normalized address, timezone, hours, active services, controlled logo URL and source label. No claim evidence, reviewer note, user/member IDs, private email, storage path, scheduling IDs or veterinary IDs are returned.
 
-`service_provider_public_profile` and `service_provider_public_profile_for_place` are safe anon/authenticated RPCs; drafts and suspended/unpublished profiles return no profile. Metadata uses only provider-entered name/tagline and neutral Pawport branding.
+`service_provider_public_profile` and `service_provider_public_profile_for_place` are safe anon/authenticated RPCs; drafts and suspended/unpublished profiles return no profile. Metadata uses only provider-entered name/tagline and neutral PetThread branding.
 
 `my_service_provider_businesses` returns up to 100 member organizations and 100 locations each. `service_provider_profile_editor` checks active membership and returns management fields, edit capability, publication states and private preview. It does not return claim evidence. Organization IDs belong only to management/previous claimed identity flows, not public profile content.
 
@@ -109,7 +109,7 @@ Logo SQL metadata validation complements application signature checking. A provi
 
 ## Independence from reviews, medicine and scheduling
 
-Pawport review authorship, public privacy, rating aggregation and moderation rules are unchanged. Businesses get no review edit/delete/identity/suppression privileges. The public profile links to existing Community reviews instead of copying review data.
+PetThread review authorship, public privacy, rating aggregation and moderation rules are unchanged. Businesses get no review edit/delete/identity/suppression privileges. The public profile links to existing Community reviews instead of copying review data.
 
 Publishing a veterinary service does not create `veterinary_providers` or `provider_memberships`, expose health documents or verification queues, activate a scheduling connection or enable Smart Openings. Those remain independent trust and capability systems. No Google category is interpreted as professional evidence.
 

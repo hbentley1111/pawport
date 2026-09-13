@@ -58,7 +58,7 @@ export async function GET(
         headers: {
           ...headers,
           "Content-Type": "text/calendar; charset=utf-8",
-          "Content-Disposition": 'attachment; filename="pawport-care.ics"',
+          "Content-Disposition": 'attachment; filename="petthread-care.ics"',
         },
       },
     );

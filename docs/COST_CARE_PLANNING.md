@@ -1,10 +1,10 @@
 # Cost & Care Planning — Phase 9C
 
-Pawport answers: what expenses have I recorded, what reimbursement have I explicitly allocated, and what amounts do I want to plan for? It does not advise what an owner can afford, what care should cost or what insurance will cover. There are no scraped prices, market averages, estimates, AI forecasts or affordability scores.
+PetThread answers: what expenses have I recorded, what reimbursement have I explicitly allocated, and what amounts do I want to plan for? It does not advise what an owner can afford, what care should cost or what insurance will cover. There are no scraped prices, market averages, estimates, AI forecasts or affordability scores.
 
 ## Financial trust and authoritative records
 
-Actual recorded expenses, insurance reimbursement allocations, owner-planned amounts and budgets are distinct database records and presentation groups. Every new expense and planned cost is `owner_entered`. Provider/carrier verification and `provider_quote` are reserved vocabulary with database checks prohibiting their creation in this phase. An attachment never verifies an amount. There is no Pawport estimate category or medical trust elevation.
+Actual recorded expenses, insurance reimbursement allocations, owner-planned amounts and budgets are distinct database records and presentation groups. Every new expense and planned cost is `owner_entered`. Provider/carrier verification and `provider_quote` are reserved vocabulary with database checks prohibiting their creation in this phase. An attachment never verifies an amount. There is no PetThread estimate category or medical trust elevation.
 
 The six new tables in `202609110019_cost_care_planning.sql` are `pet_expenses`, `expense_claim_allocations`, `pet_expense_events`, `pet_planned_costs`, `pet_cost_budgets` and `expense_documents`.
 

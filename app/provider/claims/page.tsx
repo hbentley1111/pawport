@@ -40,7 +40,7 @@ export default async function Claims({
             <p className="eyebrow">YOUR BUSINESS REQUESTS</p>
             <h1>My claims</h1>
             <p className="muted">
-              Follow your requests to represent a business on Pawport.
+              Follow your requests to represent a business on PetThread.
             </p>
           </div>
           <Link className="document-link" href="/services">

@@ -1,6 +1,6 @@
 # Unified Pet Timeline & Life Journal — Phase 6B
 
-Pawport remembers the life of a pet through a private chronological history. It does not make medical recommendations, interpret weight, or infer milestones. Timeline = **what happened**; Care and future Pawport Today = **what needs attention now**.
+PetThread remembers the life of a pet through a private chronological history. It does not make medical recommendations, interpret weight, or infer milestones. Timeline = **what happened**; Care and future PetThread Today = **what needs attention now**.
 
 ## Authoritative sources, not another database of truth
 
@@ -123,7 +123,7 @@ Timeline day groups use the browser's local time zone (UTC for server rendering,
 
 No immutable timeline event store: source edits/deletions/current trust updates are reflected by the read model. Appointment outcome dates follow the convention above. Cursor paging is not snapshot-isolated across requests. Orphan journal photo cleanup needs an operator process. No historical profile photo picker; choose the current profile photo or upload a journal photo. No weight interpretation/chart, timeline search, household history feed, booking, notification delivery or real vendor integration.
 
-Phase 6C can reuse this normalized contract for pet-specific recent events such as “Jaxson completed heartworm prevention” or “Ellie's vaccination was verified,” with the same snapshot and trust semantics. Add a narrowly authorized bounded household recent-activity query only when Today requires it. Attention/due queries and the notification center remain separate from chronological history. No Pawport Today dashboard is built here.
+Phase 6C can reuse this normalized contract for pet-specific recent events such as “Jaxson completed heartworm prevention” or “Ellie's vaccination was verified,” with the same snapshot and trust semantics. Add a narrowly authorized bounded household recent-activity query only when Today requires it. Attention/due queries and the notification center remain separate from chronological history. No PetThread Today dashboard is built here.
 
 ## Verification recorded for this branch
 

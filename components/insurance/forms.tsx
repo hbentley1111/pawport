@@ -212,13 +212,13 @@ export function InsuranceForm({
           </p>
           <p>
             Saving creates a new version and preserves previous terms. All
-            amounts are owner entered; Pawport calculates no benefits.
+            amounts are owner entered; PetThread calculates no benefits.
           </p>
         </>
       )}
       {mode === "claim" && (
         <p>
-          This status is based on information you entered. Pawport does not
+          This status is based on information you entered. PetThread does not
           submit or decide claims.
         </p>
       )}
@@ -309,7 +309,9 @@ export function DocumentUpload({
           });
           const d = await r.json();
           if (!r.ok) throw Error(d.error);
-          setMessage("Document attached. Pawport has not verified its terms.");
+          setMessage(
+            "Document attached. PetThread has not verified its terms.",
+          );
           form.reset();
           router.refresh();
         } catch (e) {

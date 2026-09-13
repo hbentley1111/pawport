@@ -37,7 +37,7 @@ export function BusinessProfile({
           )}
         </div>
         <div>
-          <span className="business-source">Claimed on Pawport</span>
+          <span className="business-source">Claimed on PetThread</span>
           <h1>{p.businessName}</h1>
           {p.locationName && <p>{p.locationName}</p>}
           {p.tagline && <p className="business-tagline">{p.tagline}</p>}
@@ -143,7 +143,7 @@ export function BusinessProfile({
         View Local Services listing
       </Link>
       <p className="fine-print">
-        See current Google listing information and Pawport Community reviews.
+        See current Google listing information and PetThread Community reviews.
       </p>
     </article>
   );
@@ -163,7 +163,7 @@ export function FromBusiness({ profile: p }: { profile: PublicProfile }) {
         </p>
       )}
       <Link className="button secondary" href={`/providers/${p.locationId}`}>
-        View Pawport profile
+        View PetThread profile
       </Link>
       <p className="fine-print">
         Business-provided information. Separate from the Google listing.

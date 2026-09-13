@@ -54,7 +54,9 @@ export function AppNavigationLinks({
   return (
     <nav
       className={mobile ? "app-mobile-nav" : "app-desktop-nav"}
-      aria-label={mobile ? "Mobile Pawport navigation" : "Pawport navigation"}
+      aria-label={
+        mobile ? "Mobile PetThread navigation" : "PetThread navigation"
+      }
     >
       {items
         .filter((item) => !mobile || item.label !== "Records")

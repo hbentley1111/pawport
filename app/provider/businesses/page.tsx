@@ -14,7 +14,7 @@ export default async function Businesses() {
       </Link>
 
       <header className="business-heading">
-        <p className="eyebrow">YOUR BUSINESS ON PAWPORT</p>
+        <p className="eyebrow">YOUR BUSINESS ON PETTHREAD</p>
         <h1>Business profiles</h1>
         <p>Help pet owners get to know your business, in your own words.</p>
         <Link href="/provider/claims">My business claims</Link>

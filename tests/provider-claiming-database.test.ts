@@ -608,7 +608,7 @@ test("Provider claiming: private business identity, independent review and medic
       },
     );
     await t.test(
-      "only Place ID and claimant/Pawport inputs persist; no new medical or scheduling identity",
+      "only Place ID and claimant/PetThread inputs persist; no new medical or scheduling identity",
       async () => {
         await role();
         const cols = (

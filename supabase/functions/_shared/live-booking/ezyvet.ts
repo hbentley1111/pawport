@@ -88,7 +88,7 @@ export class EzyVetAdapter implements LiveSchedulingAdapter {
         },
         body: JSON.stringify({
           cancel: true,
-          cancellation_reason_text: "Cancelled through Pawport",
+          cancellation_reason_text: "Cancelled through PetThread",
         }),
       },
       true,

@@ -31,8 +31,8 @@ export function ListingOwnership({
           </>
         ) : status.claimed ? (
           <>
-            <h2>Claimed on Pawport</h2>
-            <p>This business is managed by a representative on Pawport.</p>
+            <h2>Claimed on PetThread</h2>
+            <p>This business is managed by a representative on PetThread.</p>
             <p className="fine-print">{claimingTrustCopy}</p>
             <Link className="document-link" href="/help">
               Need help with this listing?
@@ -49,7 +49,7 @@ export function ListingOwnership({
           <>
             <h2>Own or manage this business?</h2>
             <p className="muted">
-              Request to represent this listing on Pawport.
+              Request to represent this listing on PetThread.
             </p>
             <Link
               className="button secondary"
@@ -83,7 +83,8 @@ export function ClaimGoogleConfirmation({ place }: { place: Place }) {
       <ThirdPartyAttributions place={place} />
       <p className="fine-print">
         Confirm this is the location you represent. Google listing information
-        is displayed live and is not saved as your Pawport business information.
+        is displayed live and is not saved as your PetThread business
+        information.
       </p>
     </section>
   );
@@ -117,7 +118,7 @@ export function ClaimCard({
       {c.status === "approved" &&
         (c.participationActive ? (
           <>
-            <p>This business is now claimed on Pawport.</p>
+            <p>This business is now claimed on PetThread.</p>
             <p className="muted">Your business profile is ready to manage.</p>
             <Link href="/provider/businesses">Manage business profiles</Link>
           </>
@@ -131,7 +132,7 @@ export function ClaimCard({
         <>
           <p>We couldn’t approve this claim.</p>
           <p className="muted">
-            Check your information and contact Pawport support if you believe
+            Check your information and contact PetThread support if you believe
             this is an error.
           </p>
           <Link className="document-link" href="/help">

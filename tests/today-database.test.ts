@@ -6,7 +6,7 @@ import { PGlite } from "@electric-sql/pglite";
 import { pgcrypto } from "@electric-sql/pglite/contrib/pgcrypto";
 import type { TodayResult } from "../lib/today/schema";
 import type { NotificationPage } from "../lib/notifications/schema";
-test("Pawport Today and unified notifications: actual PostgreSQL permissions and current state", async (t) => {
+test("PetThread Today and unified notifications: actual PostgreSQL permissions and current state", async (t) => {
   const pg = new PGlite({ extensions: { pgcrypto } }),
     a = randomUUID(),
     b = randomUUID(),

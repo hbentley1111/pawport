@@ -57,7 +57,7 @@ export default async function AppointmentDetail({
         <h1>{a.title}</h1>
         {saved === "1" && (
           <p role="status" className="feedback success">
-            Appointment saved in Pawport.
+            Appointment saved in PetThread.
           </p>
         )}
         <div className="care-page-links">
@@ -93,7 +93,7 @@ export default async function AppointmentDetail({
         </p>
         {a.status === "cancelled" && a.source === "manual" && (
           <p role="status" className="feedback">
-            Cancelled in Pawport. This does not cancel with the provider.
+            Cancelled in PetThread. This does not cancel with the provider.
           </p>
         )}
         {a.source === "manual" ? (
@@ -118,7 +118,7 @@ export default async function AppointmentDetail({
               </>
             ) : (
               <section className="business-panel">
-                <h2>Confirmed through Pawport</h2>
+                <h2>Confirmed through PetThread</h2>
                 <p>
                   This appointment was arranged through an appointment request.
                   To cancel, open your request.

@@ -2,20 +2,20 @@
 
 ## Product goal
 
-Pawport organizes what is recorded, what is scheduled, what owners choose to remember, and general topics to discuss with a veterinarian. It does not determine what medical treatment a pet needs. The pet care hub is `/pets/[petId]/care`; `/care` remains the overall owner care experience.
+PetThread organizes what is recorded, what is scheduled, what owners choose to remember, and general topics to discuss with a veterinarian. It does not determine what medical treatment a pet needs. The pet care hub is `/pets/[petId]/care`; `/care` remains the overall owner care experience.
 
 ## Trust architecture and source taxonomy
 
 The database read model emits separate `itemType`, `sourceType`, `sourceLabel` and `trustLevel` fields. React does not decide which sources are verified.
 
-| Source               | Label                            | Trust level   |
-| -------------------- | -------------------------------- | ------------- |
-| `vet_verified`       | Vet verified                     | authoritative |
-| `document_supported` | From your uploaded record        | supported     |
-| `owner_entered`      | Owner entered                    | owner         |
-| `care_plan`          | Your care plan                   | owner         |
-| `appointment`        | Scheduled appointment            | owner         |
-| `pawport_guidance`   | Pawport preventive-care guidance | guidance      |
+| Source               | Label                              | Trust level   |
+| -------------------- | ---------------------------------- | ------------- |
+| `vet_verified`       | Vet verified                       | authoritative |
+| `document_supported` | From your uploaded record          | supported     |
+| `owner_entered`      | Owner entered                      | owner         |
+| `care_plan`          | Your care plan                     | owner         |
+| `appointment`        | Scheduled appointment              | owner         |
+| `pawport_guidance`   | PetThread preventive-care guidance | guidance      |
 
 Appointment `owner` trust means it is a scheduled organizational item, not medical verification; it does not override the appointment's provider-managed source. Vaccination provenance comes directly from the existing `owner_vaccination_trust` function. Document attachment and owner actions never promote trust. Guidance has a separate type with a null date and constant guidance trust, and it cannot enter the record-fact query.
 

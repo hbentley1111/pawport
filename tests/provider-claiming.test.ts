@@ -77,7 +77,7 @@ test("unclaimed CTA, claimed business badge and unavailable/suspended states do 
     placeId: input.placeId,
     status: { ...unclaimed, claimed: true, claimable: false },
   });
-  assert.match(claimed, /Claimed on Pawport/);
+  assert.match(claimed, /Claimed on PetThread/);
   assert.match(claimed, /does not indicate veterinary credential verification/);
   assert.doesNotMatch(
     claimed,

@@ -70,7 +70,7 @@ export default async function LiveSettings({
       </form>
       <LiveConfiguration org={org} data={data as Configuration} />
       <section>
-        <h2>Pawport live appointments</h2>
+        <h2>PetThread live appointments</h2>
         {!items.length && <p>No recent live appointments at this location.</p>}
         {items.map((a) => (
           <article className="business-panel" key={a.appointmentId}>

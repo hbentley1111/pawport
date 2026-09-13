@@ -84,7 +84,7 @@ export function AuthForm({ signInFirst = false }: { signInFirst?: boolean }) {
           Forgot password?
         </Link>
       </p>
-      <p className="fine-print">A little peace of mind. All in one place.</p>
+      <p className="fine-print">Everything your pet needs, connected.</p>
     </>
   );
 }
@@ -191,7 +191,8 @@ export function PetForm({ pet }: { pet?: Pet }) {
       />
       <Feedback state={state} />
       <Submit>
-        {pet ? "Save profile" : "Create passport"} <ArrowUpRight size={17} />
+        {pet ? "Save profile" : "Create PetThread Pass"}{" "}
+        <ArrowUpRight size={17} />
       </Submit>
     </form>
   );
@@ -226,7 +227,7 @@ function Modal({
     >
       <div className="modal-head">
         <div>
-          <p className="eyebrow">PAWPORT · HEALTH PASSPORT</p>
+          <p className="eyebrow">PETTHREAD PASS</p>
           <h2 id={titleId}>{title}</h2>
         </div>
         <button
@@ -334,7 +335,7 @@ export function ShareButton({
   return (
     <>
       <button className="button" onClick={() => setOpen(true)}>
-        Share passport <ArrowUpRight size={17} />
+        Share PetThread Pass <ArrowUpRight size={17} />
       </button>
       {open && (
         <Modal

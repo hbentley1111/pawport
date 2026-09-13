@@ -85,7 +85,7 @@ test("Exact current cancellation PATCH uses numeric identity, merge-patch conten
   );
   assert.deepEqual(JSON.parse(String(patch.init.body)), {
     cancel: true,
-    cancellation_reason_text: "Cancelled through Pawport",
+    cancellation_reason_text: "Cancelled through PetThread",
   });
   const lookup = f.calls.find((c) => c.url.pathname === "/v2/appointment")!;
   assert.equal(lookup.url.searchParams.get("uid"), "appointment_Test");

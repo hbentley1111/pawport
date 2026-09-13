@@ -515,7 +515,7 @@ export function Dashboard({
             )}
             <footer className="dashboard-footer">
               <span>
-                <PawPrint size={14} /> A little peace of mind, for every paw.
+                <PawPrint size={14} /> Everything your pet needs, connected.
               </span>
               <span>Made for the ones you love.</span>
             </footer>

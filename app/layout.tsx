@@ -6,9 +6,21 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 export const metadata: Metadata = {
-  title: "Pawport — A little peace of mind",
+  title: "PetThread | Everything your pet needs, connected.",
+  applicationName: "PetThread",
   description:
-    "A private health passport for the ones you love. Keep pet vaccinations together and share them on your terms.",
+    "PetThread brings your pet’s records, care, appointments, providers, insurance, costs and life history together in one connected place.",
+  openGraph: {
+    title: "PetThread | Everything your pet needs, connected.",
+    description:
+      "PetThread brings your pet’s records, care, appointments, providers, insurance, costs and life history together in one connected place.",
+    siteName: "PetThread",
+  },
+  twitter: {
+    card: "summary",
+    title: "PetThread | Everything your pet needs, connected.",
+    description: "PetThread is the connected operating layer for a pet’s life.",
+  },
   robots: { index: false, follow: false },
 };
 export default function RootLayout({

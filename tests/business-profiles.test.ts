@@ -153,7 +153,7 @@ test("public profile safely renders business-owned content, trust labels, contac
     React.createElement(BusinessProfile, { profile }),
   );
   for (const label of [
-    "Claimed on Pawport",
+    "Claimed on PetThread",
     "Business-provided information",
     "Annual wellness exams",
     "Closed",
@@ -166,7 +166,7 @@ test("public profile safely renders business-owned content, trust labels, contac
   assert.match(html, /does not indicate veterinary credential verification/);
   assert.doesNotMatch(
     html,
-    /<script>|Verified Vet|Pawport Certified|Book now|reviewer_note|object_path/,
+    /<script>|Verified Vet|PetThread Certified|Book now|reviewer_note|object_path/,
   );
   const unknown = renderToStaticMarkup(
     React.createElement(BusinessProfile, {
@@ -186,7 +186,7 @@ test("Local Services keeps From the business separate; management has clear empt
   );
   assert.match(html, /From the business/);
   assert.match(html, /Separate from the Google listing/);
-  assert.match(html, /View Pawport profile/);
+  assert.match(html, /View PetThread profile/);
   assert.match(
     renderToStaticMarkup(React.createElement(BusinessIndex, { items: [] })),
     /starts with a claim/,

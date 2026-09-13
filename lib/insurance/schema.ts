@@ -28,7 +28,7 @@ export const documentTypes = [
   "other",
 ] as const;
 export const disclaimer =
-  "Pawport stores the information you enter. Your insurer and policy documents determine actual coverage, exclusions, reimbursement and claim decisions.";
+  "PetThread stores the information you enter. Your insurer and policy documents determine actual coverage, exclusions, reimbursement and claim decisions.";
 export function cents(value: string): number | null {
   if (!value.trim()) return null;
   if (!/^\d{1,11}(\.\d{1,2})?$/.test(value))

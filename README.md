@@ -1,4 +1,4 @@
-# Pawport
+# PetThread
 
 A calm, private pet health passport built with Next.js App Router, TypeScript, Tailwind CSS, Supabase Auth/Postgres, and Vercel. The thin slice supports email signup and confirmation, one household with up to 20 pets per account, vaccination entry, and temporary read-only share URLs with locally generated QR codes and revocation.
 
@@ -92,9 +92,9 @@ The additive verified-records capability is documented in [the operator handoff]
 
 Apply the additive migration `202609110003_multi_pet_profiles.sql` after the two existing migrations before running this branch against Supabase. The [Phase 3 handoff](docs/MULTI_PET_PROFILES.md) covers exact schema and Storage changes, routes, security tests, staging acceptance, cleanup, and deployment order. The new bucket uses a 3 MiB limit. Existing pets and share links are preserved. No new application environment variables are needed. Do not roll back to the single-pet application once households have added multiple pets.
 
-## Local services and Pawport Community (Phase 4)
+## Local services and PetThread Community (Phase 4)
 
-The [Phase 4 handoff](docs/LOCAL_SERVICES.md) covers `/services`, separate Google and Pawport ratings, private saved places, reviews/reporting, Google Cloud setup, attribution/privacy, migration `202609110004_local_services_reviews.sql`, security tests and staging acceptance. Live search needs the server-only `GOOGLE_MAPS_API_KEY`; without it, the app displays a configuration message. Apply the additive migration only in the intended, authorized environment after Phase 3. Phase 4 intentionally permits public reads of a restricted published-review projection; anonymous access to pet/medical tables remains denied.
+The [Phase 4 handoff](docs/LOCAL_SERVICES.md) covers `/services`, separate Google and PetThread ratings, private saved places, reviews/reporting, Google Cloud setup, attribution/privacy, migration `202609110004_local_services_reviews.sql`, security tests and staging acceptance. Live search needs the server-only `GOOGLE_MAPS_API_KEY`; without it, the app displays a configuration message. Apply the additive migration only in the intended, authorized environment after Phase 3. Phase 4 intentionally permits public reads of a restricted published-review projection; anonymous access to pet/medical tables remains denied.
 
 ## Forgotten passwords
 

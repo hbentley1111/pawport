@@ -52,7 +52,7 @@ export function ConnectedOperationPanel({
         <>
           <h4>Cancel this appointment?</h4>
           <p>
-            Pawport will ask the provider’s scheduling system to cancel this
+            PetThread will ask the provider’s scheduling system to cancel this
             appointment. Nothing changes until the provider confirms the update.
           </p>
           <div className="provider-actions">

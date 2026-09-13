@@ -1,4 +1,6 @@
 "use client";
+import { brandLabel } from "@/lib/brand";
+
 import { useLocalZone } from "../care/local-time";
 import Link from "next/link";
 import {
@@ -58,7 +60,11 @@ export function TimelineCard({
             </p>
           )}
         {!compact && e.description && (
-          <p className="journal-note">{e.description}</p>
+          <p className="journal-note">
+            {e.sourceType === "appointment"
+              ? brandLabel(e.description)
+              : e.description}
+          </p>
         )}
         {!compact && e.photoUrl && (
           <JournalPhoto src={e.photoUrl} title={e.title} />
@@ -76,8 +82,8 @@ export function TimelineEmpty({ petId }: { petId: string }) {
       <BookOpen size={30} aria-hidden="true" />
       <h2>No memories yet.</h2>
       <p>
-        As you add care, records, appointments, and moments, Pawport will build
-        their story here.
+        As you add care, records, appointments, and moments, PetThread will
+        build their story here.
       </p>
       <Link className="button" href={`/pets/${petId}/timeline/new`}>
         Add a moment

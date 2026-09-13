@@ -4,11 +4,11 @@ Branch: `feature/provider-claiming`. Migration: `supabase/migrations/20260911001
 
 ## Purpose and the trust boundary
 
-A business discovered through Google Places can request representation on Pawport. **Claimed on Pawport** means Pawport approved a claim that a user represents the business. It does not mean licensed veterinarian, professional credentials verified, medically vetted, or authorized to verify records.
+A business discovered through Google Places can request representation on PetThread. **Claimed on PetThread** means PetThread approved a claim that a user represents the business. It does not mean licensed veterinarian, professional credentials verified, medically vetted, or authorized to verify records.
 
 | Identity                         | Purpose                                           | Authority                                             |
 | -------------------------------- | ------------------------------------------------- | ----------------------------------------------------- |
-| `service_provider_organizations` | General Pawport business identity                 | Business representation only                          |
+| `service_provider_organizations` | General PetThread business identity               | Business representation only                          |
 | `service_provider_locations`     | Organization locations linked to Google Place IDs | Listing ownership, independent of scheduling          |
 | `service_provider_memberships`   | Business-management roles                         | Owner/admin/staff/scheduling_manager                  |
 | `veterinary_providers`           | Existing veterinary medical verification entity   | Existing separately provisioned verification workflow |
@@ -20,7 +20,7 @@ A future professional/organizational verification process may explicitly link a 
 
 ## Schema
 
-- **Organizations:** UUID, claimant-entered/Pawport-owned name (1–160 trimmed characters), active/suspended status, created/updated timestamps.
+- **Organizations:** UUID, claimant-entered/PetThread-owned name (1–160 trimmed characters), active/suspended status, created/updated timestamps.
 - **Locations:** UUID, organization FK, bounded Google Place ID, active/suspended status, timestamps. Organization/Place ID identity cannot be reassigned.
 - **Memberships:** UUID, organization FK, user FK, owner/admin/staff/scheduling_manager role, active flag, timestamps. Organization/user identity is immutable. A unique organization/user pair is stronger than one active membership: future reactivation should update the existing row rather than creating duplicates.
 - **Claims:** UUID, Google Place ID, immutable authenticated requester, optional requested organization, organization-name snapshot, claimant role (1–100), business email (syntax checked, ≤254), optional note (≤1500), `manual_review` method, pending/approved/rejected/withdrawn status, private reviewer note (≤1500), reviewed/created/updated timestamps, and approved-location FK. State/reference CHECK constraints keep pending/withdrawn requests unreviewed and successful requests linked to a matching location.
@@ -31,7 +31,7 @@ Indexes support actual lookups: unique Place ID, organization-to-location lookup
 
 ## Google data and confirmation
 
-Only `google_place_id` is retained as Google-derived identity. No Google name, address, phone, website, rating, reviews, hours, photos, categories or coordinates are copied into these tables. The new-organization name starts **blank** in the form. The claimant enters it independently; when attaching an existing organization the database uses that organization's existing Pawport-owned name, ignoring a browser-supplied rename.
+Only `google_place_id` is retained as Google-derived identity. No Google name, address, phone, website, rating, reviews, hours, photos, categories or coordinates are copied into these tables. The new-organization name starts **blank** in the form. The claimant enters it independently; when attaching an existing organization the database uses that organization's existing PetThread-owned name, ignoring a browser-supplied rename.
 
 The claim page uses the existing server-only Places transport with a new fixed minimal confirmation mask:
 
@@ -41,7 +41,7 @@ id,displayName,formattedAddress,googleMapsUri,attributions
 
 The current name/address, Google Maps link, official Google Maps logo and returned provider attributions appear in a separate live-confirmation panel. They are not form defaults or persisted claim fields. Fetches are `no-store`, redirects are rejected and the existing timeout/validated URL strategy remains intact. The dynamic claim page fetches once for confirmation; successful form submission performs another fresh confirmation before calling the database. No Google request occurs inside the database or reviewer RPC. Raw authenticated RPC submissions can pass format validation without an upstream Google lookup, so the human reviewer must independently confirm the listing and representation; a syntactically valid Place ID is not proof of a real business.
 
-This follows the existing conservative persistence design and Google's [Places API policies](https://developers.google.com/maps/documentation/places/web-service/policies), checked September 12, 2026: Place IDs are exempt from caching restrictions, while other Places content and attribution requirements remain controlled by Google's terms. Pawport still needs appropriate publicly accessible Terms of Use and Privacy Policy before public launch; this document supplies no legal language.
+This follows the existing conservative persistence design and Google's [Places API policies](https://developers.google.com/maps/documentation/places/web-service/policies), checked September 12, 2026: Place IDs are exempt from caching restrictions, while other Places content and attribution requirements remain controlled by Google's terms. PetThread still needs appropriate publicly accessible Terms of Use and Privacy Policy before public launch; this document supplies no legal language.
 
 No new environment variable, API, vendor SDK, OAuth app or service-account credential is required. Existing `GOOGLE_MAPS_API_KEY` remains server-only; Places API (New) and its existing Google Cloud billing/key restrictions apply. The confirmation mask avoids rating, review-count, phone and hours fields that the claim panel does not display. Existing search/detail masks and review logic are unchanged.
 
@@ -51,7 +51,7 @@ Missing configuration, quota errors, an unavailable business or database status 
 
 1. A signed-in user opens `/provider/claim?placeId=...` from a Services listing. A pet/household is not required; authentication is.
 2. Validate the Place ID, load safe ownership status and the caller's active owner/admin organizations, and fetch current Google confirmation.
-3. Enter a new organization name, claimant role, business email and optional note, or select an existing organization. Email syntax is validated; **ownership of that email is not verified**. The copy says Pawport may use it during manual review.
+3. Enter a new organization name, claimant role, business email and optional note, or select an existing organization. Email syntax is validated; **ownership of that email is not verified**. The copy says PetThread may use it during manual review.
 4. `submit_service_provider_claim` derives `requested_by` from `auth.uid()`, rejects unknown input fields and applies length/type bounds, ownership checks and abuse limits.
 5. A new pending request appears in `/provider/claims`. It confers no permissions.
 6. Only an independent restricted reviewer may approve/reject. For a new organization, approval atomically creates organization, owner membership and location, then finalizes the claim. For an existing organization, it creates only the location and finalizes the claim after rechecking current owner/admin authority.
@@ -103,7 +103,7 @@ select public.service_provider_claim_review_queue(null, 25);
 commit;
 ```
 
-A specific request can be inspected with `service_provider_claim_review_queue(claim_uuid, 1)`. Treat results as private operational information; never paste them into public logs, reviews or listing responses. Independently confirm the current listing and the claimant's representation using Pawport's approved review process. An email address or Google category alone is not proof. Review representation only; do not record this as veterinary credential verification. Keep reviewer notes short and avoid unnecessary personal data or credentials.
+A specific request can be inspected with `service_provider_claim_review_queue(claim_uuid, 1)`. Treat results as private operational information; never paste them into public logs, reviews or listing responses. Independently confirm the current listing and the claimant's representation using PetThread's approved review process. An email address or Google category alone is not proof. Review representation only; do not record this as veterinary credential verification. Keep reviewer notes short and avoid unnecessary personal data or credentials.
 
 After reviewing, replace the sample UUID with the actual reviewed claim and execute the appropriate **explicit** decision:
 
@@ -122,13 +122,13 @@ No claims are approved simply by running the migration. Review notes remain priv
 
 ## UX and compatibility
 
-Services detail adds “Own or manage this business?” with Claim this listing, or “Claimed on Pawport” with an explicit medical-trust clarification. Existing Google information and Pawport community reviews remain separate and unchanged. Status failures show unavailable rather than implying unclaimed ownership.
+Services detail adds “Own or manage this business?” with Claim this listing, or “Claimed on PetThread” with an explicit medical-trust clarification. Existing Google information and PetThread community reviews remain separate and unchanged. Status failures show unavailable rather than implying unclaimed ownership.
 
 `/provider/claim` supplies the live Google confirmation and claimant form. `/provider/claims` shows the user's requests, status-specific copy, pending withdrawal with confirmation and cursor pagination. Approved requests say profile management is coming next; no fake editor is provided. Rejections use neutral copy and the existing Help destination, never private reviewer notes. Account gains My business claims. Shared framing preserves owner navigation where the user has a household and uses the existing guest/business brand otherwise.
 
 The existing `/provider` remains the veterinary verification workspace. Login, account/password recovery, household onboarding, Today, Care, Timeline, medical records, share passes and owner navigation are not replaced. Signed-out claim links require login through the existing authentication flow; after login a user may need to reopen the listing because this phase does not redesign authentication return destinations.
 
-Business claiming cannot identify “Pawport Member” reviewers, edit/delete/suppress community reviews, or add business-response rights. Scheduling remains in its existing separate permission model. A future location can be associated with `provider_connections` through a matching `google_place_id`, but that match alone must not grant scheduling administration, activate a connection, enable `availability_supported` or expose household watches. No Smart Openings behavior changes.
+Business claiming cannot identify “PetThread Member” reviewers, edit/delete/suppress community reviews, or add business-response rights. Scheduling remains in its existing separate permission model. A future location can be associated with `provider_connections` through a matching `google_place_id`, but that match alone must not grant scheduling administration, activate a connection, enable `availability_supported` or expose household watches. No Smart Openings behavior changes.
 
 ## Tests and acceptance
 
@@ -161,7 +161,7 @@ Before a separately authorized production rollout:
 
 Manual representation review, disputed ownership, ownership transfer, reviewer identity auditing, safe rejection feedback and claim-data retention policy need operational design. No dispute workflow, public profile editor, paid plan, ad placement, analytics, messages, invitations, credential checks, automated email/SMS verification or vendor integration is built. There is no automatic notification/email delivery for claim decisions. Claimants inspect My claims. Historical submitted fields are immutable; corrections require withdraw/resubmit and count against the limit.
 
-**Phase 7B:** Add independently provider-entered descriptions, logos, services, contacts, hours, location details and booking preferences to organizations/locations, never to claim records. Preserve Google/Pawport data separation and the meaning of the claimed badge.
+**Phase 7B:** Add independently provider-entered descriptions, logos, services, contacts, hours, location details and booking preferences to organizations/locations, never to claim records. Preserve Google/PetThread data separation and the meaning of the claimed badge.
 
 **Phase 7C:** Build invitations, role management, location switching and business settings on memberships. Explicitly bridge to scheduling permissions only after a separate authorization design; a `scheduling_manager` business role does not currently grant Phase 5B scheduling access. Preserve the independent veterinary-verification trust boundary throughout.
 

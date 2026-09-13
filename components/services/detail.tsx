@@ -204,7 +204,7 @@ export function CommunityReviews({
   return (
     <section className="community-section">
       <p className="eyebrow">EXPERIENCES FROM FELLOW PET PEOPLE</p>
-      <h2>Pawport Community</h2>
+      <h2>PetThread Community</h2>
       <p className="muted">
         Independent member experiences, separate from Google Maps reviews.
         Newest first. Withdrawn or moderated reviews are not shown.
@@ -220,7 +220,7 @@ export function CommunityReviews({
           <header>
             <span className="member-avatar">P</span>
             <div>
-              <strong>{r.reviewer}</strong>
+              <strong>PetThread Member</strong>
               <time dateTime={r.created_at}>
                 {new Date(r.created_at).toLocaleDateString("en-US", {
                   month: "short",

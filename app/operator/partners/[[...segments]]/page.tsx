@@ -47,7 +47,7 @@ const grantFields: Field[] = [
 
 export const dynamic = "force-dynamic";
 export const metadata = {
-  title: "Partner operations | Pawport",
+  title: "Partner operations | PetThread",
   robots: { index: false, follow: false },
 };
 export default async function Partners({
@@ -153,7 +153,7 @@ export default async function Partners({
   return (
     <ServicesShell>
       <main className="care-page">
-        <Link href="/operator/partners">Partner operations</Link>
+        <Link href="/operator/partners">PetThread Partner Operations</Link>
         <h1>
           {p ? String(p.display_name) : "Partner activation & operations"}
         </h1>

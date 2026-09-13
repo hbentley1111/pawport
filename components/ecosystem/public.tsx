@@ -45,10 +45,10 @@ export async function PublicEcosystem({
       )}
       {showReviews && (
         <section>
-          <h3>Pawport community reviews</h3>
+          <h3>PetThread community reviews</h3>
           {d.reviews.reviews.map((r) => (
             <article className="routine-card" key={r.id}>
-              <h4>Pawport Member</h4>
+              <h4>PetThread Member</h4>
               <p>{r.rating} of 5 stars</p>
               <p>{r.comment}</p>
               {r.response && <BusinessResponse response={r.response} />}

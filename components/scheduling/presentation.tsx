@@ -79,7 +79,7 @@ export function ExternalAppointmentNotice({
   return (
     <p className="privacy-note">
       Managed by your provider. Date, time, provider and status are read-only in
-      Pawport.
+      PetThread.
       {state === "disconnected"
         ? " This connection is disconnected. The saved appointment remains available, but may be out of date."
         : state === "paused"
