@@ -26,6 +26,7 @@
   ],
   "exclude": [
     "node_modules",
-    "supabase/functions/scheduling-live-booking/index.ts"
+    "supabase/functions/scheduling-live-booking/index.ts",
+    "supabase/functions/partner-operations/index.ts"
   ]
 }
