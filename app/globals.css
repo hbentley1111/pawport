@@ -1089,18 +1089,18 @@ h3 {
   position: absolute;
   z-index: -1;
   pointer-events: none;
-  inset: 8% -6% 0 -6%;
-  background: linear-gradient(#faf8f040, #faf8f026 70%),
-    url("/login-dog.jpeg") center 42% / cover no-repeat;
+  inset: 0;
+  background: linear-gradient(#faf8f080, #faf8f040 70%),
+    url("/pawport-dog-cat-room.png") center center / cover no-repeat;
   opacity: 0.4;
-  filter: blur(3px);
+  filter: blur(1px);
   mask-image: linear-gradient(to bottom, transparent, #000 24%, #000 72%, transparent),
     linear-gradient(to right, transparent, #000 15%, #000 72%, transparent);
   mask-composite: intersect;
 }
 @media (max-width: 767px) {
   .auth-story-photo::before {
-    display: none;
+    background-position: center, center 58%;
   }
 }
 .auth-story p {
