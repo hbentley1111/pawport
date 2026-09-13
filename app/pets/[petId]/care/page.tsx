@@ -23,6 +23,9 @@ export default async function PetCare({
         </header>
         <nav className="care-page-links" aria-label="Care destinations">
           <Link href={`/pets/${pet.id}/care/profile`}>Care profile</Link>
+          <Link href={`/pets/${pet.id}/insurance`}>
+            Insurance &amp; coverage
+          </Link>
           <Link href="/care/plans">Care plans</Link>
           <Link href="/appointments">Appointments</Link>
           <Link href={`/pets/${pet.id}/records`}>Health records</Link>

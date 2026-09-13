@@ -17,15 +17,19 @@ export async function getPawportToday(
   const systems = (
     ["mock", "ezyvet", "daysmart", "gingr", "moego"] as const
   ).filter((s) => availabilityImplemented(s, "today-capabilities"));
-  const [core, opening, count] = await Promise.all([
+  const [core, opening, count, renewals] = await Promise.all([
     db.rpc("my_pawport_today", { p_zone: zone }),
     db.rpc("my_today_openings", { p_systems: systems }),
     db.rpc("my_notification_count", { p_demo: demoNotifications() }),
+    db.rpc("my_insurance_renewals", { p_zone: zone }),
   ]);
   if (core.error || opening.error || count.error)
     throw new Error("Today temporarily unavailable");
   return combineToday(
-    core.data as TodayResult,
+    {
+      ...(core.data as TodayResult),
+      insuranceRenewals: renewals.error ? [] : renewals.data,
+    },
     opening.data as { count: number; items: PawportTodayItem[] },
     Number(count.data),
     zone,

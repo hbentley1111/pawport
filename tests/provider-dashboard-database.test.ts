@@ -170,12 +170,35 @@ test("Provider dashboard: scoped business authority, invitation lifecycle and pr
       ).rows,
       beforeMembers,
     );
+    const afterPolicies = (
+      await pg.query<{
+        schemaname: string;
+        tablename: string;
+        policyname: string;
+      }>("select * from pg_policies order by schemaname,tablename,policyname")
+    ).rows;
+    // Phase 9B adds a separate private bucket. Preserve the exact old policy
+    // snapshot and permit only these six additional policies, not arbitrary changes.
+    const insurancePolicyNames = [
+      "insurance_document_delete_guard",
+      "insurance_document_insert",
+      "insurance_document_insert_guard",
+      "insurance_document_read",
+      "insurance_document_read_guard",
+      "insurance_document_update_guard",
+    ];
+    const additions = afterPolicies.filter(
+      (p) =>
+        p.schemaname === "storage" &&
+        p.tablename === "objects" &&
+        insurancePolicyNames.includes(String(p.policyname)),
+    );
     assert.deepEqual(
-      (
-        await pg.query(
-          "select * from pg_policies order by schemaname,tablename,policyname",
-        )
-      ).rows,
+      additions.map((p) => p.policyname),
+      insurancePolicyNames,
+    );
+    assert.deepEqual(
+      afterPolicies.filter((p) => !additions.includes(p)),
       beforePolicies,
     );
     assert.ok(
